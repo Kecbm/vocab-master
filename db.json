@@ -5,13 +5,15 @@
       "english": "way",
       "portuguese": "caminho",
       "book": "Django 5 by example",
-      "mastered": true
+      "createdAt": "2025-08-21",
+      "mastered": false
     },
     {
       "id": "2",
       "english": "almost",
       "portuguese": "quase",
       "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
       "mastered": false
     },
     {
@@ -19,7 +21,84 @@
       "english": "been",
       "portuguese": "estive",
       "book": "Django 5 by example",
-      "mastered": true
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798762592",
+      "english": "arisen",
+      "portuguese": "surgiu",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798788827",
+      "english": "exploiting",
+      "portuguese": "Exploração",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798813448",
+      "english": "despite",
+      "portuguese": "apesar de",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798837301",
+      "english": "ensured",
+      "portuguese": "assegurada",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798857811",
+      "english": "over",
+      "portuguese": "sobre",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798875856",
+      "english": "remained",
+      "portuguese": "remanescente",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798910613",
+      "english": "fond",
+      "portuguese": "afeiçoado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798941491",
+      "english": "furthermore",
+      "portuguese": "ainda que",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755798957242",
+      "english": "facets",
+      "portuguese": "Facetas",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
     }
-  ]
+  ],
+  "settings": {
+    "id": 1,
+    "currentBook": "Django 5 by example"
+  }
 }
