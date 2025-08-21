@@ -5,31 +5,13 @@ import AddWordModal from "@/components/AddWordModal";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus, Brain, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-// Mock initial data
-const initialWords: VocabularyWord[] = [
-  {
-    id: "1",
-    english: "way",
-    portuguese: "caminho",
-    book: "Django 5 by example",
-    mastered: true,
-  },
-  {
-    id: "2", 
-    english: "almost",
-    portuguese: "quase",
-    book: "Django 5 by example",
-    mastered: false,
-  },
-  {
-    id: "3",
-    english: "been",
-    portuguese: "estive",
-    book: "Django 5 by example",
-    mastered: true,
-  },
-];
+import {
+  initialWords,
+  addWordToData,
+  updateWordInData,
+  deleteWordFromData,
+  toggleWordMastered
+} from "@/utils/vocabularyData";
 
 const Index = () => {
   const [words, setWords] = useState<VocabularyWord[]>(initialWords);
@@ -67,10 +49,15 @@ const Index = () => {
       ...newWordData,
       id: Date.now().toString(),
     };
-    
+
+    // Adiciona ao estado atual
     setWords(prev => [newWord, ...prev]);
+
+    // Adiciona ao array inicial para persistir no código
+    addWordToData(newWord);
+
     setSearchQuery("");
-    
+
     toast({
       title: "Palavra adicionada!",
       description: `"${newWordData.english}" foi adicionada ao seu vocabulário.`,
@@ -87,8 +74,13 @@ const Index = () => {
 
   const handleDeleteWord = (id: string) => {
     const word = words.find(w => w.id === id);
+
+    // Remove do estado local
     setWords(prev => prev.filter(w => w.id !== id));
-    
+
+    // Remove do localStorage
+    deleteWordFromData(id);
+
     if (word) {
       toast({
         title: "Palavra removida",
@@ -99,17 +91,18 @@ const Index = () => {
   };
 
   const handleToggleMastered = (id: string) => {
-    setWords(prev => prev.map(word => 
-      word.id === id 
-        ? { ...word, mastered: !word.mastered }
-        : word
-    ));
-    
-    const word = words.find(w => w.id === id);
-    if (word) {
+    // Atualiza no localStorage e obtém a palavra atualizada
+    const updatedWord = toggleWordMastered(id);
+
+    if (updatedWord) {
+      // Atualiza o estado local
+      setWords(prev => prev.map(word =>
+        word.id === id ? updatedWord : word
+      ));
+
       toast({
-        title: !word.mastered ? "Palavra dominada!" : "Voltando a praticar",
-        description: `"${word.english}" ${!word.mastered ? 'foi marcada como dominada' : 'voltou para a lista de prática'}.`,
+        title: updatedWord.mastered ? "Palavra dominada!" : "Voltando a praticar",
+        description: `"${updatedWord.english}" ${updatedWord.mastered ? 'foi marcada como dominada' : 'voltou para a lista de prática'}.`,
       });
     }
   };
