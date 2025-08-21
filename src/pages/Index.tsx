@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import SearchBar from "@/components/SearchBar";
 import VocabularyCard, { VocabularyWord } from "@/components/VocabularyCard";
 import AddWordModal from "@/components/AddWordModal";
+import EditWordModal from "@/components/EditWordModal";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus, Brain, Target, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -17,6 +18,8 @@ const Index = () => {
   const [words, setWords] = useState<VocabularyWord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
@@ -42,13 +45,23 @@ const Index = () => {
     loadWords();
   }, [toast]);
 
-  // Search and filtering logic
+  // Search, filtering and sorting logic
   const filteredWords = useMemo(() => {
-    if (!searchQuery.trim()) return words;
-    
-    return words.filter(word =>
-      word.english.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      word.portuguese.toLowerCase().includes(searchQuery.toLowerCase())
+    let filtered = words;
+
+    // Aplica filtro de busca se houver query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = words.filter(word =>
+        word.english.toLowerCase().includes(query) ||
+        word.portuguese.toLowerCase().includes(query) ||
+        word.book.toLowerCase().includes(query)
+      );
+    }
+
+    // Ordena alfabeticamente por palavra em inglês
+    return filtered.sort((a, b) =>
+      a.english.toLowerCase().localeCompare(b.english.toLowerCase())
     );
   }, [words, searchQuery]);
 
@@ -92,11 +105,37 @@ const Index = () => {
   };
 
   const handleEditWord = (word: VocabularyWord) => {
-    // TODO: Implement edit functionality
-    toast({
-      title: "Em breve",
-      description: "Funcionalidade de edição será implementada em breve.",
-    });
+    setEditingWord(word);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateWord = async (updatedWord: VocabularyWord) => {
+    try {
+      // Atualiza via API
+      await updateWordInData(updatedWord);
+
+      // Atualiza o estado local
+      setWords(prev => prev.map(word =>
+        word.id === updatedWord.id ? updatedWord : word
+      ));
+
+      toast({
+        title: "Palavra atualizada!",
+        description: `"${updatedWord.english}" foi atualizada com sucesso.`,
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar palavra:', error);
+      toast({
+        title: "Erro ao atualizar palavra",
+        description: "Verifique se o servidor está rodando",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditingWord(null);
   };
 
   const handleDeleteWord = async (id: string) => {
@@ -227,17 +266,36 @@ const Index = () => {
 
           {/* Words Grid */}
           {filteredWords.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredWords.map((word) => (
-                <VocabularyCard
-                  key={word.id}
-                  word={word}
-                  onEdit={handleEditWord}
-                  onDelete={handleDeleteWord}
-                  onToggleMastered={handleToggleMastered}
-                />
-              ))}
-            </div>
+            <>
+              {/* Sorting indicator */}
+              {!searchQuery.trim() && (
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <span>A</span>
+                      <div className="w-4 h-px bg-muted-foreground/30"></div>
+                      <span>Z</span>
+                    </div>
+                    <span>Ordenado alfabeticamente</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {filteredWords.length} palavra{filteredWords.length !== 1 ? 's' : ''}
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredWords.map((word) => (
+                  <VocabularyCard
+                    key={word.id}
+                    word={word}
+                    onEdit={handleEditWord}
+                    onDelete={handleDeleteWord}
+                    onToggleMastered={handleToggleMastered}
+                  />
+                ))}
+              </div>
+            </>
           ) : searchQuery.length === 0 ? (
             // Empty state - no search
             <div className="text-center py-16">
@@ -290,6 +348,14 @@ const Index = () => {
         onClose={() => setIsModalOpen(false)}
         onAdd={handleAddWord}
         initialWord={searchQuery}
+      />
+
+      {/* Edit Word Modal */}
+      <EditWordModal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        onUpdate={handleUpdateWord}
+        word={editingWord}
       />
     </div>
   );
