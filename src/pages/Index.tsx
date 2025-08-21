@@ -267,44 +267,8 @@ const Index = () => {
           </div>
         ) : (
           <>
-            {/* Current Book Section */}
-        <section className="mb-6">
-          <div className="bg-card border border-card-border rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-primary/10 rounded-xl">
-                <BookOpen className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Livro Atual</h3>
-            </div>
-            <div className="flex gap-3">
-              <input
-                type="text"
-                value={currentBook}
-                onChange={(e) => handleCurrentBookChange(e.target.value)}
-                placeholder="Ex: Django 5 by example - Antonio Melé"
-                className="flex-1 h-12 px-4 text-base bg-background border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-              {currentBook && (
-                <Button
-                  onClick={() => handleCurrentBookChange("")}
-                  variant="outline"
-                  size="sm"
-                  className="h-12 px-4"
-                >
-                  Limpar
-                </Button>
-              )}
-            </div>
-            {currentBook && (
-              <p className="text-sm text-muted-foreground mt-3">
-                📖 Novas palavras serão automaticamente associadas a este livro
-              </p>
-            )}
-          </div>
-        </section>
-
         {/* Statistics Dashboard */}
-            <section className="mb-8">
+        <section className="mb-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
               <div className="p-3 bg-primary/10 rounded-2xl w-fit mx-auto mb-3">
@@ -337,6 +301,42 @@ const Index = () => {
               <div className="text-2xl font-bold text-foreground">{stats.books}</div>
               <div className="text-sm text-muted-foreground">Livros</div>
             </div>
+          </div>
+        </section>
+
+        {/* Current Book Section */}
+        <section className="mb-6">
+          <div className="bg-card border border-card-border rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-primary/10 rounded-xl">
+                <BookOpen className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground">Livro Atual</h3>
+            </div>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={currentBook}
+                onChange={(e) => handleCurrentBookChange(e.target.value)}
+                placeholder="Ex: Django 5 by example"
+                className="flex-1 h-12 px-4 text-base bg-background border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+              {currentBook && (
+                <Button
+                  onClick={() => handleCurrentBookChange("")}
+                  variant="outline"
+                  size="sm"
+                  className="h-12 px-4"
+                >
+                  Limpar
+                </Button>
+              )}
+            </div>
+            {currentBook && (
+              <p className="text-sm text-muted-foreground mt-3">
+                📖 Novas palavras serão automaticamente associadas a este livro
+              </p>
+            )}
           </div>
         </section>
 
