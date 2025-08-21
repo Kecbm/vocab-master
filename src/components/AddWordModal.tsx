@@ -18,13 +18,14 @@ interface AddWordModalProps {
   onClose: () => void;
   onAdd: (word: Omit<VocabularyWord, 'id'>) => void;
   initialWord?: string;
+  currentBook?: string;
 }
 
-const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModalProps) => {
+const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = "" }: AddWordModalProps) => {
   const [formData, setFormData] = useState({
     english: initialWord,
     portuguese: "",
-    book: "",
+    book: currentBook,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -74,6 +75,14 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
     }
   }, [isOpen, initialWord]);
 
+  // Atualizar livro quando currentBook mudar
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      book: currentBook
+    }));
+  }, [currentBook]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -103,7 +112,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
   };
 
   const handleClose = () => {
-    setFormData({ english: initialWord, portuguese: "", book: "" });
+    setFormData({ english: initialWord, portuguese: "", book: currentBook });
     setErrors({});
     setIsTranslating(false);
     onClose();
