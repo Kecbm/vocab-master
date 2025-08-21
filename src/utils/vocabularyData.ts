@@ -152,5 +152,82 @@ export const getWordsStats = async () => {
   }
 };
 
+// Interface para configurações
+interface AppSettings {
+  id: number;
+  currentBook: string;
+}
+
+// Classe para gerenciar configurações
+class SettingsAPI {
+  private baseUrl: string;
+
+  constructor(baseUrl: string = API_BASE_URL) {
+    this.baseUrl = baseUrl;
+  }
+
+  // Buscar configurações
+  async getSettings(): Promise<AppSettings> {
+    try {
+      const response = await fetch(`${this.baseUrl}/settings`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const settings = await response.json();
+      return settings;
+    } catch (error) {
+      console.error('❌ Erro ao buscar configurações:', error);
+      // Retorna configurações padrão se houver erro
+      return { id: 1, currentBook: "" };
+    }
+  }
+
+  // Atualizar configurações
+  async updateSettings(settings: AppSettings): Promise<AppSettings> {
+    try {
+      const response = await fetch(`${this.baseUrl}/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedSettings = await response.json();
+      console.log('✅ Configurações atualizadas');
+      return updatedSettings;
+    } catch (error) {
+      console.error('❌ Erro ao atualizar configurações:', error);
+      throw error;
+    }
+  }
+
+  // Atualizar apenas o livro atual
+  async updateCurrentBook(currentBook: string): Promise<AppSettings> {
+    try {
+      const currentSettings = await this.getSettings();
+      const updatedSettings = {
+        ...currentSettings,
+        currentBook,
+      };
+      return await this.updateSettings(updatedSettings);
+    } catch (error) {
+      console.error('❌ Erro ao atualizar livro atual:', error);
+      throw error;
+    }
+  }
+}
+
+// Instância da API de configurações
+export const settingsAPI = new SettingsAPI();
+
+// Funções de conveniência para configurações
+export const getSettings = () => settingsAPI.getSettings();
+export const updateCurrentBook = (currentBook: string) => settingsAPI.updateCurrentBook(currentBook);
+
 // Array inicial vazio (será carregado da API)
 export const initialWords: VocabularyWord[] = [];
