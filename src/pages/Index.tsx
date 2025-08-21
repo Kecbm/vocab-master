@@ -12,12 +12,22 @@ import {
   addWordToData,
   updateWordInData,
   deleteWordFromData,
-  toggleWordMastered
+  toggleWordMastered,
+  getSettings,
+  updateCurrentBook
 } from "@/utils/vocabularyData";
 
 const Index = () => {
   const [words, setWords] = useState<VocabularyWord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentBook, setCurrentBook] = useState(() => {
+    // Carrega livro atual do localStorage
+    try {
+      return localStorage.getItem('vocab-master-current-book') || "";
+    } catch {
+      return "";
+    }
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
@@ -27,17 +37,24 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // Carrega palavras da API na inicialização
+  // Carrega palavras e configurações da API na inicialização
   useEffect(() => {
-    const loadWords = async () => {
+    const loadData = async () => {
       try {
         setIsLoading(true);
-        const wordsFromAPI = await getAllWords();
+
+        // Carrega palavras e configurações em paralelo
+        const [wordsFromAPI, settingsFromAPI] = await Promise.all([
+          getAllWords(),
+          getSettings()
+        ]);
+
         setWords(wordsFromAPI);
+        setCurrentBook(settingsFromAPI.currentBook);
       } catch (error) {
-        console.error('Erro ao carregar palavras:', error);
+        console.error('Erro ao carregar dados:', error);
         toast({
-          title: "Erro ao carregar palavras",
+          title: "Erro ao carregar dados",
           description: "Verifique se o servidor está rodando (npm run db)",
           variant: "destructive",
         });
@@ -46,7 +63,7 @@ const Index = () => {
       }
     };
 
-    loadWords();
+    loadData();
   }, [toast]);
 
   // Search, filtering and sorting logic
@@ -188,6 +205,22 @@ const Index = () => {
     setIsDeleting(false);
   };
 
+  // Função para atualizar o livro atual
+  const handleCurrentBookChange = async (newBook: string) => {
+    setCurrentBook(newBook);
+
+    try {
+      await updateCurrentBook(newBook);
+    } catch (error) {
+      console.error('Erro ao salvar livro atual:', error);
+      toast({
+        title: "Erro ao salvar livro",
+        description: "O livro foi atualizado localmente, mas não foi salvo no servidor",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleToggleMastered = async (id: string) => {
     try {
       // Atualiza via API e obtém a palavra atualizada
@@ -234,7 +267,43 @@ const Index = () => {
           </div>
         ) : (
           <>
-            {/* Statistics Dashboard */}
+            {/* Current Book Section */}
+        <section className="mb-6">
+          <div className="bg-card border border-card-border rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-primary/10 rounded-xl">
+                <BookOpen className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground">Livro Atual</h3>
+            </div>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={currentBook}
+                onChange={(e) => handleCurrentBookChange(e.target.value)}
+                placeholder="Ex: Django 5 by example - Antonio Melé"
+                className="flex-1 h-12 px-4 text-base bg-background border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+              {currentBook && (
+                <Button
+                  onClick={() => handleCurrentBookChange("")}
+                  variant="outline"
+                  size="sm"
+                  className="h-12 px-4"
+                >
+                  Limpar
+                </Button>
+              )}
+            </div>
+            {currentBook && (
+              <p className="text-sm text-muted-foreground mt-3">
+                📖 Novas palavras serão automaticamente associadas a este livro
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* Statistics Dashboard */}
             <section className="mb-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
@@ -371,6 +440,7 @@ const Index = () => {
         onClose={() => setIsModalOpen(false)}
         onAdd={handleAddWord}
         initialWord={searchQuery}
+        currentBook={currentBook}
       />
 
       {/* Edit Word Modal */}
@@ -379,6 +449,7 @@ const Index = () => {
         onClose={handleCloseEditModal}
         onUpdate={handleUpdateWord}
         word={editingWord}
+        currentBook={currentBook}
       />
 
       {/* Delete Confirmation Modal */}
