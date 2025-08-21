@@ -56,22 +56,23 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     }
   };
 
-  // Traduzir automaticamente quando a palavra inicial mudar
+  // Traduzir automaticamente quando o modal abrir com uma palavra inicial
   useEffect(() => {
-    if (initialWord && initialWord !== formData.english) {
+    if (isOpen && initialWord) {
+      // Preenche a palavra em inglês
       setFormData(prev => ({
         ...prev,
         english: initialWord,
         portuguese: "" // Limpa tradução anterior
       }));
-      translateWord(initialWord);
-    }
-  }, [initialWord]);
 
-  // Traduzir quando o modal abrir com uma palavra inicial
-  useEffect(() => {
-    if (isOpen && initialWord && !formData.portuguese) {
-      translateWord(initialWord);
+      // Traduz automaticamente após um pequeno delay para garantir que a palavra está completa
+      const timeoutId = setTimeout(() => {
+        translateWord(initialWord);
+      }, 300); // 300ms de delay
+
+      // Cleanup do timeout se o componente for desmontado ou dependências mudarem
+      return () => clearTimeout(timeoutId);
     }
   }, [isOpen, initialWord]);
 
