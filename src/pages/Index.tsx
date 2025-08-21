@@ -1,12 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import SearchBar from "@/components/SearchBar";
 import VocabularyCard, { VocabularyWord } from "@/components/VocabularyCard";
 import AddWordModal from "@/components/AddWordModal";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Brain, Target } from "lucide-react";
+import { BookOpen, Plus, Brain, Target, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
-  initialWords,
+  getAllWords,
   addWordToData,
   updateWordInData,
   deleteWordFromData,
@@ -14,10 +14,33 @@ import {
 } from "@/utils/vocabularyData";
 
 const Index = () => {
-  const [words, setWords] = useState<VocabularyWord[]>(initialWords);
+  const [words, setWords] = useState<VocabularyWord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  // Carrega palavras da API na inicialização
+  useEffect(() => {
+    const loadWords = async () => {
+      try {
+        setIsLoading(true);
+        const wordsFromAPI = await getAllWords();
+        setWords(wordsFromAPI);
+      } catch (error) {
+        console.error('Erro ao carregar palavras:', error);
+        toast({
+          title: "Erro ao carregar palavras",
+          description: "Verifique se o servidor está rodando (npm run db)",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadWords();
+  }, [toast]);
 
   // Search and filtering logic
   const filteredWords = useMemo(() => {
@@ -44,24 +67,28 @@ const Index = () => {
     setSearchQuery(query);
   };
 
-  const handleAddWord = (newWordData: Omit<VocabularyWord, 'id'>) => {
-    const newWord: VocabularyWord = {
-      ...newWordData,
-      id: Date.now().toString(),
-    };
+  const handleAddWord = async (newWordData: Omit<VocabularyWord, 'id'>) => {
+    try {
+      // Adiciona via API
+      const newWord = await addWordToData(newWordData);
 
-    // Adiciona ao estado atual
-    setWords(prev => [newWord, ...prev]);
+      // Adiciona ao estado atual
+      setWords(prev => [newWord, ...prev]);
 
-    // Adiciona ao array inicial para persistir no código
-    addWordToData(newWord);
+      setSearchQuery("");
 
-    setSearchQuery("");
-
-    toast({
-      title: "Palavra adicionada!",
-      description: `"${newWordData.english}" foi adicionada ao seu vocabulário.`,
-    });
+      toast({
+        title: "Palavra adicionada!",
+        description: `"${newWordData.english}" foi adicionada ao seu vocabulário.`,
+      });
+    } catch (error) {
+      console.error('Erro ao adicionar palavra:', error);
+      toast({
+        title: "Erro ao adicionar palavra",
+        description: "Verifique se o servidor está rodando",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleEditWord = (word: VocabularyWord) => {
@@ -72,29 +99,38 @@ const Index = () => {
     });
   };
 
-  const handleDeleteWord = (id: string) => {
+  const handleDeleteWord = async (id: string) => {
     const word = words.find(w => w.id === id);
 
-    // Remove do estado local
-    setWords(prev => prev.filter(w => w.id !== id));
+    try {
+      // Remove via API
+      await deleteWordFromData(id);
 
-    // Remove do localStorage
-    deleteWordFromData(id);
+      // Remove do estado local
+      setWords(prev => prev.filter(w => w.id !== id));
 
-    if (word) {
+      if (word) {
+        toast({
+          title: "Palavra removida",
+          description: `"${word.english}" foi removida do seu vocabulário.`,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao deletar palavra:', error);
       toast({
-        title: "Palavra removida",
-        description: `"${word.english}" foi removida do seu vocabulário.`,
+        title: "Erro ao deletar palavra",
+        description: "Verifique se o servidor está rodando",
         variant: "destructive",
       });
     }
   };
 
-  const handleToggleMastered = (id: string) => {
-    // Atualiza no localStorage e obtém a palavra atualizada
-    const updatedWord = toggleWordMastered(id);
+  const handleToggleMastered = async (id: string) => {
+    try {
+      // Atualiza via API e obtém a palavra atualizada
+      const updatedWord = await toggleWordMastered(id);
 
-    if (updatedWord) {
       // Atualiza o estado local
       setWords(prev => prev.map(word =>
         word.id === id ? updatedWord : word
@@ -103,6 +139,13 @@ const Index = () => {
       toast({
         title: updatedWord.mastered ? "Palavra dominada!" : "Voltando a praticar",
         description: `"${updatedWord.english}" ${updatedWord.mastered ? 'foi marcada como dominada' : 'voltou para a lista de prática'}.`,
+      });
+    } catch (error) {
+      console.error('Erro ao alterar status:', error);
+      toast({
+        title: "Erro ao alterar status",
+        description: "Verifique se o servidor está rodando",
+        variant: "destructive",
       });
     }
   };
@@ -119,8 +162,18 @@ const Index = () => {
       />
 
       <main className="max-w-7xl mx-auto px-6 pb-12">
-        {/* Statistics Dashboard */}
-        <section className="mb-8">
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-16">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+              <p className="text-muted-foreground">Carregando palavras...</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Statistics Dashboard */}
+            <section className="mb-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
               <div className="p-3 bg-primary/10 rounded-2xl w-fit mx-auto mb-3">
@@ -227,6 +280,8 @@ const Index = () => {
             </div>
           )}
         </section>
+          </>
+        )}
       </main>
 
       {/* Add Word Modal */}
