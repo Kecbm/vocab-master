@@ -27,7 +27,7 @@ const SearchBar = ({
   };
 
   return (
-    <header className="w-full mb-8">
+    <header className="w-full mb-8 pt-8">
       <div className="max-w-4xl mx-auto px-6">
         {/* Logo and Title */}
         <div className="flex items-center gap-3 mb-6">
@@ -36,7 +36,7 @@ const SearchBar = ({
           </div>
           <div>
             <h1 className="text-3xl font-bold text-foreground">Vocab Master</h1>
-            <p className="text-muted-foreground">Aprenda inglês lendo livros</p>
+            <p className="text-muted-foreground">Aprendendo inglês lendo livros</p>
           </div>
         </div>
 
