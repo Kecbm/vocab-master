@@ -18,15 +18,15 @@ interface EditWordModalProps {
   onClose: () => void;
   onUpdate: (word: VocabularyWord) => void;
   word: VocabularyWord | null;
+  currentBook?: string;
 }
 
-const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) => {
+const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: EditWordModalProps) => {
   const [formData, setFormData] = useState({
     english: "",
     portuguese: "",
     book: "",
     mastered: false,
-    isNew: false,
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -38,11 +38,11 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
       setFormData({
         english: word.english,
         portuguese: word.portuguese,
-        book: word.book,
+        book: word.book || currentBook, // Usa livro atual se a palavra não tiver livro
         mastered: word.mastered,
       });
     }
-  }, [word]);
+  }, [word, currentBook]);
 
   // Função para traduzir automaticamente
   const translateWord = async (englishWord: string) => {
