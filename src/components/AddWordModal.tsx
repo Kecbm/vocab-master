@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BookOpen, Plus, X, Languages, Loader2 } from "lucide-react";
+import { BookOpen, Plus, Languages, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { VocabularyWord } from "./VocabularyCard";
 import { cn } from "@/lib/utils";
+import { getCurrentDate } from "@/utils/dateUtils";
 
 interface AddWordModalProps {
   isOpen: boolean;
@@ -90,7 +91,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
         english: formData.english.trim(),
         portuguese: formData.portuguese.trim(),
         book: formData.book.trim(),
-        isNew: true,
+        createdAt: getCurrentDate(), // Apenas data: YYYY-MM-DD
         mastered: false,
       });
       
