@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import VocabularyCard, { VocabularyWord } from "@/components/VocabularyCard";
 import AddWordModal from "@/components/AddWordModal";
 import EditWordModal from "@/components/EditWordModal";
+import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus, Brain, Target, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +21,9 @@ const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deletingWord, setDeletingWord] = useState<VocabularyWord | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
@@ -138,23 +142,34 @@ const Index = () => {
     setEditingWord(null);
   };
 
-  const handleDeleteWord = async (id: string) => {
+  const handleDeleteWord = (id: string) => {
     const word = words.find(w => w.id === id);
+    if (word) {
+      setDeletingWord(word);
+      setIsDeleteModalOpen(true);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deletingWord) return;
+
+    setIsDeleting(true);
 
     try {
       // Remove via API
-      await deleteWordFromData(id);
+      await deleteWordFromData(deletingWord.id);
 
       // Remove do estado local
-      setWords(prev => prev.filter(w => w.id !== id));
+      setWords(prev => prev.filter(w => w.id !== deletingWord.id));
 
-      if (word) {
-        toast({
-          title: "Palavra removida",
-          description: `"${word.english}" foi removida do seu vocabulário.`,
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Palavra removida",
+        description: `"${deletingWord.english}" foi removida do seu vocabulário.`,
+        variant: "destructive",
+      });
+
+      // Fecha o modal
+      handleCloseDeleteModal();
     } catch (error) {
       console.error('Erro ao deletar palavra:', error);
       toast({
@@ -162,7 +177,15 @@ const Index = () => {
         description: "Verifique se o servidor está rodando",
         variant: "destructive",
       });
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setDeletingWord(null);
+    setIsDeleting(false);
   };
 
   const handleToggleMastered = async (id: string) => {
@@ -356,6 +379,15 @@ const Index = () => {
         onClose={handleCloseEditModal}
         onUpdate={handleUpdateWord}
         word={editingWord}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        word={deletingWord}
+        isDeleting={isDeleting}
       />
     </div>
   );
