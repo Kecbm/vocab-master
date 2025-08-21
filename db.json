@@ -1,0 +1,25 @@
+{
+  "words": [
+    {
+      "id": "1",
+      "english": "way",
+      "portuguese": "caminho",
+      "book": "Django 5 by example",
+      "mastered": true
+    },
+    {
+      "id": "2",
+      "english": "almost",
+      "portuguese": "quase",
+      "book": "Django 5 by example",
+      "mastered": false
+    },
+    {
+      "id": "3",
+      "english": "been",
+      "portuguese": "estive",
+      "book": "Django 5 by example",
+      "mastered": true
+    }
+  ]
+}
