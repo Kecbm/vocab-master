@@ -2,13 +2,14 @@ import { useState } from "react";
 import { BookOpen, Volume2, Edit, Trash2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { isToday } from "@/utils/dateUtils";
 
 export interface VocabularyWord {
   id: string;
   english: string;
   portuguese: string;
   book: string;
-  isNew?: boolean;
+  createdAt?: string;
   mastered?: boolean;
 }
 
@@ -17,6 +18,7 @@ interface VocabularyCardProps {
   onEdit?: (word: VocabularyWord) => void;
   onDelete?: (id: string) => void;
   onToggleMastered?: (id: string) => void;
+  onMarkAsLearning?: (id: string) => void;
   className?: string;
 }
 
@@ -33,7 +35,7 @@ const VocabularyCard = ({
     setIsPlaying(true);
     // Simulate audio playing (would integrate with Web Speech API)
     setTimeout(() => setIsPlaying(false), 1000);
-    
+
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(word.english);
       utterance.lang = 'en-US';
@@ -42,11 +44,14 @@ const VocabularyCard = ({
     }
   };
 
+  // Verifica se a palavra é nova baseada na data
+  const isNew = isToday(word.createdAt);
+
   return (
     <div
       className={cn(
         "card-vocabulary group",
-        word.isNew && "card-learning float-in",
+        isNew && "card-learning float-in",
         word.mastered && "card-mastered",
         className
       )}
@@ -59,18 +64,18 @@ const VocabularyCard = ({
           ) : (
             <div className={cn(
               "w-3 h-3 rounded-full",
-              word.isNew ? "bg-learning" : "bg-primary/30"
+              isNew ? "bg-learning" : "bg-primary/30"
             )} />
           )}
           <span className={cn(
             "text-xs font-medium px-2 py-1 rounded-full",
-            word.isNew 
-              ? "bg-learning/10 text-learning" 
+            isNew
+              ? "bg-learning/10 text-learning"
               : word.mastered
                 ? "bg-mastered/10 text-mastered"
                 : "bg-primary/10 text-primary"
           )}>
-            {word.isNew ? "Nova" : word.mastered ? "Dominada" : "Aprendendo"}
+            {isNew ? "Nova" : word.mastered ? "Dominada" : "Aprendendo"}
           </span>
         </div>
 
