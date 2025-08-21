@@ -10,23 +10,23 @@ import { useToast } from "@/hooks/use-toast";
 const initialWords: VocabularyWord[] = [
   {
     id: "1",
-    english: "serendipity",
-    portuguese: "serendipidade, descoberta feliz",
-    book: "The Hobbit - J.R.R. Tolkien",
+    english: "way",
+    portuguese: "caminho",
+    book: "Django 5 by example",
     mastered: true,
   },
   {
     id: "2", 
-    english: "ephemeral",
-    portuguese: "efêmero, passageiro",
-    book: "1984 - George Orwell",
+    english: "almost",
+    portuguese: "quase",
+    book: "Django 5 by example",
     mastered: false,
   },
   {
     id: "3",
-    english: "melancholy",
-    portuguese: "melancolia, tristeza profunda",
-    book: "Pride and Prejudice - Jane Austen",
+    english: "been",
+    portuguese: "estive",
+    book: "Django 5 by example",
     mastered: true,
   },
 ];
