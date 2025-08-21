@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isToday } from "@/utils/dateUtils";
 
+// Função para capitalizar a primeira letra
+const capitalizeFirstLetter = (text: string): string => {
+  if (!text) return text;
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
 export interface VocabularyWord {
   id: string;
   english: string;
@@ -121,7 +127,7 @@ const VocabularyCard = ({
       <div className="mb-3">
         <div className="flex items-center gap-3 mb-2">
           <h3 className="text-2xl font-semibold text-foreground">
-            {word.english}
+            {capitalizeFirstLetter(word.english)}
           </h3>
           <Button
             size="sm"
@@ -142,7 +148,7 @@ const VocabularyCard = ({
       {/* Portuguese Translation */}
       <div className="mb-4">
         <p className="text-lg text-muted-foreground font-medium">
-          {word.portuguese}
+          {capitalizeFirstLetter(word.portuguese)}
         </p>
       </div>
 
