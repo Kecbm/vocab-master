@@ -22,11 +22,11 @@ interface AddWordModalProps {
 }
 
 const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = "" }: AddWordModalProps) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => ({
     english: initialWord,
     portuguese: "",
     book: currentBook,
-  });
+  }));
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isTranslating, setIsTranslating] = useState(false);
@@ -84,14 +84,24 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     }));
   }, [currentBook]);
 
+  // Garantir que o livro seja atualizado quando o modal abrir
+  useEffect(() => {
+    if (isOpen) {
+      setFormData(prev => ({
+        ...prev,
+        book: currentBook
+      }));
+    }
+  }, [isOpen, currentBook]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation
     const newErrors: Record<string, string> = {};
-    if (!formData.english.trim()) newErrors.english = "Palavra em inglês é obrigatória";
-    if (!formData.portuguese.trim()) newErrors.portuguese = "Tradução é obrigatória";
-    if (!formData.book.trim()) newErrors.book = "Nome do livro é obrigatório";
+    if (!formData.english.trim()) newErrors.english = "English word is required";
+    if (!formData.portuguese.trim()) newErrors.portuguese = "Translation is required";
+    if (!formData.book.trim()) newErrors.book = "Book name is required";
     
     setErrors(newErrors);
     
@@ -133,7 +143,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
             <div className="p-2 bg-learning/10 rounded-xl">
               <Plus className="h-5 w-5 text-learning" />
             </div>
-            Nova Palavra
+            New Word
           </DialogTitle>
         </DialogHeader>
 
@@ -141,7 +151,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
           {/* English Word */}
           <div className="space-y-2">
             <Label htmlFor="english" className="text-sm font-medium">
-              Palavra em Inglês *
+              English Word *
             </Label>
             <Input
               id="english"
@@ -163,7 +173,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
           {/* Portuguese Translation */}
           <div className="space-y-2">
             <Label htmlFor="portuguese" className="text-sm font-medium flex items-center justify-between">
-              <span>Tradução em Português *</span>
+              <span>Portuguese Translation *</span>
               {formData.english && (
                 <Button
                   type="button"
@@ -176,12 +186,12 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
                   {isTranslating ? (
                     <>
                       <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                      Traduzindo...
+                      Translating...
                     </>
                   ) : (
                     <>
                       <Languages className="h-3 w-3 mr-1" />
-                      Retraduzir
+                      Retranslate
                     </>
                   )}
                 </Button>
@@ -193,7 +203,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
                 type="text"
                 value={formData.portuguese}
                 onChange={(e) => setFormData(prev => ({ ...prev, portuguese: e.target.value }))}
-                placeholder={isTranslating ? "Traduzindo automaticamente..." : "Ex: serendipidade, casualidade feliz"}
+                placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
                 className={cn(
                   "h-12 text-lg",
                   errors.portuguese && "border-destructive focus:border-destructive",
@@ -212,7 +222,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
             )}
             {formData.portuguese && !isTranslating && (
               <p className="text-xs text-muted-foreground">
-                💡 Tradução automática. Você pode editá-la se necessário.
+                💡 Automatic translation. You can edit it if needed.
               </p>
             )}
           </div>
@@ -221,7 +231,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
           <div className="space-y-2">
             <Label htmlFor="book" className="text-sm font-medium flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              Livro de Origem *
+              Source Book *
             </Label>
             <Input
               id="book"
@@ -247,14 +257,14 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
               onClick={handleClose}
               className="flex-1 h-12"
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-learning hover:bg-learning/90 text-learning-foreground"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Adicionar Palavra
+              Add Word
             </Button>
           </div>
         </form>
