@@ -95,6 +95,102 @@
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
       "mastered": false
+    },
+    {
+      "id": "1755819336305",
+      "english": "wealth",
+      "portuguese": "património",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755819399516",
+      "english": "across",
+      "portuguese": "através",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755819450649",
+      "english": "several",
+      "portuguese": "diversos",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755819714272",
+      "english": "took",
+      "portuguese": "levou",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755819931333",
+      "english": "dive",
+      "portuguese": "picar",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755819968570",
+      "english": "early",
+      "portuguese": "precoce",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755819997919",
+      "english": "huge",
+      "portuguese": "enorme",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755820094623",
+      "english": "branched",
+      "portuguese": "ramificado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755820159276",
+      "english": "become",
+      "portuguese": "passar a ser",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755820210892",
+      "english": "shifting",
+      "portuguese": "mudança de velocidade",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755820280432",
+      "english": "which",
+      "portuguese": "o qual",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
+    },
+    {
+      "id": "1755820309698",
+      "english": "aims",
+      "portuguese": "objetivos",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-21",
+      "mastered": false
     }
   ],
   "settings": {
