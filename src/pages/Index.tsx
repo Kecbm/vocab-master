@@ -286,74 +286,75 @@ const Index = () => {
           </div>
         ) : (
           <>
-        {/* Statistics Dashboard */}
-        <section className="mb-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
-              <div className="p-3 bg-primary/10 rounded-2xl w-fit mx-auto mb-3">
-                <Brain className="h-6 w-6 text-primary" />
+        {/* Compact Statistics & Current Book */}
+        <section className="mb-6">
+          {/* Statistics - Compact horizontal layout */}
+          <div className="grid grid-cols-4 gap-3 mb-4">
+            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
+              <div className="p-2 bg-primary/10 rounded-lg w-fit mx-auto mb-2">
+                <Brain className="h-4 w-4 text-primary" />
               </div>
-              <div className="text-2xl font-bold text-foreground">{stats.total}</div>
-              <div className="text-sm text-muted-foreground">Total Words</div>
+              <div className="text-xl font-bold text-foreground">{stats.total}</div>
+              <div className="text-xs text-muted-foreground">Total</div>
             </div>
             
-            <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
-              <div className="p-3 bg-mastered/10 rounded-2xl w-fit mx-auto mb-3">
-                <Target className="h-6 w-6 text-mastered" />
+            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
+              <div className="p-2 bg-mastered/10 rounded-lg w-fit mx-auto mb-2">
+                <Target className="h-4 w-4 text-mastered" />
               </div>
-              <div className="text-2xl font-bold text-foreground">{stats.mastered}</div>
-              <div className="text-sm text-muted-foreground">Mastered</div>
+              <div className="text-xl font-bold text-foreground">{stats.mastered}</div>
+              <div className="text-xs text-muted-foreground">Mastered</div>
             </div>
             
-            <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
-              <div className="p-3 bg-learning/10 rounded-2xl w-fit mx-auto mb-3">
-                <Plus className="h-6 w-6 text-learning" />
+            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
+              <div className="p-2 bg-learning/10 rounded-lg w-fit mx-auto mb-2">
+                <Plus className="h-4 w-4 text-learning" />
               </div>
-              <div className="text-2xl font-bold text-foreground">{stats.learning}</div>
-              <div className="text-sm text-muted-foreground">Learning</div>
+              <div className="text-xl font-bold text-foreground">{stats.learning}</div>
+              <div className="text-xs text-muted-foreground">Learning</div>
             </div>
             
-            <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
-              <div className="p-3 bg-primary/10 rounded-2xl w-fit mx-auto mb-3">
-                <BookOpen className="h-6 w-6 text-primary" />
+            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
+              <div className="p-2 bg-primary/10 rounded-lg w-fit mx-auto mb-2">
+                <BookOpen className="h-4 w-4 text-primary" />
               </div>
-              <div className="text-2xl font-bold text-foreground">{stats.books}</div>
-              <div className="text-sm text-muted-foreground">Books</div>
+              <div className="text-xl font-bold text-foreground">{stats.books}</div>
+              <div className="text-xs text-muted-foreground">Books</div>
             </div>
           </div>
-        </section>
 
-        {/* Current Book Section */}
-        <section className="mb-6">
-          <div className="bg-card border border-card-border rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-primary/10 rounded-xl">
-                <BookOpen className="h-5 w-5 text-primary" />
+          {/* Current Book - Integrated compact design */}
+          <div className="bg-card border border-card-border rounded-xl p-4">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="p-1.5 bg-primary/10 rounded-lg">
+                  <BookOpen className="h-4 w-4 text-primary" />
+                </div>
+                <span className="text-sm font-medium text-foreground">Current Book:</span>
               </div>
-              <h3 className="text-lg font-semibold text-foreground">Current Book</h3>
-            </div>
-            <div className="flex gap-3">
-              <input
-                type="text"
-                value={currentBook}
-                onChange={(e) => handleCurrentBookChange(e.target.value)}
-                placeholder="Ex: Django 5 by example"
-                className="flex-1 h-12 px-4 text-base bg-background border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-              {currentBook && (
-                <Button
-                  onClick={() => handleCurrentBookChange("")}
-                  variant="outline"
-                  size="sm"
-                  className="h-12 px-4"
-                >
-                  Clear
-                </Button>
-              )}
+              <div className="flex-1 flex gap-2">
+                <input
+                  type="text"
+                  value={currentBook}
+                  onChange={(e) => handleCurrentBookChange(e.target.value)}
+                  placeholder="Ex: Django 5 by example"
+                  className="flex-1 h-9 px-3 text-sm bg-background border border-input rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent"
+                />
+                {currentBook && (
+                  <Button
+                    onClick={() => handleCurrentBookChange("")}
+                    variant="outline"
+                    size="sm"
+                    className="h-9 px-3 text-xs"
+                  >
+                    Clear
+                  </Button>
+                )}
+              </div>
             </div>
             {currentBook && (
-              <p className="text-sm text-muted-foreground mt-3">
-                📖 New words will be automatically associated with this book
+              <p className="text-xs text-muted-foreground mt-2 ml-7">
+                📖 New words will be associated with this book
               </p>
             )}
           </div>
