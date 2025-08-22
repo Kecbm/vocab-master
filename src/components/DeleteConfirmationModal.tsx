@@ -34,10 +34,10 @@ const DeleteConfirmationModal = ({
             <div className="p-2 bg-destructive/10 rounded-xl">
               <AlertTriangle className="h-5 w-5 text-destructive" />
             </div>
-            Confirmar Exclusão
+            Confirm Deletion
           </DialogTitle>
           <DialogDescription className="text-left pt-2">
-            Esta ação não pode ser desfeita. A palavra será removida permanentemente do seu vocabulário.
+            This action cannot be undone. The word will be permanently removed from your vocabulary.
           </DialogDescription>
         </DialogHeader>
 
@@ -75,11 +75,11 @@ const DeleteConfirmationModal = ({
               <AlertTriangle className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
               <div>
                 <h4 className="font-medium text-destructive mb-1">
-                  Atenção: Exclusão Permanente
+                  Warning: Permanent Deletion
                 </h4>
                 <p className="text-sm text-destructive/80">
-                  Você tem certeza que deseja excluir "<strong>{word.english}</strong>"? 
-                  Esta palavra será removida permanentemente e você perderá todo o progresso associado a ela.
+                  Are you sure you want to delete "<strong>{word.english}</strong>"?
+                  This word will be permanently removed and you will lose all progress associated with it.
                 </p>
               </div>
             </div>
@@ -94,7 +94,7 @@ const DeleteConfirmationModal = ({
               className="flex-1 h-11"
               disabled={isDeleting}
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               onClick={onConfirm}
@@ -104,12 +104,12 @@ const DeleteConfirmationModal = ({
               {isDeleting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                  Excluindo...
+                  Deleting...
                 </>
               ) : (
                 <>
                   <Trash2 className="h-4 w-4 mr-2" />
-                  Excluir Palavra
+                  Delete Word
                 </>
               )}
             </Button>
