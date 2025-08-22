@@ -81,7 +81,7 @@ const VocabularyCard = ({
                 ? "bg-mastered/10 text-mastered"
                 : "bg-primary/10 text-primary"
           )}>
-            {isNew ? "Nova" : word.mastered ? "Dominada" : "Aprendendo"}
+            {isNew ? "New" : word.mastered ? "Mastered" : "Learning"}
           </span>
         </div>
 
