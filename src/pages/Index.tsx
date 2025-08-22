@@ -360,20 +360,6 @@ const Index = () => {
 
         {/* Vocabulary Grid */}
         <section>
-          {searchQuery.length > 0 && (
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-foreground mb-2">
-                {isNewWord ? "New word discovered" : "Search results"}
-              </h2>
-              <p className="text-muted-foreground">
-                {isNewWord
-                  ? `"${searchQuery}" is not in your vocabulary yet`
-                  : `${filteredWords.length} word${filteredWords.length !== 1 ? 's' : ''} found`
-                }
-              </p>
-            </div>
-          )}
-
           {/* Filter Controls */}
           <div className="mb-6">
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
