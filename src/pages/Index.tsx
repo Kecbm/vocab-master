@@ -16,18 +16,14 @@ import {
   getSettings,
   updateCurrentBook
 } from "@/utils/vocabularyData";
+import { isToday } from "@/utils/dateUtils";
 
 const Index = () => {
   const [words, setWords] = useState<VocabularyWord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentBook, setCurrentBook] = useState(() => {
-    // Carrega livro atual do localStorage
-    try {
-      return localStorage.getItem('vocab-master-current-book') || "";
-    } catch {
-      return "";
-    }
-  });
+  const [currentBook, setCurrentBook] = useState("");
+  const [sortOrder, setSortOrder] = useState<"alphabetical" | "recent">("alphabetical");
+  const [statusFilter, setStatusFilter] = useState<"all" | "new" | "learning" | "mastered">("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
@@ -54,8 +50,8 @@ const Index = () => {
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
         toast({
-          title: "Erro ao carregar dados",
-          description: "Verifique se o servidor está rodando (npm run db)",
+          title: "Error loading data",
+          description: "Check if the server is running (npm run db)",
           variant: "destructive",
         });
       } finally {
@@ -70,21 +66,44 @@ const Index = () => {
   const filteredWords = useMemo(() => {
     let filtered = words;
 
-    // Aplica filtro de busca se houver query
+    // Aplica filtro de busca se houver query (apenas palavras em inglês)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = words.filter(word =>
-        word.english.toLowerCase().includes(query) ||
-        word.portuguese.toLowerCase().includes(query) ||
-        word.book.toLowerCase().includes(query)
+        word.english.toLowerCase().includes(query)
       );
     }
 
-    // Ordena alfabeticamente por palavra em inglês
-    return filtered.sort((a, b) =>
-      a.english.toLowerCase().localeCompare(b.english.toLowerCase())
-    );
-  }, [words, searchQuery]);
+    // Aplica filtro por status
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(word => {
+        switch (statusFilter) {
+          case "new":
+            return isToday(word.createdAt);
+          case "learning":
+            return !word.mastered && !isToday(word.createdAt);
+          case "mastered":
+            return word.mastered;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Aplica ordenação
+    if (sortOrder === "alphabetical") {
+      return filtered.sort((a, b) =>
+        a.english.toLowerCase().localeCompare(b.english.toLowerCase())
+      );
+    } else {
+      // Ordenação por data (mais recentes primeiro)
+      return filtered.sort((a, b) => {
+        const dateA = new Date(a.createdAt || "1970-01-01");
+        const dateB = new Date(b.createdAt || "1970-01-01");
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+  }, [words, searchQuery, statusFilter, sortOrder]);
 
   const hasResults = filteredWords.length > 0;
   const isNewWord = searchQuery.length > 0 && !hasResults;
@@ -112,14 +131,14 @@ const Index = () => {
       setSearchQuery("");
 
       toast({
-        title: "Palavra adicionada!",
-        description: `"${newWordData.english}" foi adicionada ao seu vocabulário.`,
+        title: "Word added!",
+        description: `"${newWordData.english}" was added to your vocabulary.`,
       });
     } catch (error) {
-      console.error('Erro ao adicionar palavra:', error);
+      console.error('Error adding word:', error);
       toast({
-        title: "Erro ao adicionar palavra",
-        description: "Verifique se o servidor está rodando",
+        title: "Error adding word",
+        description: "Check if the server is running",
         variant: "destructive",
       });
     }
@@ -141,14 +160,14 @@ const Index = () => {
       ));
 
       toast({
-        title: "Palavra atualizada!",
-        description: `"${updatedWord.english}" foi atualizada com sucesso.`,
+        title: "Word updated!",
+        description: `"${updatedWord.english}" was updated successfully.`,
       });
     } catch (error) {
       console.error('Erro ao atualizar palavra:', error);
       toast({
-        title: "Erro ao atualizar palavra",
-        description: "Verifique se o servidor está rodando",
+        title: "Error updating word",
+        description: "Check if the server is running",
         variant: "destructive",
       });
     }
@@ -180,8 +199,8 @@ const Index = () => {
       setWords(prev => prev.filter(w => w.id !== deletingWord.id));
 
       toast({
-        title: "Palavra removida",
-        description: `"${deletingWord.english}" foi removida do seu vocabulário.`,
+        title: "Word removed",
+        description: `"${deletingWord.english}" was removed from your vocabulary.`,
         variant: "destructive",
       });
 
@@ -190,8 +209,8 @@ const Index = () => {
     } catch (error) {
       console.error('Erro ao deletar palavra:', error);
       toast({
-        title: "Erro ao deletar palavra",
-        description: "Verifique se o servidor está rodando",
+        title: "Error deleting word",
+        description: "Check if the server is running",
         variant: "destructive",
       });
     } finally {
@@ -214,8 +233,8 @@ const Index = () => {
     } catch (error) {
       console.error('Erro ao salvar livro atual:', error);
       toast({
-        title: "Erro ao salvar livro",
-        description: "O livro foi atualizado localmente, mas não foi salvo no servidor",
+        title: "Error saving book",
+        description: "The book was updated locally, but not saved on the server",
         variant: "destructive",
       });
     }
@@ -232,14 +251,14 @@ const Index = () => {
       ));
 
       toast({
-        title: updatedWord.mastered ? "Palavra dominada!" : "Voltando a praticar",
-        description: `"${updatedWord.english}" ${updatedWord.mastered ? 'foi marcada como dominada' : 'voltou para a lista de prática'}.`,
+        title: updatedWord.mastered ? "Word mastered!" : "Back to learning",
+        description: `"${updatedWord.english}" ${updatedWord.mastered ? 'was marked as mastered' : 'is back to learning'}.`,
       });
     } catch (error) {
       console.error('Erro ao alterar status:', error);
       toast({
-        title: "Erro ao alterar status",
-        description: "Verifique se o servidor está rodando",
+        title: "Error changing status",
+        description: "Check if the server is running",
         variant: "destructive",
       });
     }
@@ -262,7 +281,7 @@ const Index = () => {
           <div className="flex items-center justify-center py-16">
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-              <p className="text-muted-foreground">Carregando palavras...</p>
+              <p className="text-muted-foreground">Loading words...</p>
             </div>
           </div>
         ) : (
@@ -275,7 +294,7 @@ const Index = () => {
                 <Brain className="h-6 w-6 text-primary" />
               </div>
               <div className="text-2xl font-bold text-foreground">{stats.total}</div>
-              <div className="text-sm text-muted-foreground">Total de Palavras</div>
+              <div className="text-sm text-muted-foreground">Total Words</div>
             </div>
             
             <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
@@ -283,7 +302,7 @@ const Index = () => {
                 <Target className="h-6 w-6 text-mastered" />
               </div>
               <div className="text-2xl font-bold text-foreground">{stats.mastered}</div>
-              <div className="text-sm text-muted-foreground">Dominadas</div>
+              <div className="text-sm text-muted-foreground">Mastered</div>
             </div>
             
             <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
@@ -291,7 +310,7 @@ const Index = () => {
                 <Plus className="h-6 w-6 text-learning" />
               </div>
               <div className="text-2xl font-bold text-foreground">{stats.learning}</div>
-              <div className="text-sm text-muted-foreground">Aprendendo</div>
+              <div className="text-sm text-muted-foreground">Learning</div>
             </div>
             
             <div className="bg-card border border-card-border rounded-2xl p-6 text-center">
@@ -299,7 +318,7 @@ const Index = () => {
                 <BookOpen className="h-6 w-6 text-primary" />
               </div>
               <div className="text-2xl font-bold text-foreground">{stats.books}</div>
-              <div className="text-sm text-muted-foreground">Livros</div>
+              <div className="text-sm text-muted-foreground">Books</div>
             </div>
           </div>
         </section>
@@ -311,7 +330,7 @@ const Index = () => {
               <div className="p-2 bg-primary/10 rounded-xl">
                 <BookOpen className="h-5 w-5 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground">Livro Atual</h3>
+              <h3 className="text-lg font-semibold text-foreground">Current Book</h3>
             </div>
             <div className="flex gap-3">
               <input
@@ -328,13 +347,13 @@ const Index = () => {
                   size="sm"
                   className="h-12 px-4"
                 >
-                  Limpar
+                  Clear
                 </Button>
               )}
             </div>
             {currentBook && (
               <p className="text-sm text-muted-foreground mt-3">
-                📖 Novas palavras serão automaticamente associadas a este livro
+                📖 New words will be automatically associated with this book
               </p>
             )}
           </div>
@@ -345,38 +364,92 @@ const Index = () => {
           {searchQuery.length > 0 && (
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-foreground mb-2">
-                {isNewWord ? "Nova palavra descoberta" : "Resultados da busca"}
+                {isNewWord ? "New word discovered" : "Search results"}
               </h2>
               <p className="text-muted-foreground">
-                {isNewWord 
-                  ? `"${searchQuery}" ainda não está no seu vocabulário`
-                  : `${filteredWords.length} palavra${filteredWords.length !== 1 ? 's' : ''} encontrada${filteredWords.length !== 1 ? 's' : ''}`
+                {isNewWord
+                  ? `"${searchQuery}" is not in your vocabulary yet`
+                  : `${filteredWords.length} word${filteredWords.length !== 1 ? 's' : ''} found`
                 }
               </p>
             </div>
           )}
 
+          {/* Filter Controls */}
+          <div className="mb-6">
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+              {/* Sort Filters */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground">Sort:</span>
+                <div className="flex gap-2">
+                  <Button
+                    variant={sortOrder === "alphabetical" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSortOrder("alphabetical")}
+                    className="h-8 text-xs"
+                  >
+                    A-Z
+                  </Button>
+                  <Button
+                    variant={sortOrder === "recent" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSortOrder("recent")}
+                    className="h-8 text-xs"
+                  >
+                    Recent
+                  </Button>
+                </div>
+              </div>
+
+              {/* Status Filters */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground">Filter:</span>
+                <div className="flex gap-2">
+                  <Button
+                    variant={statusFilter === "all" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setStatusFilter("all")}
+                    className="h-8 text-xs"
+                  >
+                    All
+                  </Button>
+                  <Button
+                    variant={statusFilter === "new" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setStatusFilter("new")}
+                    className="h-8 text-xs bg-learning/10 text-learning border-learning/20 hover:bg-learning/20"
+                  >
+                    New
+                  </Button>
+                  <Button
+                    variant={statusFilter === "learning" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setStatusFilter("learning")}
+                    className="h-8 text-xs bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                  >
+                    Learning
+                  </Button>
+                  <Button
+                    variant={statusFilter === "mastered" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setStatusFilter("mastered")}
+                    className="h-8 text-xs bg-mastered/10 text-mastered border-mastered/20 hover:bg-mastered/20"
+                  >
+                    Mastered
+                  </Button>
+                </div>
+              </div>
+
+              {/* Word Count */}
+              <div className="text-sm text-muted-foreground">
+                {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+              </div>
+            </div>
+          </div>
+
           {/* Words Grid */}
           {filteredWords.length > 0 ? (
-            <>
-              {/* Sorting indicator */}
-              {!searchQuery.trim() && (
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <span>A</span>
-                      <div className="w-4 h-px bg-muted-foreground/30"></div>
-                      <span>Z</span>
-                    </div>
-                    <span>Ordenado alfabeticamente</span>
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {filteredWords.length} palavra{filteredWords.length !== 1 ? 's' : ''}
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredWords.map((word) => (
                   <VocabularyCard
                     key={word.id}
@@ -387,7 +460,6 @@ const Index = () => {
                   />
                 ))}
               </div>
-            </>
           ) : searchQuery.length === 0 ? (
             // Empty state - no search
             <div className="text-center py-16">
@@ -395,17 +467,17 @@ const Index = () => {
                 <BookOpen className="h-12 w-12 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">
-                Comece sua jornada de aprendizado
+                Start your learning journey
               </h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Use a barra de busca acima para procurar palavras ou adicionar novas descobertas do seu livro.
+                Use the search bar above to look for words or add new discoveries from your book.
               </p>
               <Button 
                 onClick={() => setIsModalOpen(true)}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-xl"
               >
                 <Plus className="h-5 w-5 mr-2" />
-                Adicionar Primeira Palavra
+                Add First Word
               </Button>
             </div>
           ) : (
@@ -415,17 +487,17 @@ const Index = () => {
                 <Plus className="h-12 w-12 text-learning" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">
-                Nova palavra descoberta!
+                New word discovered!
               </h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                "{searchQuery}" ainda não está no seu vocabulário. Que tal adicioná-la?
+                "{searchQuery}" is not in your vocabulary yet. How about adding it?
               </p>
               <Button 
                 onClick={() => setIsModalOpen(true)}
                 className="bg-learning hover:bg-learning/90 text-learning-foreground px-6 py-3 rounded-xl"
               >
                 <Plus className="h-5 w-5 mr-2" />
-                Adicionar "{searchQuery}"
+                Add "{searchQuery}"
               </Button>
             </div>
           )}
