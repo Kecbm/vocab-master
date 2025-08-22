@@ -76,9 +76,9 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
     
     // Validation
     const newErrors: Record<string, string> = {};
-    if (!formData.english.trim()) newErrors.english = "Palavra em inglês é obrigatória";
-    if (!formData.portuguese.trim()) newErrors.portuguese = "Tradução é obrigatória";
-    if (!formData.book.trim()) newErrors.book = "Nome do livro é obrigatório";
+    if (!formData.english.trim()) newErrors.english = "English word is required";
+    if (!formData.portuguese.trim()) newErrors.portuguese = "Translation is required";
+    if (!formData.book.trim()) newErrors.book = "Book name is required";
     
     setErrors(newErrors);
     
@@ -119,7 +119,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
             <div className="p-2 bg-primary/10 rounded-xl">
               <Edit className="h-5 w-5 text-primary" />
             </div>
-            Editar Palavra
+            Edit Word
           </DialogTitle>
         </DialogHeader>
 
@@ -127,7 +127,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
           {/* English Word */}
           <div className="space-y-2">
             <Label htmlFor="english" className="text-sm font-medium">
-              Palavra em Inglês *
+              English Word *
             </Label>
             <Input
               id="english"
@@ -149,7 +149,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
           {/* Portuguese Translation */}
           <div className="space-y-2">
             <Label htmlFor="portuguese" className="text-sm font-medium flex items-center justify-between">
-              <span>Tradução em Português *</span>
+              <span>Portuguese Translation *</span>
               {formData.english && (
                 <Button
                   type="button"
@@ -162,12 +162,12 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
                   {isTranslating ? (
                     <>
                       <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                      Traduzindo...
+                      Translating...
                     </>
                   ) : (
                     <>
                       <Languages className="h-3 w-3 mr-1" />
-                      Retraduzir
+                      Retranslate
                     </>
                   )}
                 </Button>
@@ -179,7 +179,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
                 type="text"
                 value={formData.portuguese}
                 onChange={(e) => setFormData(prev => ({ ...prev, portuguese: e.target.value }))}
-                placeholder={isTranslating ? "Traduzindo automaticamente..." : "Ex: serendipidade, casualidade feliz"}
+                placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
                 className={cn(
                   "h-12 text-lg",
                   errors.portuguese && "border-destructive focus:border-destructive",
@@ -202,7 +202,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
           <div className="space-y-2">
             <Label htmlFor="book" className="text-sm font-medium flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              Livro de Origem *
+              Source Book *
             </Label>
             <Input
               id="book"
@@ -222,7 +222,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
 
           {/* Mastered Status */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Status da Palavra</Label>
+            <Label className="text-sm font-medium">Word Status</Label>
             <div className="flex items-center justify-between p-4 border rounded-xl bg-card">
               <div className="flex items-center gap-3">
                 <div className={cn(
@@ -237,12 +237,12 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
                 </div>
                 <div>
                   <p className="font-medium">
-                    {formData.mastered ? "Dominada" : "Aprendendo"}
+                    {formData.mastered ? "Mastered" : "Learning"}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {formData.mastered 
-                      ? "Você já domina esta palavra" 
-                      : "Ainda está praticando esta palavra"
+                    {formData.mastered
+                      ? "You have mastered this word"
+                      : "Still practicing this word"
                     }
                   </p>
                 </div>
@@ -262,14 +262,14 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
               onClick={handleClose}
               className="flex-1 h-12"
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Edit className="h-4 w-4 mr-2" />
-              Salvar Alterações
+              Save Changes
             </Button>
           </div>
         </form>
