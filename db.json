@@ -191,6 +191,86 @@
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
       "mastered": false
+    },
+    {
+      "id": "1755896966672",
+      "english": "care",
+      "portuguese": "cuidado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755896987596",
+      "english": "hassle",
+      "portuguese": "COMPLICA",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897016837",
+      "english": "shallow",
+      "portuguese": "superficial",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897064652",
+      "english": "shipping",
+      "portuguese": "envio",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897119536",
+      "english": "novice",
+      "portuguese": "Iniciante",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897179748",
+      "english": "nowadays",
+      "portuguese": "Hoje em dia",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897212352",
+      "english": "countless",
+      "portuguese": "Inúmeras.",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897248074",
+      "english": "such",
+      "portuguese": "tal",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897308743",
+      "english": "chosen",
+      "portuguese": "escolhida",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "1755897351345",
+      "english": "survey",
+      "portuguese": "enquete",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
     }
   ],
   "settings": {
