@@ -24,6 +24,7 @@ const Index = () => {
   const [currentBook, setCurrentBook] = useState("");
   const [sortOrder, setSortOrder] = useState<"alphabetical" | "recent">("alphabetical");
   const [statusFilter, setStatusFilter] = useState<"all" | "new" | "learning" | "mastered">("all");
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
@@ -32,6 +33,9 @@ const Index = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
+  // Pagination constants
+  const WORDS_PER_PAGE = 16;
 
   // Carrega palavras e configurações da API na inicialização
   useEffect(() => {
@@ -104,6 +108,19 @@ const Index = () => {
       });
     }
   }, [words, searchQuery, statusFilter, sortOrder]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredWords.length / WORDS_PER_PAGE);
+  const paginatedWords = useMemo(() => {
+    const startIndex = (currentPage - 1) * WORDS_PER_PAGE;
+    const endIndex = startIndex + WORDS_PER_PAGE;
+    return filteredWords.slice(startIndex, endIndex);
+  }, [filteredWords, currentPage, WORDS_PER_PAGE]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, sortOrder]);
 
   const hasResults = filteredWords.length > 0;
   const isNewWord = searchQuery.length > 0 && !hasResults;
@@ -427,15 +444,27 @@ const Index = () => {
 
               {/* Word Count */}
               <div className="text-sm text-muted-foreground">
-                {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+                {filteredWords.length > 0 ? (
+                  <>
+                    {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+                    {totalPages > 1 && (
+                      <span className="ml-2">
+                        • Page {currentPage} of {totalPages}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  "No words found"
+                )}
               </div>
             </div>
           </div>
 
           {/* Words Grid */}
           {filteredWords.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredWords.map((word) => (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {paginatedWords.map((word) => (
                   <VocabularyCard
                     key={word.id}
                     word={word}
@@ -445,6 +474,70 @@ const Index = () => {
                   />
                 ))}
               </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-8 flex justify-center">
+                  <div className="flex items-center gap-2">
+                    {/* Previous Button */}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                      className="h-9 px-3"
+                    >
+                      Previous
+                    </Button>
+
+                    {/* Page Numbers */}
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                        // Show first page, last page, current page, and pages around current
+                        const showPage =
+                          page === 1 ||
+                          page === totalPages ||
+                          Math.abs(page - currentPage) <= 1;
+
+                        if (!showPage) {
+                          // Show ellipsis
+                          if (page === 2 && currentPage > 4) {
+                            return <span key={page} className="px-2 text-muted-foreground">...</span>;
+                          }
+                          if (page === totalPages - 1 && currentPage < totalPages - 3) {
+                            return <span key={page} className="px-2 text-muted-foreground">...</span>;
+                          }
+                          return null;
+                        }
+
+                        return (
+                          <Button
+                            key={page}
+                            variant={currentPage === page ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            className="h-9 w-9 p-0"
+                          >
+                            {page}
+                          </Button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Next Button */}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                      className="h-9 px-3"
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
           ) : searchQuery.length === 0 ? (
             // Empty state - no search
             <div className="text-center py-16">
