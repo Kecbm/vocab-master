@@ -46,7 +46,7 @@ const SearchBar = ({
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input
               type="text"
-              placeholder="Digite uma palavra em inglês..."
+              placeholder="Type an English word..."
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               className={cn(
@@ -67,7 +67,7 @@ const SearchBar = ({
                 )}
               >
                 <Plus className="h-4 w-4" />
-                Adicionar
+                Add
               </Button>
             )}
           </div>
@@ -77,11 +77,11 @@ const SearchBar = ({
             <div className="mt-3 flex items-center gap-2">
               {hasResults ? (
                 <span className="text-sm text-mastered font-medium">
-                  ✓ Palavra encontrada
+                  ✓ Word found
                 </span>
               ) : (
                 <span className="text-sm text-learning font-medium">
-                  ⚡ Nova descoberta
+                  ⚡ New discovery
                 </span>
               )}
             </div>
