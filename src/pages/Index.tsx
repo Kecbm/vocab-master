@@ -68,12 +68,12 @@ const Index = () => {
 
   // Search, filtering and sorting logic
   const filteredWords = useMemo(() => {
-    let filtered = words;
+    let filtered = [...words]; // Create a copy to avoid mutations
 
     // Aplica filtro de busca se houver query (apenas palavras em inglês)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = words.filter(word =>
+      filtered = filtered.filter(word =>
         word.english.toLowerCase().includes(query)
       );
     }
@@ -81,11 +81,13 @@ const Index = () => {
     // Aplica filtro por status
     if (statusFilter !== "all") {
       filtered = filtered.filter(word => {
+        const wordIsNew = isToday(word.createdAt);
+
         switch (statusFilter) {
           case "new":
-            return isToday(word.createdAt);
+            return wordIsNew;
           case "learning":
-            return !word.mastered && !isToday(word.createdAt);
+            return !word.mastered && !wordIsNew;
           case "mastered":
             return word.mastered;
           default:
@@ -96,17 +98,19 @@ const Index = () => {
 
     // Aplica ordenação
     if (sortOrder === "alphabetical") {
-      return filtered.sort((a, b) =>
+      filtered.sort((a, b) =>
         a.english.toLowerCase().localeCompare(b.english.toLowerCase())
       );
     } else {
       // Ordenação por data (mais recentes primeiro)
-      return filtered.sort((a, b) => {
+      filtered.sort((a, b) => {
         const dateA = new Date(a.createdAt || "1970-01-01");
         const dateB = new Date(b.createdAt || "1970-01-01");
         return dateB.getTime() - dateA.getTime();
       });
     }
+
+    return filtered;
   }, [words, searchQuery, statusFilter, sortOrder]);
 
   // Pagination logic
