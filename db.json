@@ -25,7 +25,7 @@
       "mastered": false
     },
     {
-      "id": "1755798762592",
+      "id": "4",
       "english": "arisen",
       "portuguese": "surgiu",
       "book": "Django 5 by example",
@@ -33,7 +33,7 @@
       "mastered": false
     },
     {
-      "id": "1755798788827",
+      "id": "5",
       "english": "exploiting",
       "portuguese": "Exploração",
       "book": "Django 5 by example",
@@ -41,7 +41,7 @@
       "mastered": false
     },
     {
-      "id": "1755798813448",
+      "id": "6",
       "english": "despite",
       "portuguese": "apesar de",
       "book": "Django 5 by example",
@@ -49,7 +49,7 @@
       "mastered": false
     },
     {
-      "id": "1755798837301",
+      "id": "7",
       "english": "ensured",
       "portuguese": "assegurada",
       "book": "Django 5 by example",
@@ -57,7 +57,7 @@
       "mastered": false
     },
     {
-      "id": "1755798857811",
+      "id": "8",
       "english": "over",
       "portuguese": "sobre",
       "book": "Django 5 by example",
@@ -65,7 +65,7 @@
       "mastered": false
     },
     {
-      "id": "1755798875856",
+      "id": "9",
       "english": "remained",
       "portuguese": "remanescente",
       "book": "Django 5 by example",
@@ -73,7 +73,7 @@
       "mastered": false
     },
     {
-      "id": "1755798910613",
+      "id": "10",
       "english": "fond",
       "portuguese": "afeiçoado",
       "book": "Django 5 by example",
@@ -81,7 +81,7 @@
       "mastered": false
     },
     {
-      "id": "1755798941491",
+      "id": "11",
       "english": "furthermore",
       "portuguese": "ainda que",
       "book": "Django 5 by example",
@@ -89,7 +89,7 @@
       "mastered": false
     },
     {
-      "id": "1755798957242",
+      "id": "12",
       "english": "facets",
       "portuguese": "Facetas",
       "book": "Django 5 by example",
@@ -97,7 +97,7 @@
       "mastered": false
     },
     {
-      "id": "1755819336305",
+      "id": "13",
       "english": "wealth",
       "portuguese": "património",
       "book": "Django 5 by example",
@@ -105,7 +105,7 @@
       "mastered": false
     },
     {
-      "id": "1755819399516",
+      "id": "14",
       "english": "across",
       "portuguese": "através",
       "book": "Django 5 by example",
@@ -113,7 +113,7 @@
       "mastered": false
     },
     {
-      "id": "1755819450649",
+      "id": "15",
       "english": "several",
       "portuguese": "diversos",
       "book": "Django 5 by example",
@@ -121,7 +121,7 @@
       "mastered": false
     },
     {
-      "id": "1755819714272",
+      "id": "16",
       "english": "took",
       "portuguese": "levou",
       "book": "Django 5 by example",
@@ -129,7 +129,7 @@
       "mastered": false
     },
     {
-      "id": "1755819931333",
+      "id": "17",
       "english": "dive",
       "portuguese": "picar",
       "book": "Django 5 by example",
@@ -137,7 +137,7 @@
       "mastered": false
     },
     {
-      "id": "1755819968570",
+      "id": "18",
       "english": "early",
       "portuguese": "precoce",
       "book": "Django 5 by example",
@@ -145,7 +145,7 @@
       "mastered": false
     },
     {
-      "id": "1755819997919",
+      "id": "19",
       "english": "huge",
       "portuguese": "enorme",
       "book": "Django 5 by example",
@@ -153,7 +153,7 @@
       "mastered": false
     },
     {
-      "id": "1755820094623",
+      "id": "20",
       "english": "branched",
       "portuguese": "ramificado",
       "book": "Django 5 by example",
@@ -161,7 +161,7 @@
       "mastered": false
     },
     {
-      "id": "1755820159276",
+      "id": "21",
       "english": "become",
       "portuguese": "passar a ser",
       "book": "Django 5 by example",
@@ -169,7 +169,7 @@
       "mastered": false
     },
     {
-      "id": "1755820210892",
+      "id": "22",
       "english": "shifting",
       "portuguese": "mudança de velocidade",
       "book": "Django 5 by example",
@@ -177,7 +177,7 @@
       "mastered": false
     },
     {
-      "id": "1755820280432",
+      "id": "23",
       "english": "which",
       "portuguese": "o qual",
       "book": "Django 5 by example",
@@ -185,7 +185,7 @@
       "mastered": false
     },
     {
-      "id": "1755820309698",
+      "id": "24",
       "english": "aims",
       "portuguese": "objetivos",
       "book": "Django 5 by example",
@@ -193,7 +193,7 @@
       "mastered": false
     },
     {
-      "id": "1755896966672",
+      "id": "25",
       "english": "care",
       "portuguese": "cuidado",
       "book": "Django 5 by example",
@@ -201,7 +201,7 @@
       "mastered": false
     },
     {
-      "id": "1755896987596",
+      "id": "26",
       "english": "hassle",
       "portuguese": "COMPLICA",
       "book": "Django 5 by example",
@@ -209,7 +209,7 @@
       "mastered": false
     },
     {
-      "id": "1755897016837",
+      "id": "27",
       "english": "shallow",
       "portuguese": "superficial",
       "book": "Django 5 by example",
@@ -217,7 +217,7 @@
       "mastered": false
     },
     {
-      "id": "1755897064652",
+      "id": "28",
       "english": "shipping",
       "portuguese": "envio",
       "book": "Django 5 by example",
@@ -225,7 +225,7 @@
       "mastered": false
     },
     {
-      "id": "1755897119536",
+      "id": "29",
       "english": "novice",
       "portuguese": "Iniciante",
       "book": "Django 5 by example",
@@ -233,7 +233,7 @@
       "mastered": false
     },
     {
-      "id": "1755897179748",
+      "id": "30",
       "english": "nowadays",
       "portuguese": "Hoje em dia",
       "book": "Django 5 by example",
@@ -241,7 +241,7 @@
       "mastered": false
     },
     {
-      "id": "1755897212352",
+      "id": "31",
       "english": "countless",
       "portuguese": "Inúmeras.",
       "book": "Django 5 by example",
@@ -249,7 +249,7 @@
       "mastered": false
     },
     {
-      "id": "1755897248074",
+      "id": "32",
       "english": "such",
       "portuguese": "tal",
       "book": "Django 5 by example",
@@ -257,7 +257,7 @@
       "mastered": false
     },
     {
-      "id": "1755897308743",
+      "id": "33",
       "english": "chosen",
       "portuguese": "escolhida",
       "book": "Django 5 by example",
@@ -265,9 +265,201 @@
       "mastered": false
     },
     {
-      "id": "1755897351345",
+      "id": "34",
       "english": "survey",
       "portuguese": "enquete",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "35",
+      "english": "through",
+      "portuguese": "através de",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "36",
+      "english": "entire",
+      "portuguese": "inteira",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "37",
+      "english": "ground",
+      "portuguese": "solo",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "38",
+      "english": "throughout",
+      "portuguese": "por toda parte",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "39",
+      "english": "approach",
+      "portuguese": "medição",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "40",
+      "english": "fledged",
+      "portuguese": "emplumado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "41",
+      "english": "should",
+      "portuguese": "Deveria",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "42",
+      "english": "newly",
+      "portuguese": "recentemente",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "43",
+      "english": "intended",
+      "portuguese": "pretendido",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "44",
+      "english": "wish",
+      "portuguese": "desejar",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "45",
+      "english": "perhaps",
+      "portuguese": "talvez",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "46",
+      "english": "scratch",
+      "portuguese": "arranhar",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "47",
+      "english": "encompasses",
+      "portuguese": "engloba",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "48",
+      "english": "built",
+      "portuguese": "compilado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "49",
+      "english": "several",
+      "portuguese": "diversos",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "50",
+      "english": "enhancing",
+      "portuguese": "aprimoramento",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "51",
+      "english": "bought",
+      "portuguese": "comprei",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "52",
+      "english": "fixtures",
+      "portuguese": "acessorios",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "53",
+      "english": "inheritance",
+      "portuguese": "herança",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "54",
+      "english": "enrollment",
+      "portuguese": "Recrutamento",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "55",
+      "english": "rely",
+      "portuguese": "confiar",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "56",
+      "english": "layer",
+      "portuguese": "camada",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "57",
+      "english": "either",
+      "portuguese": "Adquiridas",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "58",
+      "english": "gain",
+      "portuguese": "aumento",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
       "mastered": false
