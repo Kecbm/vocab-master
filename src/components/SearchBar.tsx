@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,14 +12,19 @@ interface SearchBarProps {
   isNewWord: boolean;
 }
 
-const SearchBar = ({ 
-  onSearch, 
-  onAddNew, 
-  searchQuery, 
-  hasResults, 
-  isNewWord 
+const SearchBar = ({
+  onSearch,
+  onAddNew,
+  searchQuery,
+  hasResults,
+  isNewWord
 }: SearchBarProps) => {
   const [query, setQuery] = useState("");
+
+  // Sincroniza o estado interno com o searchQuery do pai
+  useEffect(() => {
+    setQuery(searchQuery);
+  }, [searchQuery]);
 
   const handleSearch = (value: string) => {
     setQuery(value);

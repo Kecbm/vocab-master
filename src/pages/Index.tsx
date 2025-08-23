@@ -149,6 +149,10 @@ const Index = () => {
       // Adiciona ao estado atual
       setWords(prev => [newWord, ...prev]);
 
+      // Fecha o modal
+      setIsModalOpen(false);
+
+      // Limpa o campo de busca
       setSearchQuery("");
 
       toast({
