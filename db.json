@@ -463,6 +463,86 @@
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
       "mastered": false
+    },
+    {
+      "id": "59",
+      "english": "concerned",
+      "portuguese": "relacionada",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "60",
+      "english": "appear",
+      "portuguese": "parecer",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "61",
+      "english": "may",
+      "portuguese": "pode",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "62",
+      "english": "however",
+      "portuguese": "contudo",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "63",
+      "english": "might",
+      "portuguese": "pode",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "64",
+      "english": "rather",
+      "portuguese": "de preferência",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "65",
+      "english": "another",
+      "portuguese": "outro",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "66",
+      "english": "loosely",
+      "portuguese": "Vagamente",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "67",
+      "english": "coupled",
+      "portuguese": "Acoplado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
+    },
+    {
+      "id": "68",
+      "english": "fosters",
+      "portuguese": "promove a",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-22",
+      "mastered": false
     }
   ],
   "settings": {
