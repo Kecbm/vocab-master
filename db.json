@@ -543,6 +543,166 @@
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
       "mastered": false
+    },
+    {
+      "id": "69",
+      "english": "behaviors",
+      "portuguese": "comportamentos",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "70",
+      "english": "which",
+      "portuguese": "o qual",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "71",
+      "english": "sake",
+      "portuguese": "interesse",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "72",
+      "english": "covered",
+      "portuguese": "abordada",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "73",
+      "english": "offer",
+      "portuguese": "oferta",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "74",
+      "english": "wide",
+      "portuguese": "amplo",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "75",
+      "english": "however",
+      "portuguese": "contudo",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "76",
+      "english": "might",
+      "portuguese": "pode",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "77",
+      "english": "such",
+      "portuguese": "tão",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "78",
+      "english": "intended",
+      "portuguese": "pretendido",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "79",
+      "english": "suitable",
+      "portuguese": "adequado",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "80",
+      "english": "should",
+      "portuguese": "Deveria",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "81",
+      "english": "several",
+      "portuguese": "diversos",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "82",
+      "english": "aware",
+      "portuguese": "consciente",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "83",
+      "english": "accordingly",
+      "portuguese": "de acordo",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "84",
+      "english": "bundling",
+      "portuguese": "Agrupamento",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "85",
+      "english": "therefore",
+      "portuguese": "por isso",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "86",
+      "english": "underlaying",
+      "portuguese": "subjacência",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "87",
+      "english": "retrieve",
+      "portuguese": "Recuperar",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "88",
+      "english": "unless",
+      "portuguese": "a menos que",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-23",
+      "mastered": false
     }
   ],
   "settings": {
