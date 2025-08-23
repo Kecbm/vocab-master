@@ -26,9 +26,33 @@ class VocabularyAPI {
     }
   }
 
+  // Obter próximo ID sequencial
+  async getNextId(): Promise<string> {
+    try {
+      const words = await this.getAllWords();
+      if (words.length === 0) {
+        return "1";
+      }
+
+      // Encontra o maior ID numérico
+      const maxId = Math.max(...words.map(word => {
+        const id = parseInt(word.id);
+        return isNaN(id) ? 0 : id;
+      }));
+
+      return (maxId + 1).toString();
+    } catch (error) {
+      console.error('❌ Erro ao obter próximo ID:', error);
+      // Fallback para timestamp se houver erro
+      return Date.now().toString();
+    }
+  }
+
   // Adicionar nova palavra
   async addWord(word: Omit<VocabularyWord, 'id'>): Promise<VocabularyWord> {
     try {
+      const nextId = await this.getNextId();
+
       const response = await fetch(`${this.baseUrl}/words`, {
         method: 'POST',
         headers: {
@@ -36,7 +60,7 @@ class VocabularyAPI {
         },
         body: JSON.stringify({
           ...word,
-          id: Date.now().toString(), // Gera ID único
+          id: nextId, // Usa ID sequencial
         }),
       });
 
@@ -45,7 +69,7 @@ class VocabularyAPI {
       }
 
       const newWord = await response.json();
-      console.log('✅ Palavra adicionada:', newWord.english);
+      console.log('✅ Palavra adicionada:', newWord.english, 'ID:', nextId);
       return newWord;
     } catch (error) {
       console.error('❌ Erro ao adicionar palavra:', error);
