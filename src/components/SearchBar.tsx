@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Search, Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,19 +12,14 @@ interface SearchBarProps {
   isNewWord: boolean;
 }
 
-const SearchBar = ({
-  onSearch,
-  onAddNew,
-  searchQuery,
-  hasResults,
-  isNewWord
+const SearchBar = ({ 
+  onSearch, 
+  onAddNew, 
+  searchQuery, 
+  hasResults, 
+  isNewWord 
 }: SearchBarProps) => {
   const [query, setQuery] = useState("");
-
-  // Sincroniza o estado interno com o searchQuery do pai
-  useEffect(() => {
-    setQuery(searchQuery);
-  }, [searchQuery]);
 
   const handleSearch = (value: string) => {
     setQuery(value);
@@ -32,7 +27,7 @@ const SearchBar = ({
   };
 
   return (
-    <header className="w-full mb-8 pt-8">
+    <header className="w-full mb-8">
       <div className="max-w-4xl mx-auto px-6">
         {/* Logo and Title */}
         <div className="flex items-center gap-3 mb-6">
@@ -41,7 +36,7 @@ const SearchBar = ({
           </div>
           <div>
             <h1 className="text-3xl font-bold text-foreground">Vocab Master</h1>
-            <p className="text-muted-foreground">Aprendendo inglês lendo livros</p>
+            <p className="text-muted-foreground">Aprenda inglês lendo livros</p>
           </div>
         </div>
 
@@ -51,7 +46,7 @@ const SearchBar = ({
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input
               type="text"
-              placeholder="Type an English word..."
+              placeholder="Digite uma palavra em inglês..."
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               className={cn(
@@ -72,7 +67,7 @@ const SearchBar = ({
                 )}
               >
                 <Plus className="h-4 w-4" />
-                Add
+                Adicionar
               </Button>
             )}
           </div>
@@ -82,11 +77,11 @@ const SearchBar = ({
             <div className="mt-3 flex items-center gap-2">
               {hasResults ? (
                 <span className="text-sm text-mastered font-medium">
-                  ✓ Word found
+                  ✓ Palavra encontrada
                 </span>
               ) : (
                 <span className="text-sm text-learning font-medium">
-                  ⚡ New discovery
+                  ⚡ Nova descoberta
                 </span>
               )}
             </div>

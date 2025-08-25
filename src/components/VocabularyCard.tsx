@@ -2,20 +2,13 @@ import { useState } from "react";
 import { BookOpen, Volume2, Edit, Trash2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { isToday } from "@/utils/dateUtils";
-
-// Função para capitalizar a primeira letra
-const capitalizeFirstLetter = (text: string): string => {
-  if (!text) return text;
-  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-};
 
 export interface VocabularyWord {
   id: string;
   english: string;
   portuguese: string;
   book: string;
-  createdAt?: string;
+  isNew?: boolean;
   mastered?: boolean;
 }
 
@@ -24,7 +17,6 @@ interface VocabularyCardProps {
   onEdit?: (word: VocabularyWord) => void;
   onDelete?: (id: string) => void;
   onToggleMastered?: (id: string) => void;
-  onMarkAsLearning?: (id: string) => void;
   className?: string;
 }
 
@@ -41,7 +33,7 @@ const VocabularyCard = ({
     setIsPlaying(true);
     // Simulate audio playing (would integrate with Web Speech API)
     setTimeout(() => setIsPlaying(false), 1000);
-
+    
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(word.english);
       utterance.lang = 'en-US';
@@ -50,14 +42,11 @@ const VocabularyCard = ({
     }
   };
 
-  // Verifica se a palavra é nova baseada na data
-  const isNew = isToday(word.createdAt);
-
   return (
     <div
       className={cn(
         "card-vocabulary group",
-        isNew && "card-learning float-in",
+        word.isNew && "card-learning float-in",
         word.mastered && "card-mastered",
         className
       )}
@@ -70,18 +59,18 @@ const VocabularyCard = ({
           ) : (
             <div className={cn(
               "w-3 h-3 rounded-full",
-              isNew ? "bg-learning" : "bg-primary/30"
+              word.isNew ? "bg-learning" : "bg-primary/30"
             )} />
           )}
           <span className={cn(
             "text-xs font-medium px-2 py-1 rounded-full",
-            isNew
-              ? "bg-learning/10 text-learning"
+            word.isNew 
+              ? "bg-learning/10 text-learning" 
               : word.mastered
                 ? "bg-mastered/10 text-mastered"
                 : "bg-primary/10 text-primary"
           )}>
-            {isNew ? "New" : word.mastered ? "Mastered" : "Learning"}
+            {word.isNew ? "Nova" : word.mastered ? "Dominada" : "Aprendendo"}
           </span>
         </div>
 
@@ -127,7 +116,7 @@ const VocabularyCard = ({
       <div className="mb-3">
         <div className="flex items-center gap-3 mb-2">
           <h3 className="text-2xl font-semibold text-foreground">
-            {capitalizeFirstLetter(word.english)}
+            {word.english}
           </h3>
           <Button
             size="sm"
@@ -148,7 +137,7 @@ const VocabularyCard = ({
       {/* Portuguese Translation */}
       <div className="mb-4">
         <p className="text-lg text-muted-foreground font-medium">
-          {capitalizeFirstLetter(word.portuguese)}
+          {word.portuguese}
         </p>
       </div>
 
