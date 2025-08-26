@@ -1,6 +1,6 @@
 # Vocab Master
 
-![Project Image](public/screenshot.png)
+![Project Image](public/VocabMaster.jpg)
 
 ## Project info
 
