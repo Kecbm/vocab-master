@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { VocabularyWord } from "./VocabularyCard";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface EditWordModalProps {
   isOpen: boolean;
@@ -22,8 +23,10 @@ interface EditWordModalProps {
 }
 
 const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: EditWordModalProps) => {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
-    english: "",
+    foreignWord: "",
     portuguese: "",
     book: "",
     mastered: false,
@@ -36,7 +39,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
   useEffect(() => {
     if (word) {
       setFormData({
-        english: word.english,
+        foreignWord: word.foreignWord,
         portuguese: word.portuguese,
         book: word.book || currentBook, // Usa livro atual se a palavra não tiver livro
         mastered: word.mastered,
@@ -119,38 +122,38 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
             <div className="p-2 bg-primary/10 rounded-xl">
               <Edit className="h-5 w-5 text-primary" />
             </div>
-            Edit Word
+            {t('editWord')}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 pt-4">
           {/* English Word */}
           <div className="space-y-2">
-            <Label htmlFor="english" className="text-sm font-medium">
-              English Word *
+            <Label htmlFor="foreignWord" className="text-sm font-medium">
+              {t('englishWord')} *
             </Label>
             <Input
-              id="english"
+              id="foreignWord"
               type="text"
-              value={formData.english}
-              onChange={(e) => setFormData(prev => ({ ...prev, english: e.target.value }))}
+              value={formData.foreignWord}
+              onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
               placeholder="Ex: serendipity"
               className={cn(
                 "h-12 text-lg",
-                errors.english && "border-destructive focus:border-destructive"
+                errors.foreignWord && "border-destructive focus:border-destructive"
               )}
               autoFocus
             />
-            {errors.english && (
-              <p className="text-sm text-destructive">{errors.english}</p>
+            {errors.foreignWord && (
+              <p className="text-sm text-destructive">{errors.foreignWord}</p>
             )}
           </div>
 
           {/* Portuguese Translation */}
           <div className="space-y-2">
             <Label htmlFor="portuguese" className="text-sm font-medium flex items-center justify-between">
-              <span>Portuguese Translation *</span>
-              {formData.english && (
+              <span>{t('portugueseTranslation')} *</span>
+              {formData.foreignWord && (
                 <Button
                   type="button"
                   variant="ghost"
@@ -261,7 +264,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
               className="flex-1 h-12 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               <Edit className="h-4 w-4 mr-2" />
-              Save Changes
+              {t('saveChanges')}
             </Button>
           </div>
         </form>
