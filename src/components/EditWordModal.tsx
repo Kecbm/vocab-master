@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { BookOpen, Plus, Languages, Loader2 } from "lucide-react";
+import { BookOpen, Edit, X, Languages, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Dialog,
   DialogContent,
@@ -11,42 +12,54 @@ import {
 } from "@/components/ui/dialog";
 import { VocabularyWord } from "./VocabularyCard";
 import { cn } from "@/lib/utils";
-import { getCurrentDate } from "@/utils/dateUtils";
 
-interface AddWordModalProps {
+interface EditWordModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (word: Omit<VocabularyWord, 'id'>) => void;
-  initialWord?: string;
+  onUpdate: (word: VocabularyWord) => void;
+  word: VocabularyWord | null;
   currentBook?: string;
 }
 
-const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = "" }: AddWordModalProps) => {
-  const [formData, setFormData] = useState(() => ({
-    english: initialWord,
+const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: EditWordModalProps) => {
+  const [formData, setFormData] = useState({
+    english: "",
     portuguese: "",
-    book: currentBook,
-  }));
-
+    book: "",
+    mastered: false,
+  });
+  
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isTranslating, setIsTranslating] = useState(false);
 
-  // Função para traduzir automaticamente
-  const translateWord = async (word: string) => {
-    if (!word.trim()) return;
+  // Preenche o formulário quando a palavra muda
+  useEffect(() => {
+    if (word) {
+      setFormData({
+        english: word.english,
+        portuguese: word.portuguese,
+        book: word.book || currentBook, // Usa livro atual se a palavra não tiver livro
+        mastered: word.mastered,
+      });
+    }
+  }, [word, currentBook]);
 
+  // Função para traduzir automaticamente
+  const translateWord = async (englishWord: string) => {
+    if (!englishWord.trim()) return;
+    
     setIsTranslating(true);
     try {
       // Usando MyMemory API (gratuita)
       const response = await fetch(
-        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|pt`
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(englishWord)}&langpair=en|pt`
       );
       const data = await response.json();
-
+      
       if (data.responseData && data.responseData.translatedText) {
-        setFormData(prev => ({
-          ...prev,
-          portuguese: data.responseData.translatedText
+        setFormData(prev => ({ 
+          ...prev, 
+          portuguese: data.responseData.translatedText 
         }));
       }
     } catch (error) {
@@ -56,46 +69,10 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     }
   };
 
-  // Traduzir automaticamente quando o modal abrir com uma palavra inicial
-  useEffect(() => {
-    if (isOpen && initialWord) {
-      // Preenche a palavra em inglês
-      setFormData(prev => ({
-        ...prev,
-        english: initialWord,
-        portuguese: "" // Limpa tradução anterior
-      }));
-
-      // Traduz automaticamente após um pequeno delay para garantir que a palavra está completa
-      const timeoutId = setTimeout(() => {
-        translateWord(initialWord);
-      }, 300); // 300ms de delay
-
-      // Cleanup do timeout se o componente for desmontado ou dependências mudarem
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isOpen, initialWord]);
-
-  // Atualizar livro quando currentBook mudar
-  useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      book: currentBook
-    }));
-  }, [currentBook]);
-
-  // Garantir que o livro seja atualizado quando o modal abrir
-  useEffect(() => {
-    if (isOpen) {
-      setFormData(prev => ({
-        ...prev,
-        book: currentBook
-      }));
-    }
-  }, [isOpen, currentBook]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!word) return;
     
     // Validation
     const newErrors: Record<string, string> = {};
@@ -106,24 +83,21 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     setErrors(newErrors);
     
     if (Object.keys(newErrors).length === 0) {
-      onAdd({
-        ...formData,
+      const updatedWord: VocabularyWord = {
+        ...word,
         english: formData.english.trim(),
         portuguese: formData.portuguese.trim(),
         book: formData.book.trim(),
-        createdAt: getCurrentDate(), // Apenas data: YYYY-MM-DD
-        mastered: false,
-      });
+        mastered: formData.mastered,
+      };
       
-      // Reset form
-      setFormData({ english: "", portuguese: "", book: "" });
+      onUpdate(updatedWord);
       setErrors({});
       onClose();
     }
   };
 
   const handleClose = () => {
-    setFormData({ english: initialWord, portuguese: "", book: currentBook });
     setErrors({});
     setIsTranslating(false);
     onClose();
@@ -135,15 +109,17 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     }
   };
 
+  if (!word) return null;
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-xl">
-            <div className="p-2 bg-learning/10 rounded-xl">
-              <Plus className="h-5 w-5 text-learning" />
+            <div className="p-2 bg-primary/10 rounded-xl">
+              <Edit className="h-5 w-5 text-primary" />
             </div>
-            New Word
+            Edit Word
           </DialogTitle>
         </DialogHeader>
 
@@ -220,11 +196,6 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
             {errors.portuguese && (
               <p className="text-sm text-destructive">{errors.portuguese}</p>
             )}
-            {formData.portuguese && !isTranslating && (
-              <p className="text-xs text-muted-foreground">
-                💡 Automatic translation. You can edit it if needed.
-              </p>
-            )}
           </div>
 
           {/* Book Source */}
@@ -249,22 +220,48 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
             )}
           </div>
 
+          {/* Mastered Status */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Word Status</Label>
+            <div className="flex items-center justify-between p-4 border rounded-xl bg-card">
+              <div className="flex items-center gap-3">
+                <div className={cn(
+                  "p-2 rounded-lg",
+                  formData.mastered ? "bg-mastered/10" : "bg-learning/10"
+                )}>
+                  {formData.mastered ? (
+                    <BookOpen className="h-5 w-5 text-mastered" />
+                  ) : (
+                    <Edit className="h-5 w-5 text-learning" />
+                  )}
+                </div>
+                <div>
+                  <p className="font-medium">
+                    {formData.mastered ? "Mastered" : "Learning"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {formData.mastered
+                      ? "You have mastered this word"
+                      : "Still practicing this word"
+                    }
+                  </p>
+                </div>
+              </div>
+              <Switch
+                checked={formData.mastered}
+                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, mastered: checked }))}
+              />
+            </div>
+          </div>
+
           {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
             <Button
-              type="button"
-              variant="outline"
-              onClick={handleClose}
-              className="flex-1 h-12"
-            >
-              Cancel
-            </Button>
-            <Button
               type="submit"
-              className="flex-1 h-12 bg-learning hover:bg-learning/90 text-learning-foreground"
+              className="flex-1 h-12 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Word
+              <Edit className="h-4 w-4 mr-2" />
+              Save Changes
             </Button>
           </div>
         </form>
@@ -273,4 +270,4 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
   );
 };
 
-export default AddWordModal;
+export default EditWordModal;

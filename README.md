@@ -4,36 +4,73 @@
 
 **URL**: https://lovable.dev/projects/050e5681-0863-4d6a-92f6-60b409f1d39e
 
+## 🚀 Como inicializar a aplicação
+
+### Método 1: Inicialização completa (Recomendado)
+
+```bash
+# Instala dependências
+npm install
+
+# Inicia tanto o json-server quanto a aplicação web
+./start.sh
+```
+
+### Método 2: Inicialização manual
+
+```bash
+# Terminal 1: Inicia o servidor de dados
+npm run db
+
+# Terminal 2: Inicia a aplicação web
+npm run dev
+```
+
+### 📊 URLs da aplicação
+
+- **Aplicação web**: http://localhost:8080
+- **API de dados**: http://localhost:3001
+- **Dados JSON**: http://localhost:3001/words
+
+## 💾 Sistema de persistência
+
+A aplicação agora usa **json-server** como backend mínimo:
+
+- ✅ **Persistência real** - Dados salvos em `db.json`
+- ✅ **API REST completa** - GET, POST, PUT, DELETE
+- ✅ **Sincronização automática** - Mudanças refletem imediatamente
+- ✅ **Backup simples** - Arquivo `db.json` pode ser versionado
+
+## 🔧 Scripts disponíveis
+
+```bash
+npm run dev        # Apenas aplicação web
+npm run db         # Apenas json-server
+npm run dev:full   # Ambos simultaneamente
+npm run build      # Build de produção
+npm run lint       # Verificação de código
+```
+
 ## How can I edit this code?
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/050e5681-0863-4d6a-92f6-60b409f1d39e) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
 **Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 Follow these steps:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Step 1: Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Step 2: Navigate to the project directory
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Step 3: Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Step 4: Start the complete application
+./start.sh
 ```
 
 **Edit a file directly in GitHub**
