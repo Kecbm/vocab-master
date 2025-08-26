@@ -12,6 +12,8 @@ import {
 import { VocabularyWord } from "./VocabularyCard";
 import { cn } from "@/lib/utils";
 import { getCurrentDate } from "@/utils/dateUtils";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface AddWordModalProps {
   isOpen: boolean;
@@ -22,8 +24,11 @@ interface AddWordModalProps {
 }
 
 const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = "" }: AddWordModalProps) => {
+  const { currentLanguage, getTranslationPair } = useLanguage();
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState(() => ({
-    english: initialWord,
+    foreignWord: initialWord,
     portuguese: "",
     book: currentBook,
   }));
@@ -37,9 +42,10 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
 
     setIsTranslating(true);
     try {
-      // Usando MyMemory API (gratuita)
+      // Usando MyMemory API (gratuita) com o par de idiomas atual
+      const translationPair = getTranslationPair();
       const response = await fetch(
-        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|pt`
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=${translationPair}`
       );
       const data = await response.json();
 
@@ -59,22 +65,21 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
   // Traduzir automaticamente quando o modal abrir com uma palavra inicial
   useEffect(() => {
     if (isOpen && initialWord) {
-      // Preenche a palavra em inglês
-      setFormData(prev => ({
-        ...prev,
-        english: initialWord,
-        portuguese: "" // Limpa tradução anterior
-      }));
+      // Preenche a palavra no idioma atual
+      setFormData({
+        foreignWord: initialWord,
+        portuguese: "", // Limpa tradução anterior
+        book: currentBook
+      });
 
-      // Traduz automaticamente após um pequeno delay para garantir que a palavra está completa
+      // Traduz automaticamente após um pequeno delay
       const timeoutId = setTimeout(() => {
         translateWord(initialWord);
-      }, 300); // 300ms de delay
+      }, 300);
 
-      // Cleanup do timeout se o componente for desmontado ou dependências mudarem
       return () => clearTimeout(timeoutId);
     }
-  }, [isOpen, initialWord]);
+  }, [isOpen, initialWord, currentLanguage]);
 
   // Atualizar livro quando currentBook mudar
   useEffect(() => {
@@ -99,39 +104,42 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     
     // Validation
     const newErrors: Record<string, string> = {};
-    if (!formData.english.trim()) newErrors.english = "English word is required";
-    if (!formData.portuguese.trim()) newErrors.portuguese = "Translation is required";
-    if (!formData.book.trim()) newErrors.book = "Book name is required";
+
+    if (!formData.foreignWord.trim()) {
+      newErrors.foreignWord = t('englishWordRequired');
+    }
+    if (!formData.portuguese.trim()) newErrors.portuguese = t('translationRequired');
+    if (!formData.book.trim()) newErrors.book = t('bookNameRequired');
     
     setErrors(newErrors);
     
     if (Object.keys(newErrors).length === 0) {
       onAdd({
-        ...formData,
-        english: formData.english.trim(),
+        foreignWord: formData.foreignWord.trim(),
+        language: currentLanguage,
         portuguese: formData.portuguese.trim(),
         book: formData.book.trim(),
-        createdAt: getCurrentDate(), // Apenas data: YYYY-MM-DD
+        createdAt: getCurrentDate(),
         mastered: false,
       });
-      
+
       // Reset form
-      setFormData({ english: "", portuguese: "", book: "" });
+      setFormData({ foreignWord: "", portuguese: "", book: "" });
       setErrors({});
       onClose();
     }
   };
 
   const handleClose = () => {
-    setFormData({ english: initialWord, portuguese: "", book: currentBook });
+    setFormData({ foreignWord: initialWord, portuguese: "", book: currentBook });
     setErrors({});
     setIsTranslating(false);
     onClose();
   };
 
   const handleRetranslate = () => {
-    if (formData.english.trim()) {
-      translateWord(formData.english.trim());
+    if (formData.foreignWord.trim()) {
+      translateWord(formData.foreignWord.trim());
     }
   };
 
@@ -143,38 +151,38 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
             <div className="p-2 bg-learning/10 rounded-xl">
               <Plus className="h-5 w-5 text-learning" />
             </div>
-            New Word
+            {t('addNewWord')}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 pt-4">
-          {/* English Word */}
+          {/* Target Language Word */}
           <div className="space-y-2">
-            <Label htmlFor="english" className="text-sm font-medium">
-              English Word *
+            <Label htmlFor="foreignWord" className="text-sm font-medium">
+              {t('englishWord')} *
             </Label>
             <Input
-              id="english"
+              id="foreignWord"
               type="text"
-              value={formData.english}
-              onChange={(e) => setFormData(prev => ({ ...prev, english: e.target.value }))}
-              placeholder="Ex: serendipity"
+              value={formData.foreignWord}
+              onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
+              placeholder={currentLanguage === 'english' ? "Ex: serendipity" : "Ex: sérendipité"}
               className={cn(
                 "h-12 text-lg",
-                errors.english && "border-destructive focus:border-destructive"
+                errors.foreignWord && "border-destructive focus:border-destructive"
               )}
               autoFocus
             />
-            {errors.english && (
-              <p className="text-sm text-destructive">{errors.english}</p>
+            {errors.foreignWord && (
+              <p className="text-sm text-destructive">{errors.foreignWord}</p>
             )}
           </div>
 
           {/* Portuguese Translation */}
           <div className="space-y-2">
             <Label htmlFor="portuguese" className="text-sm font-medium flex items-center justify-between">
-              <span>Portuguese Translation *</span>
-              {formData.english && (
+              <span>{t('portugueseTranslation')} *</span>
+              {formData.foreignWord && (
                 <Button
                   type="button"
                   variant="ghost"
@@ -186,12 +194,12 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
                   {isTranslating ? (
                     <>
                       <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                      Translating...
+                      {t('translating')}
                     </>
                   ) : (
                     <>
                       <Languages className="h-3 w-3 mr-1" />
-                      Retranslate
+                      {t('retranslate')}
                     </>
                   )}
                 </Button>
@@ -231,7 +239,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
           <div className="space-y-2">
             <Label htmlFor="book" className="text-sm font-medium flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              Source Book *
+              {t('bookName')} *
             </Label>
             <Input
               id="book"
@@ -257,14 +265,14 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
               onClick={handleClose}
               className="flex-1 h-12"
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-learning hover:bg-learning/90 text-learning-foreground"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add Word
+              {t('addWord')}
             </Button>
           </div>
         </form>
