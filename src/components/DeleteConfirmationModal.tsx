@@ -8,6 +8,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { VocabularyWord } from "./VocabularyCard";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ const DeleteConfirmationModal = ({
   word, 
   isDeleting = false 
 }: DeleteConfirmationModalProps) => {
+  const { t } = useTranslation();
+
   if (!word) return null;
 
   return (
@@ -34,10 +37,10 @@ const DeleteConfirmationModal = ({
             <div className="p-2 bg-destructive/10 rounded-xl">
               <AlertTriangle className="h-5 w-5 text-destructive" />
             </div>
-            Confirm Deletion
+            {t('deleteWord')}
           </DialogTitle>
           <DialogDescription className="text-left pt-2">
-            This action cannot be undone. The word will be permanently removed from your vocabulary.
+            {t('deleteWarning')}
           </DialogDescription>
         </DialogHeader>
 
@@ -47,7 +50,7 @@ const DeleteConfirmationModal = ({
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-foreground mb-1">
-                  {word.english}
+                  {word.foreignWord}
                 </h3>
                 <p className="text-muted-foreground">
                   {word.portuguese}
@@ -78,8 +81,7 @@ const DeleteConfirmationModal = ({
                   Warning: Permanent Deletion
                 </h4>
                 <p className="text-sm text-destructive/80">
-                  Are you sure you want to delete "<strong>{word.english}</strong>"?
-                  This word will be permanently removed and you will lose all progress associated with it.
+                  {t('deleteConfirmation')}
                 </p>
               </div>
             </div>
@@ -94,7 +96,7 @@ const DeleteConfirmationModal = ({
               className="flex-1 h-11"
               disabled={isDeleting}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               onClick={onConfirm}
@@ -109,7 +111,7 @@ const DeleteConfirmationModal = ({
               ) : (
                 <>
                   <Trash2 className="h-4 w-4 mr-2" />
-                  Delete Word
+                  {t('delete')}
                 </>
               )}
             </Button>
