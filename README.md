@@ -6,6 +6,12 @@
 
 **URL**: https://lovable.dev/projects/050e5681-0863-4d6a-92f6-60b409f1d39e
 
+## Tasks
+
+- Deploy
+    - Frontend: Vercel
+    - Backend: Firebase
+
 ## 🚀 Como inicializar a aplicação
 
 ### Método 1: Inicialização completa (Recomendado)
