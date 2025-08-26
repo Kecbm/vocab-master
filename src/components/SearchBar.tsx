@@ -41,7 +41,7 @@ const SearchBar = ({
           </div>
           <div>
             <h1 className="text-3xl font-bold text-foreground">Vocab Master</h1>
-            <p className="text-muted-foreground">Aprendendo inglês lendo livros</p>
+            <p className="text-muted-foreground">Learning English by Reading Books</p>
           </div>
         </div>
 
