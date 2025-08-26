@@ -1,4 +1,6 @@
-# Welcome to your Lovable project
+# Vocab Master
+
+![Project Image](public/screenshot.png)
 
 ## Project info
 
