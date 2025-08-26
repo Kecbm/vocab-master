@@ -3,6 +3,7 @@ import { BookOpen, Volume2, Edit, Trash2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isToday } from "@/utils/dateUtils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Função para capitalizar a primeira letra
 const capitalizeFirstLetter = (text: string): string => {
@@ -12,7 +13,8 @@ const capitalizeFirstLetter = (text: string): string => {
 
 export interface VocabularyWord {
   id: string;
-  english: string;
+  foreignWord: string;
+  language: 'english' | 'french';
   portuguese: string;
   book: string;
   createdAt?: string;
@@ -33,20 +35,95 @@ const VocabularyCard = ({
   onEdit, 
   onDelete, 
   onToggleMastered,
-  className 
+  className
 }: VocabularyCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { currentLanguage, getLanguageCode } = useLanguage();
 
-  const handlePlayPronunciation = () => {
+  // Obter a palavra no idioma atual
+  const getCurrentWord = () => {
+    // Se a palavra é do idioma atual, mostra ela
+    if (word.language === currentLanguage) {
+      return word.foreignWord;
+    }
+    // Se não, não mostra (palavra de outro idioma)
+    return word.foreignWord;
+  };
+
+  const handlePlayPronunciation = async () => {
     setIsPlaying(true);
-    // Simulate audio playing (would integrate with Web Speech API)
-    setTimeout(() => setIsPlaying(false), 1000);
 
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(word.english);
-      utterance.lang = 'en-US';
+    if (!('speechSynthesis' in window)) {
+      console.error('❌ Speech Synthesis not supported');
+      setIsPlaying(false);
+      return;
+    }
+
+    try {
+      const currentWord = getCurrentWord();
+      const languageCode = getLanguageCode();
+
+      console.log('🔊 Playing pronunciation:', { word: currentWord, language: languageCode });
+
+      // Parar qualquer fala anterior
+      speechSynthesis.cancel();
+
+      // Aguardar um pouco para garantir que o cancel foi processado
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      const utterance = new SpeechSynthesisUtterance(currentWord);
+      utterance.lang = languageCode;
       utterance.rate = 0.8;
+      utterance.volume = 1.0;
+
+      // Tentar encontrar uma voz específica para o idioma
+      const voices = speechSynthesis.getVoices();
+      console.log('🎤 Available voices:', voices.length);
+
+      const voice = voices.find(v => v.lang.startsWith(languageCode.split('-')[0]));
+      if (voice) {
+        utterance.voice = voice;
+        console.log('🎤 Using voice:', voice.name, voice.lang);
+      } else {
+        console.log('🎤 Using default voice for:', languageCode);
+      }
+
+      // Eventos para controlar o estado
+      utterance.onstart = () => {
+        console.log('🎵 Speech started');
+        setIsPlaying(true);
+      };
+
+      utterance.onend = () => {
+        console.log('🎵 Speech ended');
+        setIsPlaying(false);
+      };
+
+      utterance.onerror = (event) => {
+        console.error('❌ Speech error:', event.error);
+        setIsPlaying(false);
+      };
+
+      // Verificar se o speechSynthesis está pronto
+      if (speechSynthesis.speaking) {
+        console.log('⚠️ Speech synthesis is already speaking');
+        setIsPlaying(false);
+        return;
+      }
+
       speechSynthesis.speak(utterance);
+
+      // Fallback: se não começar em 2 segundos, resetar estado
+      setTimeout(() => {
+        if (isPlaying && !speechSynthesis.speaking) {
+          console.log('⚠️ Speech timeout, resetting state');
+          setIsPlaying(false);
+        }
+      }, 2000);
+
+    } catch (error) {
+      console.error('❌ Speech error:', error);
+      setIsPlaying(false);
     }
   };
 
@@ -127,7 +204,7 @@ const VocabularyCard = ({
       <div className="mb-3">
         <div className="flex items-center gap-3 mb-2">
           <h3 className="text-2xl font-semibold text-foreground">
-            {capitalizeFirstLetter(word.english)}
+            {capitalizeFirstLetter(getCurrentWord())}
           </h3>
           <Button
             size="sm"
