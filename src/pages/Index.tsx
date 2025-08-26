@@ -5,7 +5,7 @@ import AddWordModal from "@/components/AddWordModal";
 import EditWordModal from "@/components/EditWordModal";
 import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Brain, Target, Loader2 } from "lucide-react";
+import { BookOpen, Plus, Brain, Target, Loader2, Eraser, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   getAllWords,
@@ -369,30 +369,32 @@ const Index = () => {
                   className="flex-1 h-8 px-3 text-sm bg-background border border-input rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent"
                 />
                 {currentBook && (
-                  <Button
-                    onClick={() => handleCurrentBookChange("")}
-                    variant="outline"
-                    size="sm"
-                    className="h-8 px-2 text-xs"
-                  >
-                    Clear
-                  </Button>
+                  <div className="flex gap-1">
+                    <Button
+                      onClick={() => handleCurrentBookChange("")}
+                      variant="outline"
+                      size="sm"
+                      title="Clear current book"
+                      className="h-8 w-8 p-0"
+                    >
+                      <Eraser className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      onClick={handleFinishCurrentBook}
+                      variant="outline"
+                      size="sm"
+                      title="Finish current book"
+                      className="h-8 w-8 p-0"
+                    >
+                      <CheckCircle className="h-4 w-4" />
+                    </Button>
+                  </div>
                 )}
               </div>
               {currentBook && (
-                <div className="mt-2 space-y-2">
-                  <p className="text-xs text-muted-foreground">
-                    📖 New words will be associated with this book
-                  </p>
-                  <Button
-                    onClick={handleFinishCurrentBook}
-                    variant="outline"
-                    size="sm"
-                    className="h-7 px-2 text-xs"
-                  >
-                    ✅ Finish Book
-                  </Button>
-                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  📖 New words will be associated with this book
+                </p>
               )}
             </div>
 
