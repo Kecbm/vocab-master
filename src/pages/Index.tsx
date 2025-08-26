@@ -6,6 +6,9 @@ import EditWordModal from "@/components/EditWordModal";
 import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus, Brain, Target, Loader2, Eraser, CheckCircle } from "lucide-react";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useToast } from "@/hooks/use-toast";
 import {
   getAllWords,
@@ -35,6 +38,8 @@ const Index = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { currentLanguage } = useLanguage();
+  const { t } = useTranslation();
 
   // Pagination constants
   const WORDS_PER_PAGE = 16;
@@ -73,11 +78,14 @@ const Index = () => {
   const filteredWords = useMemo(() => {
     let filtered = [...words]; // Create a copy to avoid mutations
 
-    // Aplica filtro de busca se houver query (apenas palavras em inglês)
+    // PRIMEIRO: Filtro por idioma (sempre aplicado)
+    filtered = filtered.filter(word => word.language === currentLanguage);
+
+    // Aplica filtro de busca se houver query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(word =>
-        word.english.toLowerCase().includes(query)
+        word.foreignWord.toLowerCase().includes(query)
       );
     }
 
@@ -102,7 +110,7 @@ const Index = () => {
     // Aplica ordenação
     if (sortOrder === "alphabetical") {
       filtered.sort((a, b) =>
-        a.english.toLowerCase().localeCompare(b.english.toLowerCase())
+        a.foreignWord.toLowerCase().localeCompare(b.foreignWord.toLowerCase())
       );
     } else {
       // Ordenação por data (mais recentes primeiro)
@@ -114,7 +122,7 @@ const Index = () => {
     }
 
     return filtered;
-  }, [words, searchQuery, statusFilter, sortOrder]);
+  }, [words, searchQuery, statusFilter, sortOrder, currentLanguage]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredWords.length / WORDS_PER_PAGE);
@@ -127,18 +135,23 @@ const Index = () => {
   // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, statusFilter, sortOrder]);
+  }, [searchQuery, statusFilter, sortOrder, currentLanguage]);
 
   const hasResults = filteredWords.length > 0;
   const isNewWord = searchQuery.length > 0 && !hasResults;
 
-  // Statistics
-  const stats = useMemo(() => ({
-    total: words.length,
-    mastered: words.filter(w => w.mastered).length,
-    learning: words.filter(w => !w.mastered).length,
-    books: new Set(words.map(w => w.book)).size,
-  }), [words]);
+  // Statistics - filtered by current language
+  const stats = useMemo(() => {
+    // Filter words by current language first
+    const languageWords = words.filter(w => w.language === currentLanguage);
+
+    return {
+      total: languageWords.length,
+      mastered: languageWords.filter(w => w.mastered).length,
+      learning: languageWords.filter(w => !w.mastered).length,
+      books: new Set(languageWords.map(w => w.book)).size,
+    };
+  }, [words, currentLanguage]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -165,7 +178,7 @@ const Index = () => {
 
       toast({
         title: "Word added!",
-        description: `"${newWordData.english}" was added to your vocabulary.`,
+        description: `"${newWordData.foreignWord}" was added to your vocabulary.`,
       });
     } catch (error) {
       console.error('Error adding word:', error);
@@ -194,7 +207,7 @@ const Index = () => {
 
       toast({
         title: "Word updated!",
-        description: `"${updatedWord.english}" was updated successfully.`,
+        description: `"${updatedWord.foreignWord}" was updated successfully.`,
       });
     } catch (error) {
       console.error('Erro ao atualizar palavra:', error);
@@ -233,7 +246,7 @@ const Index = () => {
 
       toast({
         title: "Word removed",
-        description: `"${deletingWord.english}" was removed from your vocabulary.`,
+        description: `"${deletingWord.foreignWord}" was removed from your vocabulary.`,
         variant: "destructive",
       });
 
@@ -315,7 +328,7 @@ const Index = () => {
 
       toast({
         title: updatedWord.mastered ? "Word mastered!" : "Back to learning",
-        description: `"${updatedWord.english}" ${updatedWord.mastered ? 'was marked as mastered' : 'is back to learning'}.`,
+        description: `"${updatedWord.foreignWord}" ${updatedWord.mastered ? 'was marked as mastered' : 'is back to learning'}.`,
       });
     } catch (error) {
       console.error('Erro ao alterar status:', error);
@@ -344,7 +357,7 @@ const Index = () => {
           <div className="flex items-center justify-center py-16">
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-              <p className="text-muted-foreground">Loading words...</p>
+              <p className="text-muted-foreground">{t('loadingWords')}</p>
             </div>
           </div>
         ) : (
@@ -358,14 +371,14 @@ const Index = () => {
                 <div className="p-1.5 bg-primary/10 rounded-lg">
                   <BookOpen className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-sm font-medium text-foreground">Current Book</span>
+                <span className="text-sm font-medium text-foreground">{t('currentBook')}</span>
               </div>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={currentBook}
                   onChange={(e) => handleCurrentBookChange(e.target.value)}
-                  placeholder="Ex: Django 5 by example"
+                  placeholder={t('currentBookPlaceholder')}
                   className="flex-1 h-8 px-3 text-sm bg-background border border-input rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent"
                 />
                 {currentBook && (
@@ -374,7 +387,7 @@ const Index = () => {
                       onClick={() => handleCurrentBookChange("")}
                       variant="outline"
                       size="sm"
-                      title="Clear current book"
+                      title={t('clearCurrentBook')}
                       className="h-8 w-8 p-0"
                     >
                       <Eraser className="h-4 w-4" />
@@ -383,7 +396,7 @@ const Index = () => {
                       onClick={handleFinishCurrentBook}
                       variant="outline"
                       size="sm"
-                      title="Finish current book"
+                      title={t('finishCurrentBook')}
                       className="h-8 w-8 p-0"
                     >
                       <CheckCircle className="h-4 w-4" />
@@ -393,7 +406,7 @@ const Index = () => {
               </div>
               {currentBook && (
                 <p className="text-xs text-muted-foreground mt-2">
-                  📖 New words will be associated with this book
+                  📖 {t('newWordsAssociated')}
                 </p>
               )}
             </div>
@@ -403,7 +416,7 @@ const Index = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">Completed Books</span>
+                  <span className="text-sm font-medium text-foreground">{t('completedBooks')}</span>
                 </div>
                 <div className="space-y-2">
                   {oldBooks.map((book, index) => (
@@ -414,7 +427,7 @@ const Index = () => {
                       <span className="text-xs text-muted-foreground">📚</span>
                       <span className="text-sm text-foreground flex-1">{book}</span>
                       <span className="text-xs text-muted-foreground">
-                        {words.filter(w => w.book === book).length} words
+                        {words.filter(w => w.book === book).length} {t('wordsCount')}
                       </span>
                     </div>
                   ))}
@@ -428,7 +441,7 @@ const Index = () => {
                 <Brain className="h-4 w-4 text-primary" />
               </div>
               <div className="text-xl font-bold text-foreground">{stats.total}</div>
-              <div className="text-xs text-muted-foreground">Total</div>
+              <div className="text-xs text-muted-foreground">{t('total')}</div>
             </div>
 
             <div className="bg-card border border-card-border rounded-xl p-4 text-center">
@@ -436,7 +449,7 @@ const Index = () => {
                 <Plus className="h-4 w-4 text-learning" />
               </div>
               <div className="text-xl font-bold text-foreground">{stats.learning}</div>
-              <div className="text-xs text-muted-foreground">Learning</div>
+              <div className="text-xs text-muted-foreground">{t('learning')}</div>
             </div>
 
             <div className="bg-card border border-card-border rounded-xl p-4 text-center">
@@ -444,7 +457,7 @@ const Index = () => {
                 <Target className="h-4 w-4 text-mastered" />
               </div>
               <div className="text-xl font-bold text-foreground">{stats.mastered}</div>
-              <div className="text-xs text-muted-foreground">Mastered</div>
+              <div className="text-xs text-muted-foreground">{t('mastered')}</div>
             </div>
 
             <div className="bg-card border border-card-border rounded-xl p-4 text-center">
@@ -452,7 +465,7 @@ const Index = () => {
                 <BookOpen className="h-4 w-4 text-primary" />
               </div>
               <div className="text-xl font-bold text-foreground">{stats.books}</div>
-              <div className="text-xs text-muted-foreground">Books</div>
+              <div className="text-xs text-muted-foreground">{t('books')}</div>
             </div>
           </div>
         </section>
@@ -461,10 +474,10 @@ const Index = () => {
         <section>
           {/* Filter Controls */}
           <div className="mb-6">
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-              {/* Sort Filters */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
+              {/* Sort Filters - Always in first position */}
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground">Sort:</span>
+                <span className="text-sm font-medium text-muted-foreground">{t('sort')}</span>
                 <div className="flex gap-2">
                   <Button
                     variant={sortOrder === "alphabetical" ? "default" : "outline"}
@@ -472,7 +485,7 @@ const Index = () => {
                     onClick={() => setSortOrder("alphabetical")}
                     className="h-8 text-xs"
                   >
-                    A-Z
+                    {t('sortAZ')}
                   </Button>
                   <Button
                     variant={sortOrder === "recent" ? "default" : "outline"}
@@ -480,14 +493,14 @@ const Index = () => {
                     onClick={() => setSortOrder("recent")}
                     className="h-8 text-xs"
                   >
-                    Recent
+                    {t('sortRecent')}
                   </Button>
                 </div>
               </div>
 
-              {/* Status Filters */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground">Filter:</span>
+              {/* Status Filters - Always in center position */}
+              <div className="flex items-center gap-2 justify-center">
+                <span className="text-sm font-medium text-muted-foreground">{t('filter')}</span>
                 <div className="flex gap-2">
                   <Button
                     variant={statusFilter === "all" ? "default" : "outline"}
@@ -495,7 +508,7 @@ const Index = () => {
                     onClick={() => setStatusFilter("all")}
                     className="h-8 text-xs"
                   >
-                    All
+                    {t('filterAll')}
                   </Button>
                   <Button
                     variant={statusFilter === "new" ? "default" : "outline"}
@@ -503,7 +516,7 @@ const Index = () => {
                     onClick={() => setStatusFilter("new")}
                     className="h-8 text-xs bg-learning/10 text-learning border-learning/20 hover:bg-learning/20"
                   >
-                    New
+                    {t('filterNew')}
                   </Button>
                   <Button
                     variant={statusFilter === "learning" ? "default" : "outline"}
@@ -511,7 +524,7 @@ const Index = () => {
                     onClick={() => setStatusFilter("learning")}
                     className="h-8 text-xs bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
                   >
-                    Learning
+                    {t('filterLearning')}
                   </Button>
                   <Button
                     variant={statusFilter === "mastered" ? "default" : "outline"}
@@ -519,24 +532,24 @@ const Index = () => {
                     onClick={() => setStatusFilter("mastered")}
                     className="h-8 text-xs bg-mastered/10 text-mastered border-mastered/20 hover:bg-mastered/20"
                   >
-                    Mastered
+                    {t('filterMastered')}
                   </Button>
                 </div>
               </div>
 
-              {/* Word Count */}
-              <div className="text-sm text-muted-foreground">
+              {/* Word Count - Always in third position */}
+              <div className="text-sm text-muted-foreground text-right">
                 {filteredWords.length > 0 ? (
                   <>
-                    {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+                    {filteredWords.length} {t('wordsCount')}
                     {totalPages > 1 && (
                       <span className="ml-2">
-                        • Page {currentPage} of {totalPages}
+                        • {t('page')} {currentPage} {t('of')} {totalPages}
                       </span>
                     )}
                   </>
                 ) : (
-                  "No words found"
+                  t('noWordsFound')
                 )}
               </div>
             </div>
@@ -569,7 +582,7 @@ const Index = () => {
                       disabled={currentPage === 1}
                       className="h-9 px-3"
                     >
-                      Previous
+                      {t('previous')}
                     </Button>
 
                     {/* Page Numbers */}
@@ -614,7 +627,7 @@ const Index = () => {
                       disabled={currentPage === totalPages}
                       className="h-9 px-3"
                     >
-                      Next
+                      {t('next')}
                     </Button>
                   </div>
                 </div>
