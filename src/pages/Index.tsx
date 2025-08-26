@@ -14,7 +14,8 @@ import {
   deleteWordFromData,
   toggleWordMastered,
   getSettings,
-  updateCurrentBook
+  updateCurrentBook,
+  finishCurrentBook
 } from "@/utils/vocabularyData";
 import { isToday } from "@/utils/dateUtils";
 
@@ -22,6 +23,7 @@ const Index = () => {
   const [words, setWords] = useState<VocabularyWord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentBook, setCurrentBook] = useState("");
+  const [oldBooks, setOldBooks] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<"alphabetical" | "recent">("alphabetical");
   const [statusFilter, setStatusFilter] = useState<"all" | "new" | "learning" | "mastered">("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,6 +53,7 @@ const Index = () => {
 
         setWords(wordsFromAPI);
         setCurrentBook(settingsFromAPI.currentBook);
+        setOldBooks(settingsFromAPI.oldBooks || []);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
         toast({
@@ -270,6 +273,36 @@ const Index = () => {
     }
   };
 
+  // Função para finalizar o livro atual
+  const handleFinishCurrentBook = async () => {
+    if (!currentBook.trim()) {
+      toast({
+        title: "No book to finish",
+        description: "Please set a current book first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const updatedSettings = await finishCurrentBook("");
+      setOldBooks(updatedSettings.oldBooks || []);
+      setCurrentBook("");
+
+      toast({
+        title: "Book finished!",
+        description: `"${currentBook}" was moved to completed books`,
+      });
+    } catch (error) {
+      console.error('Erro ao finalizar livro:', error);
+      toast({
+        title: "Error finishing book",
+        description: "Could not save the changes",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleToggleMastered = async (id: string) => {
     try {
       // Atualiza via API e obtém a palavra atualizada
@@ -347,11 +380,45 @@ const Index = () => {
                 )}
               </div>
               {currentBook && (
-                <p className="text-xs text-muted-foreground mt-2">
-                  📖 New words will be associated with this book
-                </p>
+                <div className="mt-2 space-y-2">
+                  <p className="text-xs text-muted-foreground">
+                    📖 New words will be associated with this book
+                  </p>
+                  <Button
+                    onClick={handleFinishCurrentBook}
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2 text-xs"
+                  >
+                    ✅ Finish Book
+                  </Button>
+                </div>
               )}
             </div>
+
+            {/* Old Books Section */}
+            {oldBooks.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">Completed Books</span>
+                </div>
+                <div className="space-y-2">
+                  {oldBooks.map((book, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg"
+                    >
+                      <span className="text-xs text-muted-foreground">📚</span>
+                      <span className="text-sm text-foreground flex-1">{book}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {words.filter(w => w.book === book).length} words
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Statistics Cards */}
             <div className="bg-card border border-card-border rounded-xl p-4 text-center">

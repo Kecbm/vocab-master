@@ -180,6 +180,7 @@ export const getWordsStats = async () => {
 interface AppSettings {
   id: number;
   currentBook: string;
+  oldBooks: string[];
 }
 
 // Classe para gerenciar configurações
@@ -202,7 +203,7 @@ class SettingsAPI {
     } catch (error) {
       console.error('❌ Erro ao buscar configurações:', error);
       // Retorna configurações padrão se houver erro
-      return { id: 1, currentBook: "" };
+      return { id: 1, currentBook: "", oldBooks: [] };
     }
   }
 
@@ -244,6 +245,29 @@ class SettingsAPI {
       throw error;
     }
   }
+
+  // Finalizar livro atual (mover para oldBooks)
+  async finishCurrentBook(newCurrentBook: string = ""): Promise<AppSettings> {
+    try {
+      const currentSettings = await this.getSettings();
+
+      // Se há um livro atual e não está vazio, adiciona aos livros antigos
+      const updatedOldBooks = currentSettings.currentBook && currentSettings.currentBook.trim()
+        ? [...(currentSettings.oldBooks || []), currentSettings.currentBook]
+        : (currentSettings.oldBooks || []);
+
+      const updatedSettings = {
+        ...currentSettings,
+        currentBook: newCurrentBook,
+        oldBooks: updatedOldBooks,
+      };
+
+      return await this.updateSettings(updatedSettings);
+    } catch (error) {
+      console.error('❌ Erro ao finalizar livro:', error);
+      throw error;
+    }
+  }
 }
 
 // Instância da API de configurações
@@ -252,6 +276,7 @@ export const settingsAPI = new SettingsAPI();
 // Funções de conveniência para configurações
 export const getSettings = () => settingsAPI.getSettings();
 export const updateCurrentBook = (currentBook: string) => settingsAPI.updateCurrentBook(currentBook);
+export const finishCurrentBook = (newCurrentBook?: string) => settingsAPI.finishCurrentBook(newCurrentBook);
 
 // Array inicial vazio (será carregado da API)
 export const initialWords: VocabularyWord[] = [];
