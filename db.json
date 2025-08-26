@@ -2,7 +2,8 @@
   "words": [
     {
       "id": "1",
-      "english": "way",
+      "foreignWord": "way",
+      "language": "english",
       "portuguese": "caminho",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -10,7 +11,8 @@
     },
     {
       "id": "2",
-      "english": "almost",
+      "foreignWord": "almost",
+      "language": "english",
       "portuguese": "quase",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -18,7 +20,8 @@
     },
     {
       "id": "3",
-      "english": "been",
+      "foreignWord": "been",
+      "language": "english",
       "portuguese": "estive",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -26,7 +29,8 @@
     },
     {
       "id": "4",
-      "english": "arisen",
+      "foreignWord": "arisen",
+      "language": "english",
       "portuguese": "surgiu",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -34,7 +38,8 @@
     },
     {
       "id": "5",
-      "english": "exploiting",
+      "foreignWord": "exploiting",
+      "language": "english",
       "portuguese": "Exploração",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -42,7 +47,8 @@
     },
     {
       "id": "6",
-      "english": "despite",
+      "foreignWord": "despite",
+      "language": "english",
       "portuguese": "apesar de",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -50,7 +56,8 @@
     },
     {
       "id": "7",
-      "english": "ensured",
+      "foreignWord": "ensured",
+      "language": "english",
       "portuguese": "assegurada",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -58,7 +65,8 @@
     },
     {
       "id": "8",
-      "english": "over",
+      "foreignWord": "over",
+      "language": "english",
       "portuguese": "sobre",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -66,7 +74,8 @@
     },
     {
       "id": "9",
-      "english": "remained",
+      "foreignWord": "remained",
+      "language": "english",
       "portuguese": "remanescente",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -74,7 +83,8 @@
     },
     {
       "id": "10",
-      "english": "fond",
+      "foreignWord": "fond",
+      "language": "english",
       "portuguese": "afeiçoado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -82,7 +92,8 @@
     },
     {
       "id": "11",
-      "english": "furthermore",
+      "foreignWord": "furthermore",
+      "language": "english",
       "portuguese": "ainda que",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -90,7 +101,8 @@
     },
     {
       "id": "12",
-      "english": "facets",
+      "foreignWord": "facets",
+      "language": "english",
       "portuguese": "Facetas",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -98,7 +110,8 @@
     },
     {
       "id": "13",
-      "english": "wealth",
+      "foreignWord": "wealth",
+      "language": "english",
       "portuguese": "património",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -106,7 +119,8 @@
     },
     {
       "id": "14",
-      "english": "across",
+      "foreignWord": "across",
+      "language": "english",
       "portuguese": "através",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -114,15 +128,17 @@
     },
     {
       "id": "15",
-      "english": "several",
-      "portuguese": "diversos",
+      "foreignWord": "standard",
+      "language": "english",
+      "portuguese": "Padrão",
       "book": "Django 5 by example",
-      "createdAt": "2025-08-21",
+      "createdAt": "2025-08-26",
       "mastered": false
     },
     {
       "id": "16",
-      "english": "took",
+      "foreignWord": "took",
+      "language": "english",
       "portuguese": "levou",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -130,7 +146,8 @@
     },
     {
       "id": "17",
-      "english": "dive",
+      "foreignWord": "dive",
+      "language": "english",
       "portuguese": "picar",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -138,7 +155,8 @@
     },
     {
       "id": "18",
-      "english": "early",
+      "foreignWord": "early",
+      "language": "english",
       "portuguese": "precoce",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -146,7 +164,8 @@
     },
     {
       "id": "19",
-      "english": "huge",
+      "foreignWord": "huge",
+      "language": "english",
       "portuguese": "enorme",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -154,7 +173,8 @@
     },
     {
       "id": "20",
-      "english": "branched",
+      "foreignWord": "branched",
+      "language": "english",
       "portuguese": "ramificado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -162,7 +182,8 @@
     },
     {
       "id": "21",
-      "english": "become",
+      "foreignWord": "become",
+      "language": "english",
       "portuguese": "passar a ser",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -170,7 +191,8 @@
     },
     {
       "id": "22",
-      "english": "shifting",
+      "foreignWord": "shifting",
+      "language": "english",
       "portuguese": "mudança de velocidade",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -178,7 +200,8 @@
     },
     {
       "id": "23",
-      "english": "which",
+      "foreignWord": "which",
+      "language": "english",
       "portuguese": "o qual",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -186,7 +209,8 @@
     },
     {
       "id": "24",
-      "english": "aims",
+      "foreignWord": "aims",
+      "language": "english",
       "portuguese": "objetivos",
       "book": "Django 5 by example",
       "createdAt": "2025-08-21",
@@ -194,7 +218,8 @@
     },
     {
       "id": "25",
-      "english": "care",
+      "foreignWord": "care",
+      "language": "english",
       "portuguese": "cuidado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -202,7 +227,8 @@
     },
     {
       "id": "26",
-      "english": "hassle",
+      "foreignWord": "hassle",
+      "language": "english",
       "portuguese": "COMPLICA",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -210,7 +236,8 @@
     },
     {
       "id": "27",
-      "english": "shallow",
+      "foreignWord": "shallow",
+      "language": "english",
       "portuguese": "superficial",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -218,7 +245,8 @@
     },
     {
       "id": "28",
-      "english": "shipping",
+      "foreignWord": "shipping",
+      "language": "english",
       "portuguese": "envio",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -226,7 +254,8 @@
     },
     {
       "id": "29",
-      "english": "novice",
+      "foreignWord": "novice",
+      "language": "english",
       "portuguese": "Iniciante",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -234,7 +263,8 @@
     },
     {
       "id": "30",
-      "english": "nowadays",
+      "foreignWord": "nowadays",
+      "language": "english",
       "portuguese": "Hoje em dia",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -242,7 +272,8 @@
     },
     {
       "id": "31",
-      "english": "countless",
+      "foreignWord": "countless",
+      "language": "english",
       "portuguese": "Inúmeras.",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -250,7 +281,8 @@
     },
     {
       "id": "32",
-      "english": "such",
+      "foreignWord": "such",
+      "language": "english",
       "portuguese": "tal",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -258,7 +290,8 @@
     },
     {
       "id": "33",
-      "english": "chosen",
+      "foreignWord": "chosen",
+      "language": "english",
       "portuguese": "escolhida",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -266,7 +299,8 @@
     },
     {
       "id": "34",
-      "english": "survey",
+      "foreignWord": "survey",
+      "language": "english",
       "portuguese": "enquete",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -274,7 +308,8 @@
     },
     {
       "id": "35",
-      "english": "through",
+      "foreignWord": "through",
+      "language": "english",
       "portuguese": "através de",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -282,7 +317,8 @@
     },
     {
       "id": "36",
-      "english": "entire",
+      "foreignWord": "entire",
+      "language": "english",
       "portuguese": "inteira",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -290,7 +326,8 @@
     },
     {
       "id": "37",
-      "english": "ground",
+      "foreignWord": "ground",
+      "language": "english",
       "portuguese": "solo",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -298,7 +335,8 @@
     },
     {
       "id": "38",
-      "english": "throughout",
+      "foreignWord": "throughout",
+      "language": "english",
       "portuguese": "por toda parte",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -306,7 +344,8 @@
     },
     {
       "id": "39",
-      "english": "approach",
+      "foreignWord": "approach",
+      "language": "english",
       "portuguese": "medição",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -314,7 +353,8 @@
     },
     {
       "id": "40",
-      "english": "fledged",
+      "foreignWord": "fledged",
+      "language": "english",
       "portuguese": "emplumado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -322,7 +362,8 @@
     },
     {
       "id": "41",
-      "english": "should",
+      "foreignWord": "should",
+      "language": "english",
       "portuguese": "Deveria",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -330,7 +371,8 @@
     },
     {
       "id": "42",
-      "english": "newly",
+      "foreignWord": "newly",
+      "language": "english",
       "portuguese": "recentemente",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -338,7 +380,8 @@
     },
     {
       "id": "43",
-      "english": "intended",
+      "foreignWord": "intended",
+      "language": "english",
       "portuguese": "pretendido",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -346,7 +389,8 @@
     },
     {
       "id": "44",
-      "english": "wish",
+      "foreignWord": "wish",
+      "language": "english",
       "portuguese": "desejar",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -354,7 +398,8 @@
     },
     {
       "id": "45",
-      "english": "perhaps",
+      "foreignWord": "perhaps",
+      "language": "english",
       "portuguese": "talvez",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -362,7 +407,8 @@
     },
     {
       "id": "46",
-      "english": "scratch",
+      "foreignWord": "scratch",
+      "language": "english",
       "portuguese": "arranhar",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -370,7 +416,8 @@
     },
     {
       "id": "47",
-      "english": "encompasses",
+      "foreignWord": "encompasses",
+      "language": "english",
       "portuguese": "engloba",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -378,7 +425,8 @@
     },
     {
       "id": "48",
-      "english": "built",
+      "foreignWord": "built",
+      "language": "english",
       "portuguese": "compilado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -386,7 +434,8 @@
     },
     {
       "id": "49",
-      "english": "several",
+      "foreignWord": "several",
+      "language": "english",
       "portuguese": "diversos",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -394,7 +443,8 @@
     },
     {
       "id": "50",
-      "english": "enhancing",
+      "foreignWord": "enhancing",
+      "language": "english",
       "portuguese": "aprimoramento",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -402,7 +452,8 @@
     },
     {
       "id": "51",
-      "english": "bought",
+      "foreignWord": "bought",
+      "language": "english",
       "portuguese": "comprei",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -410,7 +461,8 @@
     },
     {
       "id": "52",
-      "english": "fixtures",
+      "foreignWord": "fixtures",
+      "language": "english",
       "portuguese": "acessorios",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -418,7 +470,8 @@
     },
     {
       "id": "53",
-      "english": "inheritance",
+      "foreignWord": "inheritance",
+      "language": "english",
       "portuguese": "herança",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -426,7 +479,8 @@
     },
     {
       "id": "54",
-      "english": "enrollment",
+      "foreignWord": "enrollment",
+      "language": "english",
       "portuguese": "Recrutamento",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -434,7 +488,8 @@
     },
     {
       "id": "55",
-      "english": "rely",
+      "foreignWord": "rely",
+      "language": "english",
       "portuguese": "confiar",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -442,7 +497,8 @@
     },
     {
       "id": "56",
-      "english": "layer",
+      "foreignWord": "layer",
+      "language": "english",
       "portuguese": "camada",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -450,7 +506,8 @@
     },
     {
       "id": "57",
-      "english": "either",
+      "foreignWord": "either",
+      "language": "english",
       "portuguese": "Adquiridas",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -458,7 +515,8 @@
     },
     {
       "id": "58",
-      "english": "gain",
+      "foreignWord": "gain",
+      "language": "english",
       "portuguese": "aumento",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -466,7 +524,8 @@
     },
     {
       "id": "59",
-      "english": "concerned",
+      "foreignWord": "concerned",
+      "language": "english",
       "portuguese": "relacionada",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -474,7 +533,8 @@
     },
     {
       "id": "60",
-      "english": "appear",
+      "foreignWord": "appear",
+      "language": "english",
       "portuguese": "parecer",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -482,7 +542,8 @@
     },
     {
       "id": "61",
-      "english": "may",
+      "foreignWord": "may",
+      "language": "english",
       "portuguese": "pode",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -490,7 +551,8 @@
     },
     {
       "id": "62",
-      "english": "however",
+      "foreignWord": "however",
+      "language": "english",
       "portuguese": "contudo",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -498,7 +560,8 @@
     },
     {
       "id": "63",
-      "english": "might",
+      "foreignWord": "might",
+      "language": "english",
       "portuguese": "pode",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -506,7 +569,8 @@
     },
     {
       "id": "64",
-      "english": "rather",
+      "foreignWord": "rather",
+      "language": "english",
       "portuguese": "de preferência",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -514,7 +578,8 @@
     },
     {
       "id": "65",
-      "english": "another",
+      "foreignWord": "another",
+      "language": "english",
       "portuguese": "outro",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -522,7 +587,8 @@
     },
     {
       "id": "66",
-      "english": "loosely",
+      "foreignWord": "loosely",
+      "language": "english",
       "portuguese": "Vagamente",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -530,7 +596,8 @@
     },
     {
       "id": "67",
-      "english": "coupled",
+      "foreignWord": "coupled",
+      "language": "english",
       "portuguese": "Acoplado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -538,7 +605,8 @@
     },
     {
       "id": "68",
-      "english": "fosters",
+      "foreignWord": "fosters",
+      "language": "english",
       "portuguese": "promove a",
       "book": "Django 5 by example",
       "createdAt": "2025-08-22",
@@ -546,15 +614,17 @@
     },
     {
       "id": "69",
-      "english": "behaviors",
-      "portuguese": "comportamentos",
+      "foreignWord": "behavior",
+      "language": "english",
+      "portuguese": "comportamento",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
       "mastered": false
     },
     {
       "id": "70",
-      "english": "sake",
+      "foreignWord": "sake",
+      "language": "english",
       "portuguese": "interesse",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -562,7 +632,8 @@
     },
     {
       "id": "71",
-      "english": "covered",
+      "foreignWord": "covered",
+      "language": "english",
       "portuguese": "abordada",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -570,7 +641,8 @@
     },
     {
       "id": "72",
-      "english": "offer",
+      "foreignWord": "offer",
+      "language": "english",
       "portuguese": "oferta",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -578,7 +650,8 @@
     },
     {
       "id": "73",
-      "english": "wide",
+      "foreignWord": "wide",
+      "language": "english",
       "portuguese": "amplo",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -586,7 +659,8 @@
     },
     {
       "id": "74",
-      "english": "such",
+      "foreignWord": "such",
+      "language": "english",
       "portuguese": "tão",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -594,7 +668,8 @@
     },
     {
       "id": "75",
-      "english": "suitable",
+      "foreignWord": "suitable",
+      "language": "english",
       "portuguese": "adequado",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -602,7 +677,8 @@
     },
     {
       "id": "76",
-      "english": "aware",
+      "foreignWord": "aware",
+      "language": "english",
       "portuguese": "consciente",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -610,7 +686,8 @@
     },
     {
       "id": "77",
-      "english": "accordingly",
+      "foreignWord": "accordingly",
+      "language": "english",
       "portuguese": "de acordo",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -618,7 +695,8 @@
     },
     {
       "id": "78",
-      "english": "bundling",
+      "foreignWord": "bundling",
+      "language": "english",
       "portuguese": "Agrupamento",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -626,7 +704,8 @@
     },
     {
       "id": "79",
-      "english": "therefore",
+      "foreignWord": "therefore",
+      "language": "english",
       "portuguese": "por isso",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -634,7 +713,8 @@
     },
     {
       "id": "80",
-      "english": "underlaying",
+      "foreignWord": "underlaying",
+      "language": "english",
       "portuguese": "subjacência",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -642,7 +722,8 @@
     },
     {
       "id": "81",
-      "english": "retrieve",
+      "foreignWord": "retrieve",
+      "language": "english",
       "portuguese": "Recuperar",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
@@ -650,10 +731,110 @@
     },
     {
       "id": "82",
-      "english": "unless",
+      "foreignWord": "unless",
+      "language": "english",
       "portuguese": "a menos que",
       "book": "Django 5 by example",
       "createdAt": "2025-08-23",
+      "mastered": false
+    },
+    {
+      "id": "83",
+      "foreignWord": "could",
+      "language": "english",
+      "portuguese": "poderia",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "84",
+      "foreignWord": "comprise",
+      "language": "english",
+      "portuguese": "compreender",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "85",
+      "foreignWord": "keep",
+      "language": "english",
+      "portuguese": "manter",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "86",
+      "foreignWord": "track",
+      "language": "english",
+      "portuguese": "acompanhar",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "87",
+      "foreignWord": "until",
+      "language": "english",
+      "portuguese": "até",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "88",
+      "foreignWord": "meaning",
+      "language": "english",
+      "portuguese": "significativo",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "89",
+      "foreignWord": "veux",
+      "language": "french",
+      "portuguese": "querer",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "90",
+      "foreignWord": "bonjour",
+      "language": "french",
+      "portuguese": "bom dia",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "91",
+      "foreignWord": "bonsoir",
+      "language": "french",
+      "portuguese": "Boa noite",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "92",
+      "foreignWord": "salut",
+      "language": "french",
+      "portuguese": "Olá",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
+      "mastered": false
+    },
+    {
+      "id": "93",
+      "foreignWord": "je voudrais",
+      "language": "french",
+      "portuguese": "eu gostaria",
+      "book": "Django 5 by example",
+      "createdAt": "2025-08-26",
       "mastered": false
     }
   ],
