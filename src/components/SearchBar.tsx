@@ -3,6 +3,8 @@ import { Search, Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import LanguageToggle from "./LanguageToggle";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -20,6 +22,7 @@ const SearchBar = ({
   isNewWord
 }: SearchBarProps) => {
   const [query, setQuery] = useState("");
+  const { t } = useTranslation();
 
   // Sincroniza o estado interno com o searchQuery do pai
   useEffect(() => {
@@ -35,14 +38,19 @@ const SearchBar = ({
     <header className="w-full mb-8 pt-8">
       <div className="max-w-4xl mx-auto px-6">
         {/* Logo and Title */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-primary/10 rounded-2xl">
-            <BookOpen className="h-8 w-8 text-primary" />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-primary/10 rounded-2xl">
+              <BookOpen className="h-8 w-8 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">{t('appTitle')}</h1>
+              <p className="text-muted-foreground">{t('appSubtitle')}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Vocab Master</h1>
-            <p className="text-muted-foreground">Learning English by Reading Books</p>
-          </div>
+
+          {/* Language Toggle */}
+          <LanguageToggle />
         </div>
 
         {/* Search Input */}
@@ -51,7 +59,7 @@ const SearchBar = ({
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input
               type="text"
-              placeholder="Type an English word..."
+              placeholder={t('searchPlaceholder')}
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               className={cn(
@@ -72,7 +80,7 @@ const SearchBar = ({
                 )}
               >
                 <Plus className="h-4 w-4" />
-                Add
+                {t('addButton')}
               </Button>
             )}
           </div>
@@ -82,11 +90,11 @@ const SearchBar = ({
             <div className="mt-3 flex items-center gap-2">
               {hasResults ? (
                 <span className="text-sm text-mastered font-medium">
-                  ✓ Word found
+                  ✓ {t('wordFound')}
                 </span>
               ) : (
                 <span className="text-sm text-learning font-medium">
-                  ⚡ New discovery
+                  ⚡ {t('newDiscovery')}
                 </span>
               )}
             </div>
