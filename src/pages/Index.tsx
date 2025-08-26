@@ -139,6 +139,11 @@ const Index = () => {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+
+    // Reset filtro para "all" quando há busca ativa para evitar palavras duplicadas
+    if (query.trim() && statusFilter !== "all") {
+      setStatusFilter("all");
+    }
   };
 
   const handleAddWord = async (newWordData: Omit<VocabularyWord, 'id'>) => {
