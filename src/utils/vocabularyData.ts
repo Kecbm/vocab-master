@@ -1,75 +1,29 @@
 import { VocabularyWord } from "@/components/VocabularyCard";
+import * as firebaseApi from "@/services/firebaseApi";
 
-// URL base da API do json-server
-const API_BASE_URL = 'http://localhost:3001';
-
-// Classe para gerenciar as operações da API
+// Classe para gerenciar as operações da API (usando Firebase)
 class VocabularyAPI {
-  private baseUrl: string;
-
-  constructor(baseUrl: string = API_BASE_URL) {
-    this.baseUrl = baseUrl;
+  constructor() {
+    // Usando Firebase como banco principal
   }
 
   // Buscar todas as palavras
   async getAllWords(): Promise<VocabularyWord[]> {
     try {
-      const response = await fetch(`${this.baseUrl}/words`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const words = await response.json();
-      return words;
+      return await firebaseApi.getAllWordsFromFirebase();
     } catch (error) {
       console.error('❌ Erro ao buscar palavras:', error);
       throw error;
     }
   }
 
-  // Obter próximo ID sequencial
-  async getNextId(): Promise<string> {
-    try {
-      const words = await this.getAllWords();
-      if (words.length === 0) {
-        return "1";
-      }
-
-      // Encontra o maior ID numérico
-      const maxId = Math.max(...words.map(word => {
-        const id = parseInt(word.id);
-        return isNaN(id) ? 0 : id;
-      }));
-
-      return (maxId + 1).toString();
-    } catch (error) {
-      console.error('❌ Erro ao obter próximo ID:', error);
-      // Fallback para timestamp se houver erro
-      return Date.now().toString();
-    }
-  }
+  // Nota: IDs são gerados automaticamente pela API híbrida (Firebase ou JSON Server)
 
   // Adicionar nova palavra
   async addWord(word: Omit<VocabularyWord, 'id'>): Promise<VocabularyWord> {
     try {
-      const nextId = await this.getNextId();
-
-      const response = await fetch(`${this.baseUrl}/words`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...word,
-          id: nextId, // Usa ID sequencial
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const newWord = await response.json();
-      console.log('✅ Palavra adicionada:', newWord.english, 'ID:', nextId);
+      const newWord = await firebaseApi.addWordToFirebase(word);
+      console.log('✅ Palavra adicionada:', newWord.foreignWord, 'ID:', newWord.id);
       return newWord;
     } catch (error) {
       console.error('❌ Erro ao adicionar palavra:', error);
@@ -80,20 +34,8 @@ class VocabularyAPI {
   // Atualizar palavra existente
   async updateWord(word: VocabularyWord): Promise<VocabularyWord> {
     try {
-      const response = await fetch(`${this.baseUrl}/words/${word.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(word),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const updatedWord = await response.json();
-      console.log('✅ Palavra atualizada:', updatedWord.english);
+      const updatedWord = await firebaseApi.updateWordInFirebase(word);
+      console.log('✅ Palavra atualizada:', updatedWord.foreignWord);
       return updatedWord;
     } catch (error) {
       console.error('❌ Erro ao atualizar palavra:', error);
@@ -104,14 +46,7 @@ class VocabularyAPI {
   // Deletar palavra
   async deleteWord(wordId: string): Promise<void> {
     try {
-      const response = await fetch(`${this.baseUrl}/words/${wordId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      await firebaseApi.deleteWordFromFirebase(wordId);
       console.log('✅ Palavra deletada');
     } catch (error) {
       console.error('❌ Erro ao deletar palavra:', error);
@@ -122,13 +57,13 @@ class VocabularyAPI {
   // Alternar status de dominada
   async toggleWordMastered(wordId: string): Promise<VocabularyWord> {
     try {
-      // Primeiro busca a palavra atual
-      const response = await fetch(`${this.baseUrl}/words/${wordId}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      // Primeiro busca todas as palavras para encontrar a palavra específica
+      const allWords = await this.getAllWords();
+      const word = allWords.find(w => w.id === wordId);
 
-      const word = await response.json();
+      if (!word) {
+        throw new Error(`Word with ID ${wordId} not found`);
+      }
 
       // Atualiza o status
       const updatedWord = {
@@ -185,21 +120,18 @@ interface AppSettings {
 
 // Classe para gerenciar configurações
 class SettingsAPI {
-  private baseUrl: string;
-
-  constructor(baseUrl: string = API_BASE_URL) {
-    this.baseUrl = baseUrl;
+  constructor() {
+    // A API híbrida gerencia automaticamente Firebase vs JSON Server
   }
 
   // Buscar configurações
   async getSettings(): Promise<AppSettings> {
     try {
-      const response = await fetch(`${this.baseUrl}/settings`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const settings = await response.json();
-      return settings;
+      const settings = await firebaseApi.getSettingsFromFirebase();
+      return {
+        id: 1, // Manter compatibilidade com interface existente
+        ...settings
+      };
     } catch (error) {
       console.error('❌ Erro ao buscar configurações:', error);
       // Retorna configurações padrão se houver erro
@@ -210,21 +142,13 @@ class SettingsAPI {
   // Atualizar configurações
   async updateSettings(settings: AppSettings): Promise<AppSettings> {
     try {
-      const response = await fetch(`${this.baseUrl}/settings`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const updatedSettings = await response.json();
+      const { id, ...firebaseSettings } = settings; // Remove id para Firebase
+      const updatedSettings = await firebaseApi.updateSettingsInFirebase(firebaseSettings);
       console.log('✅ Configurações atualizadas');
-      return updatedSettings;
+      return {
+        id: 1, // Manter compatibilidade
+        ...updatedSettings
+      };
     } catch (error) {
       console.error('❌ Erro ao atualizar configurações:', error);
       throw error;
