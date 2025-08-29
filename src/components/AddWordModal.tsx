@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BookOpen, Plus, Languages, Loader2 } from "lucide-react";
+import { Plus, Languages, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,17 +20,15 @@ interface AddWordModalProps {
   onClose: () => void;
   onAdd: (word: Omit<VocabularyWord, 'id'>) => void;
   initialWord?: string;
-  currentBook?: string;
 }
 
-const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = "" }: AddWordModalProps) => {
+const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModalProps) => {
   const { currentLanguage, getTranslationPair } = useLanguage();
   const { t } = useTranslation();
 
   const [formData, setFormData] = useState(() => ({
     foreignWord: initialWord,
     portuguese: "",
-    book: currentBook,
   }));
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -69,7 +67,6 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
       setFormData({
         foreignWord: initialWord,
         portuguese: "", // Limpa tradução anterior
-        book: currentBook
       });
 
       // Traduz automaticamente após um pequeno delay
@@ -81,27 +78,11 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
     }
   }, [isOpen, initialWord, currentLanguage]);
 
-  // Atualizar livro quando currentBook mudar
-  useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      book: currentBook
-    }));
-  }, [currentBook]);
 
-  // Garantir que o livro seja atualizado quando o modal abrir
-  useEffect(() => {
-    if (isOpen) {
-      setFormData(prev => ({
-        ...prev,
-        book: currentBook
-      }));
-    }
-  }, [isOpen, currentBook]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation
     const newErrors: Record<string, string> = {};
 
@@ -109,8 +90,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
       newErrors.foreignWord = t('englishWordRequired');
     }
     if (!formData.portuguese.trim()) newErrors.portuguese = t('translationRequired');
-    if (!formData.book.trim()) newErrors.book = t('bookNameRequired');
-    
+
     setErrors(newErrors);
     
     if (Object.keys(newErrors).length === 0) {
@@ -118,20 +98,19 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
         foreignWord: formData.foreignWord.trim(),
         language: currentLanguage,
         portuguese: formData.portuguese.trim(),
-        book: formData.book.trim(),
         createdAt: getCurrentDate(),
         mastered: false,
       });
 
       // Reset form
-      setFormData({ foreignWord: "", portuguese: "", book: "" });
+      setFormData({ foreignWord: "", portuguese: "" });
       setErrors({});
       onClose();
     }
   };
 
   const handleClose = () => {
-    setFormData({ foreignWord: initialWord, portuguese: "", book: currentBook });
+    setFormData({ foreignWord: initialWord, portuguese: "" });
     setErrors({});
     setIsTranslating(false);
     onClose();
@@ -235,27 +214,6 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "", currentBook = 
             )}
           </div>
 
-          {/* Book Source */}
-          <div className="space-y-2">
-            <Label htmlFor="book" className="text-sm font-medium flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              {t('bookName')} *
-            </Label>
-            <Input
-              id="book"
-              type="text"
-              value={formData.book}
-              onChange={(e) => setFormData(prev => ({ ...prev, book: e.target.value }))}
-              placeholder="Ex: The Hobbit - J.R.R. Tolkien"
-              className={cn(
-                "h-12 text-lg",
-                errors.book && "border-destructive focus:border-destructive"
-              )}
-            />
-            {errors.book && (
-              <p className="text-sm text-destructive">{errors.book}</p>
-            )}
-          </div>
 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
