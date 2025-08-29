@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Volume2, Edit, Trash2, CheckCircle } from "lucide-react";
+import { Volume2, Edit, Trash2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isToday } from "@/utils/dateUtils";
@@ -16,7 +16,6 @@ export interface VocabularyWord {
   foreignWord: string;
   language: 'english' | 'french';
   portuguese: string;
-  book: string;
   createdAt?: string;
   mastered?: boolean;
 }
@@ -229,13 +228,7 @@ const VocabularyCard = ({
         </p>
       </div>
 
-      {/* Book Source */}
-      <div className="flex items-center gap-2 pt-3 border-t border-border/50">
-        <BookOpen className="h-4 w-4 text-muted-foreground" />
-        <span className="text-sm text-muted-foreground font-medium">
-          {word.book}
-        </span>
-      </div>
+
     </div>
   );
 };
