@@ -66,10 +66,7 @@ const DeleteConfirmationModal = ({
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>📚</span>
-              <span>{word.book}</span>
-            </div>
+
           </div>
 
           {/* Warning Message */}
