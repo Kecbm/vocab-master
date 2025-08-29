@@ -146,17 +146,17 @@ const VocabularyCard = ({
             <CheckCircle className="h-5 w-5 text-mastered" />
           ) : (
             <div className={cn(
-              "w-3 h-3 rounded-full",
-              isNew ? "bg-learning" : "bg-primary/30"
+              "w-3 h-3 rounded-full border-2",
+              isNew ? "border-learning" : "border-primary"
             )} />
           )}
           <span className={cn(
-            "text-xs font-medium px-2 py-1 rounded-full",
+            "text-xs font-medium px-2 py-1 rounded-full border",
             isNew
-              ? "bg-learning/10 text-learning"
+              ? "border-learning text-learning"
               : word.mastered
-                ? "bg-mastered/10 text-mastered"
-                : "bg-primary/10 text-primary"
+                ? "border-mastered text-mastered"
+                : "border-primary text-primary"
           )}>
             {isNew ? "New" : word.mastered ? "Mastered" : "Learning"}
           </span>
@@ -169,7 +169,7 @@ const VocabularyCard = ({
               size="sm"
               variant="ghost"
               onClick={() => onToggleMastered(word.id)}
-              className="h-8 w-8 p-0 hover:bg-mastered/10"
+              className="h-8 w-8 p-0 hover:text-mastered"
             >
               <CheckCircle className={cn(
                 "h-4 w-4",
@@ -182,7 +182,7 @@ const VocabularyCard = ({
               size="sm"
               variant="ghost"
               onClick={() => onEdit(word)}
-              className="h-8 w-8 p-0 hover:bg-primary/10"
+              className="h-8 w-8 p-0 hover:text-primary"
             >
               <Edit className="h-4 w-4 text-muted-foreground" />
             </Button>
@@ -192,7 +192,7 @@ const VocabularyCard = ({
               size="sm"
               variant="ghost"
               onClick={() => onDelete(word.id)}
-              className="h-8 w-8 p-0 hover:bg-destructive/10"
+              className="h-8 w-8 p-0 hover:text-destructive"
             >
               <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
             </Button>
