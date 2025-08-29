@@ -1,11 +1,11 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import SearchBar from "@/components/SearchBar";
 import VocabularyCard, { VocabularyWord } from "@/components/VocabularyCard";
 import AddWordModal from "@/components/AddWordModal";
 import EditWordModal from "@/components/EditWordModal";
 import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Brain, Target, Loader2, Eraser, CheckCircle } from "lucide-react";
+import { Plus, Brain, Target, Loader2 } from "lucide-react";
 import LanguageToggle from "@/components/LanguageToggle";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -16,18 +16,22 @@ import {
   addWordToData,
   updateWordInData,
   deleteWordFromData,
-  toggleWordMastered,
-  getSettings,
-  updateCurrentBook,
-  finishCurrentBook
+  toggleWordMastered
 } from "@/utils/vocabularyData";
 import { isToday } from "@/utils/dateUtils";
+
+// Função debounce simples
+const debounceFunction = (func: Function, delay: number) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(null, args), delay);
+  };
+};
 
 const Index = () => {
   const [words, setWords] = useState<VocabularyWord[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentBook, setCurrentBook] = useState("");
-  const [oldBooks, setOldBooks] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<"alphabetical" | "recent">("alphabetical");
   const [statusFilter, setStatusFilter] = useState<"all" | "new" | "learning" | "mastered">("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,14 +56,8 @@ const Index = () => {
         setIsLoading(true);
 
         // Carrega palavras e configurações em paralelo
-        const [wordsFromAPI, settingsFromAPI] = await Promise.all([
-          getAllWords(),
-          getSettings()
-        ]);
-
+        const wordsFromAPI = await getAllWords();
         setWords(wordsFromAPI);
-        setCurrentBook(settingsFromAPI.currentBook);
-        setOldBooks(settingsFromAPI.oldBooks || []);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
         toast({
@@ -150,7 +148,6 @@ const Index = () => {
       total: languageWords.length,
       mastered: languageWords.filter(w => w.mastered).length,
       learning: languageWords.filter(w => !w.mastered).length,
-      books: new Set(languageWords.map(w => w.book)).size,
     };
   }, [words, currentLanguage]);
 
@@ -271,51 +268,6 @@ const Index = () => {
     setIsDeleting(false);
   };
 
-  // Função para atualizar o livro atual
-  const handleCurrentBookChange = async (newBook: string) => {
-    setCurrentBook(newBook);
-
-    try {
-      await updateCurrentBook(newBook);
-    } catch (error) {
-      console.error('Erro ao salvar livro atual:', error);
-      toast({
-        title: "Error saving book",
-        description: "The book was updated locally, but not saved on the server",
-        variant: "destructive",
-      });
-    }
-  };
-
-  // Função para finalizar o livro atual
-  const handleFinishCurrentBook = async () => {
-    if (!currentBook.trim()) {
-      toast({
-        title: "No book to finish",
-        description: "Please set a current book first",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const updatedSettings = await finishCurrentBook("");
-      setOldBooks(updatedSettings.oldBooks || []);
-      setCurrentBook("");
-
-      toast({
-        title: "Book finished!",
-        description: `"${currentBook}" was moved to completed books`,
-      });
-    } catch (error) {
-      console.error('Erro ao finalizar livro:', error);
-      toast({
-        title: "Error finishing book",
-        description: "Could not save the changes",
-        variant: "destructive",
-      });
-    }
-  };
 
   const handleToggleMastered = async (id: string) => {
     try {
@@ -363,121 +315,13 @@ const Index = () => {
           </div>
         ) : (
           <>
-        {/* Current Book & Statistics */}
+        {/* Controls and Statistics */}
         <section className="mb-6">
-          <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
-            {/* Current Book Card - Takes 2 columns on large screens */}
-            <div className="col-span-2 bg-card border border-card-border rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 bg-primary/10 rounded-lg">
-                  <BookOpen className="h-4 w-4 text-primary" />
-                </div>
-                <span className="text-sm font-medium text-foreground">{t('currentBook')}</span>
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={currentBook}
-                  onChange={(e) => handleCurrentBookChange(e.target.value)}
-                  placeholder={t('currentBookPlaceholder')}
-                  className="flex-1 h-8 px-3 text-sm bg-background border border-input rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent"
-                />
-                {currentBook && (
-                  <div className="flex gap-1">
-                    <Button
-                      onClick={() => handleCurrentBookChange("")}
-                      variant="outline"
-                      size="sm"
-                      title={t('clearCurrentBook')}
-                      className="h-8 w-8 p-0"
-                    >
-                      <Eraser className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      onClick={handleFinishCurrentBook}
-                      variant="outline"
-                      size="sm"
-                      title={t('finishCurrentBook')}
-                      className="h-8 w-8 p-0"
-                    >
-                      <CheckCircle className="h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
-              </div>
-              {currentBook && (
-                <p className="text-xs text-muted-foreground mt-2">
-                  📖 {t('newWordsAssociated')}
-                </p>
-              )}
-            </div>
-
-            {/* Old Books Section */}
-            {oldBooks.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">{t('completedBooks')}</span>
-                </div>
-                <div className="space-y-2">
-                  {oldBooks.map((book, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg"
-                    >
-                      <span className="text-xs text-muted-foreground">📚</span>
-                      <span className="text-sm text-foreground flex-1">{book}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {words.filter(w => w.book === book).length} {t('wordsCount')}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Statistics Cards */}
-            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
-              <div className="p-2 bg-primary/10 rounded-lg w-fit mx-auto mb-2">
-                <Brain className="h-4 w-4 text-primary" />
-              </div>
-              <div className="text-xl font-bold text-foreground">{stats.total}</div>
-              <div className="text-xs text-muted-foreground">{t('total')}</div>
-            </div>
-
-            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
-              <div className="p-2 bg-learning/10 rounded-lg w-fit mx-auto mb-2">
-                <Plus className="h-4 w-4 text-learning" />
-              </div>
-              <div className="text-xl font-bold text-foreground">{stats.learning}</div>
-              <div className="text-xs text-muted-foreground">{t('learning')}</div>
-            </div>
-
-            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
-              <div className="p-2 bg-mastered/10 rounded-lg w-fit mx-auto mb-2">
-                <Target className="h-4 w-4 text-mastered" />
-              </div>
-              <div className="text-xl font-bold text-foreground">{stats.mastered}</div>
-              <div className="text-xs text-muted-foreground">{t('mastered')}</div>
-            </div>
-
-            <div className="bg-card border border-card-border rounded-xl p-4 text-center">
-              <div className="p-2 bg-primary/10 rounded-lg w-fit mx-auto mb-2">
-                <BookOpen className="h-4 w-4 text-primary" />
-              </div>
-              <div className="text-xl font-bold text-foreground">{stats.books}</div>
-              <div className="text-xs text-muted-foreground">{t('books')}</div>
-            </div>
-          </div>
-        </section>
-
-        {/* Vocabulary Grid */}
-        <section>
-          {/* Filter Controls */}
-          <div className="mb-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
-              {/* Sort Filters - Always in first position */}
-              <div className="flex items-center gap-2">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 items-stretch min-h-[120px]">
+            {/* Left Column: Sort and Filter Controls */}
+            <div className="lg:col-span-2 flex flex-col justify-between h-full py-2">
+              {/* Sort Controls - Top Left */}
+              <div className="space-y-2">
                 <span className="text-sm font-medium text-muted-foreground">{t('sort')}</span>
                 <div className="flex gap-2">
                   <Button
@@ -499,15 +343,15 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Status Filters - Always in center position */}
-              <div className="flex items-center gap-2 justify-center">
+              {/* Filter Controls - Below Sort */}
+              <div className="space-y-2">
                 <span className="text-sm font-medium text-muted-foreground">{t('filter')}</span>
-                <div className="flex gap-2">
+                <div className="flex gap-1">
                   <Button
                     variant={statusFilter === "all" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("all")}
-                    className="h-8 text-xs"
+                    className="h-8 text-xs px-2"
                   >
                     {t('filterAll')}
                   </Button>
@@ -515,7 +359,7 @@ const Index = () => {
                     variant={statusFilter === "new" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("new")}
-                    className="h-8 text-xs bg-learning/10 text-learning border-learning/20 hover:bg-learning/20"
+                    className="h-8 text-xs px-2 bg-learning/10 text-learning border-learning/20 hover:bg-learning/20"
                   >
                     {t('filterNew')}
                   </Button>
@@ -523,7 +367,7 @@ const Index = () => {
                     variant={statusFilter === "learning" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("learning")}
-                    className="h-8 text-xs bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                    className="h-8 text-xs px-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
                   >
                     {t('filterLearning')}
                   </Button>
@@ -531,14 +375,43 @@ const Index = () => {
                     variant={statusFilter === "mastered" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("mastered")}
-                    className="h-8 text-xs bg-mastered/10 text-mastered border-mastered/20 hover:bg-mastered/20"
+                    className="h-8 text-xs px-2 bg-mastered/10 text-mastered border-mastered/20 hover:bg-mastered/20"
                   >
                     {t('filterMastered')}
                   </Button>
                 </div>
               </div>
+            </div>
 
-              {/* Word Count - Always in third position */}
+            {/* Middle Columns: Statistics Cards */}
+            <div className="lg:col-span-3 grid grid-cols-3 gap-2 h-full">
+              <div className="bg-card border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
+                <div className="p-1.5 bg-primary/10 rounded-lg w-fit mx-auto mb-1.5">
+                  <Brain className="h-3.5 w-3.5 text-primary" />
+                </div>
+                <div className="text-lg font-bold text-foreground">{stats.total}</div>
+                <div className="text-xs text-muted-foreground">{t('total')}</div>
+              </div>
+
+              <div className="bg-card border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
+                <div className="p-1.5 bg-learning/10 rounded-lg w-fit mx-auto mb-1.5">
+                  <Plus className="h-3.5 w-3.5 text-learning" />
+                </div>
+                <div className="text-lg font-bold text-foreground">{stats.learning}</div>
+                <div className="text-xs text-muted-foreground">{t('learning')}</div>
+              </div>
+
+              <div className="bg-card border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
+                <div className="p-1.5 bg-mastered/10 rounded-lg w-fit mx-auto mb-1.5">
+                  <Target className="h-3.5 w-3.5 text-mastered" />
+                </div>
+                <div className="text-lg font-bold text-foreground">{stats.mastered}</div>
+                <div className="text-xs text-muted-foreground">{t('mastered')}</div>
+              </div>
+            </div>
+
+            {/* Right Column: Word Count and Pagination Info */}
+            <div className="flex flex-col justify-center h-full py-2">
               <div className="text-sm text-muted-foreground text-right">
                 {filteredWords.length > 0 ? (
                   <>
@@ -555,6 +428,10 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Vocabulary Grid */}
+        <section>
 
           {/* Words Grid */}
           {filteredWords.length > 0 ? (
@@ -638,7 +515,7 @@ const Index = () => {
             // Empty state - no search
             <div className="text-center py-16">
               <div className="p-4 bg-primary/10 rounded-3xl w-fit mx-auto mb-6">
-                <BookOpen className="h-12 w-12 text-primary" />
+                <Brain className="h-12 w-12 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">
                 Start your learning journey
@@ -686,7 +563,6 @@ const Index = () => {
         onClose={() => setIsModalOpen(false)}
         onAdd={handleAddWord}
         initialWord={searchQuery}
-        currentBook={currentBook}
       />
 
       {/* Edit Word Modal */}
@@ -695,7 +571,6 @@ const Index = () => {
         onClose={handleCloseEditModal}
         onUpdate={handleUpdateWord}
         word={editingWord}
-        currentBook={currentBook}
       />
 
       {/* Delete Confirmation Modal */}
