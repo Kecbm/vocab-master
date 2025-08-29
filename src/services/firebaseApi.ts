@@ -17,6 +17,7 @@ import { VocabularyWord } from '@/components/VocabularyCard';
 
 // Tipos para o Firebase
 export interface FirebaseWord extends Omit<VocabularyWord, 'id' | 'createdAt'> {
+  userId: string; // 🔒 ID do usuário proprietário
   createdAt: Timestamp;
 }
 
@@ -32,22 +33,36 @@ const SETTINGS_DOC_ID = 'app-settings';
 
 // ==================== WORDS ====================
 
-export const getAllWordsFromFirebase = async (): Promise<VocabularyWord[]> => {
+export const getAllWordsFromFirebase = async (userId: string): Promise<VocabularyWord[]> => {
   try {
     const wordsRef = collection(db, WORDS_COLLECTION);
-    const q = query(wordsRef, orderBy('createdAt', 'desc'));
+
+    // 🔒 FILTRAR APENAS PALAVRAS DO USUÁRIO ATUAL
+    const q = query(
+      wordsRef,
+      where('userId', '==', userId)
+    );
     const querySnapshot = await getDocs(q);
-    
+
     const words: VocabularyWord[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data() as FirebaseWord;
+
       words.push({
         id: doc.id,
-        ...data,
+        foreignWord: data.foreignWord,
+        portuguese: data.portuguese,
+        pronunciation: data.pronunciation || '',
+        language: data.language,
+        book: data.book || '',
+        mastered: data.mastered || false,
         createdAt: data.createdAt.toDate().toISOString().split('T')[0] // Convert to YYYY-MM-DD
       });
     });
-    
+
+    // Ordenar por data de criação (mais recentes primeiro)
+    words.sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
+
     return words;
   } catch (error) {
     console.error('Error fetching words from Firebase:', error);
@@ -55,16 +70,18 @@ export const getAllWordsFromFirebase = async (): Promise<VocabularyWord[]> => {
   }
 };
 
-export const addWordToFirebase = async (word: Omit<VocabularyWord, 'id'>): Promise<VocabularyWord> => {
+export const addWordToFirebase = async (word: Omit<VocabularyWord, 'id'>, userId: string): Promise<VocabularyWord> => {
   try {
     const wordsRef = collection(db, WORDS_COLLECTION);
     const firebaseWord: FirebaseWord = {
       ...word,
+      userId, // 🔒 ADICIONAR ID DO USUÁRIO
       createdAt: Timestamp.fromDate(new Date(word.createdAt || new Date().toISOString().split('T')[0]))
     };
-    
+
     const docRef = await addDoc(wordsRef, firebaseWord);
-    
+
+
     return {
       id: docRef.id,
       ...word
@@ -75,19 +92,33 @@ export const addWordToFirebase = async (word: Omit<VocabularyWord, 'id'>): Promi
   }
 };
 
-export const updateWordInFirebase = async (word: VocabularyWord): Promise<VocabularyWord> => {
+export const updateWordInFirebase = async (word: VocabularyWord, userId: string): Promise<VocabularyWord> => {
   try {
     const wordRef = doc(db, WORDS_COLLECTION, word.id);
-    const firebaseWord: FirebaseWord = {
+
+    // 🔒 VERIFICAR SE A PALAVRA PERTENCE AO USUÁRIO
+    const wordDoc = await getDoc(wordRef);
+    if (!wordDoc.exists()) {
+      throw new Error('Word not found');
+    }
+
+    const wordData = wordDoc.data() as FirebaseWord;
+    if (wordData.userId !== userId) {
+      throw new Error('Unauthorized: You can only update your own words');
+    }
+
+    const firebaseWord: Partial<FirebaseWord> = {
       foreignWord: word.foreignWord,
+      portuguese: word.portuguese, // ✅ Corrigido: usar 'portuguese' não 'nativeWord'
+      pronunciation: word.pronunciation,
       language: word.language,
-      portuguese: word.portuguese,
       book: word.book,
       mastered: word.mastered,
-      createdAt: Timestamp.fromDate(new Date(word.createdAt || new Date().toISOString().split('T')[0]))
+      // Não atualizar userId e createdAt
     };
-    
+
     await updateDoc(wordRef, firebaseWord);
+
     return word;
   } catch (error) {
     console.error('Error updating word in Firebase:', error);
@@ -95,10 +126,23 @@ export const updateWordInFirebase = async (word: VocabularyWord): Promise<Vocabu
   }
 };
 
-export const deleteWordFromFirebase = async (id: string): Promise<void> => {
+export const deleteWordFromFirebase = async (id: string, userId: string): Promise<void> => {
   try {
     const wordRef = doc(db, WORDS_COLLECTION, id);
+
+    // 🔒 VERIFICAR SE A PALAVRA PERTENCE AO USUÁRIO
+    const wordDoc = await getDoc(wordRef);
+    if (!wordDoc.exists()) {
+      throw new Error('Word not found');
+    }
+
+    const wordData = wordDoc.data() as FirebaseWord;
+    if (wordData.userId !== userId) {
+      throw new Error('Unauthorized: You can only delete your own words');
+    }
+
     await deleteDoc(wordRef);
+
   } catch (error) {
     console.error('Error deleting word from Firebase:', error);
     throw error;
@@ -107,9 +151,10 @@ export const deleteWordFromFirebase = async (id: string): Promise<void> => {
 
 // ==================== SETTINGS ====================
 
-export const getSettingsFromFirebase = async (): Promise<FirebaseSettings> => {
+export const getSettingsFromFirebase = async (userId: string): Promise<FirebaseSettings> => {
   try {
-    const settingsRef = doc(db, SETTINGS_COLLECTION, SETTINGS_DOC_ID);
+    // 🔒 CONFIGURAÇÕES POR USUÁRIO
+    const settingsRef = doc(db, SETTINGS_COLLECTION, userId);
     const docSnap = await getDoc(settingsRef);
 
     if (docSnap.exists()) {
@@ -122,7 +167,7 @@ export const getSettingsFromFirebase = async (): Promise<FirebaseSettings> => {
       };
       // Usar setDoc em vez de updateDoc para criar o documento
       await setDoc(settingsRef, defaultSettings);
-      console.log('✅ Default settings created in Firebase');
+
       return defaultSettings;
     }
   } catch (error) {
@@ -131,12 +176,13 @@ export const getSettingsFromFirebase = async (): Promise<FirebaseSettings> => {
   }
 };
 
-export const updateSettingsInFirebase = async (settings: FirebaseSettings): Promise<FirebaseSettings> => {
+export const updateSettingsInFirebase = async (settings: FirebaseSettings, userId: string): Promise<FirebaseSettings> => {
   try {
-    const settingsRef = doc(db, SETTINGS_COLLECTION, SETTINGS_DOC_ID);
+    // 🔒 CONFIGURAÇÕES POR USUÁRIO
+    const settingsRef = doc(db, SETTINGS_COLLECTION, userId);
     // Usar setDoc para garantir que o documento seja criado se não existir
     await setDoc(settingsRef, settings, { merge: true });
-    console.log('✅ Settings updated in Firebase');
+
     return settings;
   } catch (error) {
     console.error('Error updating settings in Firebase:', error);
