@@ -7,6 +7,7 @@ import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus, Brain, Target, Loader2, Eraser, CheckCircle } from "lucide-react";
 import LanguageToggle from "@/components/LanguageToggle";
+import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useToast } from "@/hooks/use-toast";
@@ -705,6 +706,9 @@ const Index = () => {
         word={deletingWord}
         isDeleting={isDeleting}
       />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
