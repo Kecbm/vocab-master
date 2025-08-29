@@ -86,8 +86,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    background: var(--gradient-background);
+    @apply text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
