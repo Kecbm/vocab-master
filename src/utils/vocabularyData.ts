@@ -1,5 +1,6 @@
 import { VocabularyWord } from "@/components/VocabularyCard";
 import * as firebaseApi from "@/services/firebaseApi";
+import { auth } from "@/config/firebase";
 
 // Classe para gerenciar as operações da API (usando Firebase)
 class VocabularyAPI {
@@ -7,10 +8,20 @@ class VocabularyAPI {
     // Usando Firebase como banco principal
   }
 
+  // 🔒 Obter ID do usuário atual
+  private getCurrentUserId(): string {
+    const user = auth.currentUser;
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+    return user.uid;
+  }
+
   // Buscar todas as palavras
   async getAllWords(): Promise<VocabularyWord[]> {
     try {
-      return await firebaseApi.getAllWordsFromFirebase();
+      const userId = this.getCurrentUserId();
+      return await firebaseApi.getAllWordsFromFirebase(userId);
     } catch (error) {
       console.error('❌ Erro ao buscar palavras:', error);
       throw error;
@@ -22,7 +33,8 @@ class VocabularyAPI {
   // Adicionar nova palavra
   async addWord(word: Omit<VocabularyWord, 'id'>): Promise<VocabularyWord> {
     try {
-      const newWord = await firebaseApi.addWordToFirebase(word);
+      const userId = this.getCurrentUserId();
+      const newWord = await firebaseApi.addWordToFirebase(word, userId);
       console.log('✅ Palavra adicionada:', newWord.foreignWord, 'ID:', newWord.id);
       return newWord;
     } catch (error) {
@@ -34,7 +46,8 @@ class VocabularyAPI {
   // Atualizar palavra existente
   async updateWord(word: VocabularyWord): Promise<VocabularyWord> {
     try {
-      const updatedWord = await firebaseApi.updateWordInFirebase(word);
+      const userId = this.getCurrentUserId();
+      const updatedWord = await firebaseApi.updateWordInFirebase(word, userId);
       console.log('✅ Palavra atualizada:', updatedWord.foreignWord);
       return updatedWord;
     } catch (error) {
@@ -46,7 +59,8 @@ class VocabularyAPI {
   // Deletar palavra
   async deleteWord(wordId: string): Promise<void> {
     try {
-      await firebaseApi.deleteWordFromFirebase(wordId);
+      const userId = this.getCurrentUserId();
+      await firebaseApi.deleteWordFromFirebase(wordId, userId);
       console.log('✅ Palavra deletada');
     } catch (error) {
       console.error('❌ Erro ao deletar palavra:', error);
@@ -127,7 +141,8 @@ class SettingsAPI {
   // Buscar configurações
   async getSettings(): Promise<AppSettings> {
     try {
-      const settings = await firebaseApi.getSettingsFromFirebase();
+      const userId = this.getCurrentUserId();
+      const settings = await firebaseApi.getSettingsFromFirebase(userId);
       return {
         id: 1, // Manter compatibilidade com interface existente
         ...settings
@@ -142,8 +157,9 @@ class SettingsAPI {
   // Atualizar configurações
   async updateSettings(settings: AppSettings): Promise<AppSettings> {
     try {
+      const userId = this.getCurrentUserId();
       const { id, ...firebaseSettings } = settings; // Remove id para Firebase
-      const updatedSettings = await firebaseApi.updateSettingsInFirebase(firebaseSettings);
+      const updatedSettings = await firebaseApi.updateSettingsInFirebase(firebaseSettings, userId);
       console.log('✅ Configurações atualizadas');
       return {
         id: 1, // Manter compatibilidade
