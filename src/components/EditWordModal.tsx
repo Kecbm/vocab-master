@@ -19,16 +19,14 @@ interface EditWordModalProps {
   onClose: () => void;
   onUpdate: (word: VocabularyWord) => void;
   word: VocabularyWord | null;
-  currentBook?: string;
 }
 
-const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: EditWordModalProps) => {
+const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) => {
   const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     foreignWord: "",
     portuguese: "",
-    book: "",
     mastered: false,
   });
   
@@ -41,11 +39,10 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
       setFormData({
         foreignWord: word.foreignWord,
         portuguese: word.portuguese,
-        book: word.book || currentBook, // Usa livro atual se a palavra não tiver livro
         mastered: word.mastered,
       });
     }
-  }, [word, currentBook]);
+  }, [word]);
 
   // Função para traduzir automaticamente
   const translateWord = async (englishWord: string) => {
@@ -79,18 +76,16 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
     
     // Validation
     const newErrors: Record<string, string> = {};
-    if (!formData.english.trim()) newErrors.english = "English word is required";
+    if (!formData.foreignWord.trim()) newErrors.foreignWord = "Foreign word is required";
     if (!formData.portuguese.trim()) newErrors.portuguese = "Translation is required";
-    if (!formData.book.trim()) newErrors.book = "Book name is required";
     
     setErrors(newErrors);
     
     if (Object.keys(newErrors).length === 0) {
       const updatedWord: VocabularyWord = {
         ...word,
-        english: formData.english.trim(),
+        foreignWord: formData.foreignWord.trim(),
         portuguese: formData.portuguese.trim(),
-        book: formData.book.trim(),
         mastered: formData.mastered,
       };
       
@@ -107,8 +102,8 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
   };
 
   const handleRetranslate = () => {
-    if (formData.english.trim()) {
-      translateWord(formData.english.trim());
+    if (formData.foreignWord.trim()) {
+      translateWord(formData.foreignWord.trim());
     }
   };
 
@@ -201,27 +196,6 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word, currentBook = "" }: Ed
             )}
           </div>
 
-          {/* Book Source */}
-          <div className="space-y-2">
-            <Label htmlFor="book" className="text-sm font-medium flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              Source Book *
-            </Label>
-            <Input
-              id="book"
-              type="text"
-              value={formData.book}
-              onChange={(e) => setFormData(prev => ({ ...prev, book: e.target.value }))}
-              placeholder="Ex: The Hobbit - J.R.R. Tolkien"
-              className={cn(
-                "h-12 text-lg",
-                errors.book && "border-destructive focus:border-destructive"
-              )}
-            />
-            {errors.book && (
-              <p className="text-sm text-destructive">{errors.book}</p>
-            )}
-          </div>
 
           {/* Mastered Status */}
           <div className="space-y-2">
