@@ -21,15 +21,10 @@ export interface FirebaseWord extends Omit<VocabularyWord, 'id' | 'createdAt'> {
   createdAt: Timestamp;
 }
 
-export interface FirebaseSettings {
-  currentBook: string;
-  oldBooks: string[];
-}
+
 
 // Coleções do Firestore
 const WORDS_COLLECTION = 'words';
-const SETTINGS_COLLECTION = 'settings';
-const SETTINGS_DOC_ID = 'app-settings';
 
 // ==================== WORDS ====================
 
@@ -54,7 +49,6 @@ export const getAllWordsFromFirebase = async (userId: string): Promise<Vocabular
         portuguese: data.portuguese,
         pronunciation: data.pronunciation || '',
         language: data.language,
-        book: data.book || '',
         mastered: data.mastered || false,
         createdAt: data.createdAt.toDate().toISOString().split('T')[0] // Convert to YYYY-MM-DD
       });
@@ -112,7 +106,6 @@ export const updateWordInFirebase = async (word: VocabularyWord, userId: string)
       portuguese: word.portuguese, // ✅ Corrigido: usar 'portuguese' não 'nativeWord'
       pronunciation: word.pronunciation,
       language: word.language,
-      book: word.book,
       mastered: word.mastered,
       // Não atualizar userId e createdAt
     };
@@ -149,46 +142,7 @@ export const deleteWordFromFirebase = async (id: string, userId: string): Promis
   }
 };
 
-// ==================== SETTINGS ====================
 
-export const getSettingsFromFirebase = async (userId: string): Promise<FirebaseSettings> => {
-  try {
-    // 🔒 CONFIGURAÇÕES POR USUÁRIO
-    const settingsRef = doc(db, SETTINGS_COLLECTION, userId);
-    const docSnap = await getDoc(settingsRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data() as FirebaseSettings;
-    } else {
-      // Criar configurações padrão se não existirem
-      const defaultSettings: FirebaseSettings = {
-        currentBook: '',
-        oldBooks: []
-      };
-      // Usar setDoc em vez de updateDoc para criar o documento
-      await setDoc(settingsRef, defaultSettings);
-
-      return defaultSettings;
-    }
-  } catch (error) {
-    console.error('Error fetching settings from Firebase:', error);
-    throw error;
-  }
-};
-
-export const updateSettingsInFirebase = async (settings: FirebaseSettings, userId: string): Promise<FirebaseSettings> => {
-  try {
-    // 🔒 CONFIGURAÇÕES POR USUÁRIO
-    const settingsRef = doc(db, SETTINGS_COLLECTION, userId);
-    // Usar setDoc para garantir que o documento seja criado se não existir
-    await setDoc(settingsRef, settings, { merge: true });
-
-    return settings;
-  } catch (error) {
-    console.error('Error updating settings in Firebase:', error);
-    throw error;
-  }
-};
 
 // ==================== UTILITY FUNCTIONS ====================
 
@@ -219,29 +173,4 @@ export const getWordsByLanguageFromFirebase = async (language: 'english' | 'fren
   }
 };
 
-export const getWordsByBookFromFirebase = async (book: string): Promise<VocabularyWord[]> => {
-  try {
-    const wordsRef = collection(db, WORDS_COLLECTION);
-    const q = query(
-      wordsRef, 
-      where('book', '==', book),
-      orderBy('createdAt', 'desc')
-    );
-    const querySnapshot = await getDocs(q);
-    
-    const words: VocabularyWord[] = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data() as FirebaseWord;
-      words.push({
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt.toDate().toISOString().split('T')[0]
-      });
-    });
-    
-    return words;
-  } catch (error) {
-    console.error('Error fetching words by book from Firebase:', error);
-    throw error;
-  }
-};
+
