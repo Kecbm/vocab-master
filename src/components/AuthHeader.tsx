@@ -17,7 +17,7 @@ const AuthHeader = () => {
   if (!currentUser) return null;
 
   return (
-    <div className="flex items-center justify-between p-4 bg-card border-b">
+    <div className="flex items-center justify-between p-4 border-b">
       <div className="flex items-center gap-3">
         <UserAvatar
           photoURL={currentUser.photoURL}
