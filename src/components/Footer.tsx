@@ -41,7 +41,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t bg-card/50 backdrop-blur-sm">
+    <footer className="border-t">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="flex flex-col items-center space-y-4 sm:space-y-6">
           {/* Social Links */}
@@ -55,7 +55,7 @@ const Footer = () => {
                 className="group flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-primary transition-colors duration-200"
                 aria-label={`Visit ${link.name} profile`}
               >
-                <div className="p-1.5 sm:p-2 rounded-lg bg-background/50 group-hover:bg-primary/10 transition-colors duration-200">
+                <div className="p-1.5 sm:p-2 rounded-lg border group-hover:border-primary transition-colors duration-200">
                   {link.icon}
                 </div>
                 <span className="hidden sm:block text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
