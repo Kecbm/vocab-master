@@ -1,118 +1,177 @@
-# Vocab Master
+# 📖 Vocab Master
 
-![Project Image](public/VocabMaster.jpg)
+> **Transform your reading into a powerful language learning experience**
 
-## Project info
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-blue?style=for-the-badge)](https://vocab-master.vercel.app)
+[![GitHub](https://img.shields.io/badge/⭐_Star_on-GitHub-black?style=for-the-badge)](https://github.com/Kecbm/vocab-master)
 
-**URL**: https://lovable.dev/projects/050e5681-0863-4d6a-92f6-60b409f1d39e
+**Vocab Master** is the ultimate companion for language learners who want to expand their vocabulary while reading books, articles, or any content. Stop interrupting your reading flow to look up words - capture, learn, and master new vocabulary seamlessly.
 
-## Tasks
+---
 
-- Deploy
-    - Frontend: Vercel
-    - Backend: Firebase
+## ✨ Why Choose Vocab Master?
 
-## 🚀 Como inicializar a aplicação
+### 🎯 **Smart Learning System**
+- **New Words**: Instantly capture unknown words with automatic translation
+- **Learning Mode**: Track words you're actively studying with visual progress
+- **Mastered Status**: Celebrate your achievements as you master new vocabulary
 
-### Método 1: Inicialização completa (Recomendado)
+### 🌍 **Multi-Language Support**
+- **English & French**: Full support for both languages
+- **Intelligent Translation**: Powered by advanced translation APIs
+- **Native Pronunciation**: Built-in text-to-speech for perfect pronunciation
 
-```bash
-# Instala dependências
-npm install
+### 📚 **Book-Centric Organization**
+- **Reading Progress**: Associate words with specific books you're reading
+- **Completed Library**: Track your reading journey and vocabulary growth
+- **Smart Categorization**: Organize your learning by source material
 
-# Inicia tanto o json-server quanto a aplicação web
-./start.sh
+### 🎨 **Beautiful & Intuitive Design**
+- **Modern UI**: Clean, distraction-free interface designed for focus
+- **Visual Feedback**: Color-coded system for instant word status recognition
+- **Responsive Design**: Perfect experience on desktop, tablet, and mobile
+
+---
+
+## 🚀 Key Features
+
+### 📝 **Effortless Word Capture**
 ```
-
-### Método 2: Inicialização manual
-
-```bash
-# Terminal 1: Inicia o servidor de dados
-npm run db
-
-# Terminal 2: Inicia a aplicação web
-npm run dev
+🔍 Search → 🎯 Auto-translate → ✅ Save → 📖 Continue Reading
 ```
+- One-click word addition with automatic Portuguese translation
+- Smart duplicate detection
+- Instant feedback with beautiful animations
 
-### 📊 URLs da aplicação
+### 📊 **Progress Tracking**
+- **Real-time Statistics**: See your vocabulary growth at a glance
+- **Learning Analytics**: Track new, learning, and mastered words
+- **Book Progress**: Monitor vocabulary per book
 
-- **Aplicação web**: http://localhost:8080
-- **API de dados**: http://localhost:3001
-- **Dados JSON**: http://localhost:3001/words
+### 🎵 **Audio Learning**
+- **Perfect Pronunciation**: Native speaker audio for every word
+- **Interactive Playback**: Click to hear any word instantly
+- **Language-Specific Voices**: Authentic accents for English and French
 
-## 💾 Sistema de persistência
+### 🔄 **Smart Status Management**
+- **Dynamic Filtering**: View words by status (New, Learning, Mastered)
+- **One-Click Updates**: Easily move words between learning stages
+- **Visual Indicators**: Intuitive icons and colors for each status
 
-A aplicação agora usa **json-server** como backend mínimo:
+### 🌐 **Seamless Language Switching**
+- **Instant Toggle**: Switch between English and French learning
+- **Separate Vocabularies**: Maintain distinct word lists per language
+- **Unified Experience**: Consistent interface across all languages
 
-- ✅ **Persistência real** - Dados salvos em `db.json`
-- ✅ **API REST completa** - GET, POST, PUT, DELETE
-- ✅ **Sincronização automática** - Mudanças refletem imediatamente
-- ✅ **Backup simples** - Arquivo `db.json` pode ser versionado
+---
 
-## 🔧 Scripts disponíveis
+## 🎬 See It In Action
 
-```bash
-npm run dev        # Apenas aplicação web
-npm run db         # Apenas json-server
-npm run dev:full   # Ambos simultaneamente
-npm run build      # Build de produção
-npm run lint       # Verificação de código
-```
+### 📱 **Quick Word Addition**
+*Add new words in seconds without breaking your reading flow*
 
-## How can I edit this code?
+### 🎯 **Smart Filtering**
+*Find exactly what you're looking for with powerful filters*
 
-**Use your preferred IDE**
+### 📈 **Progress Visualization**
+*Watch your vocabulary grow with beautiful statistics*
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🛠️ Technology Stack
 
-```sh
-# Step 1: Clone the repository
-git clone <YOUR_GIT_URL>
+**Frontend Excellence:**
+- ⚛️ **React 18** - Modern, performant UI
+- 🎨 **Tailwind CSS** - Beautiful, responsive design
+- 🔧 **TypeScript** - Type-safe development
+- 🎭 **Framer Motion** - Smooth animations
 
-# Step 2: Navigate to the project directory
-cd <YOUR_PROJECT_NAME>
+**Backend Power:**
+- 🔥 **Firebase** - Real-time database and authentication
+- 🌐 **Translation APIs** - Accurate, instant translations
+- 🔊 **Web Speech API** - Native pronunciation support
 
-# Step 3: Install dependencies
-npm install
+**Developer Experience:**
+- ⚡ **Vite** - Lightning-fast development
+- 📦 **Modern Tooling** - ESLint, Prettier, TypeScript
+- 🚀 **Vercel Deployment** - Instant, global distribution
 
-# Step 4: Start the complete application
-./start.sh
-```
+---
 
-**Edit a file directly in GitHub**
+## 🚀 Quick Start
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 1. **Try the Live Demo**
+Experience Vocab Master instantly: [vocab-master.vercel.app](https://vocab-master.vercel.app)
 
-**Use GitHub Codespaces**
+### 3. **Start Learning**
+1. 🔍 Search for any English or French word
+2. ✅ Save it to your vocabulary
+3. 📖 Continue reading and learning
+4. 🎯 Track your progress as you master new words
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 🎯 Perfect For
 
-This project is built with:
+### 📚 **Book Lovers**
+Transform your reading hobby into a language learning superpower
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### 🎓 **Language Students**
+Supplement your formal studies with practical vocabulary building
 
-## How can I deploy this project?
+### 💼 **Professionals**
+Expand your business vocabulary while reading industry content
 
-Simply open [Lovable](https://lovable.dev/projects/050e5681-0863-4d6a-92f6-60b409f1d39e) and click on Share -> Publish.
+### 🌍 **Travel Enthusiasts**
+Prepare for your next adventure with essential vocabulary
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🌟 What Users Say
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+> *"Finally, a tool that doesn't interrupt my reading flow. I've learned 200+ words in just one month!"*
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+> *"The pronunciation feature is a game-changer. I can actually hear how words should sound."*
+
+> *"Love how it tracks my progress per book. It's like having a personal language tutor."*
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Whether it's:
+- 🐛 Bug fixes
+- ✨ New features
+- 📝 Documentation improvements
+- 🌍 Translation additions
+
+Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Created By
+
+**Klecianny Melo**
+- 💼 [LinkedIn](https://linkedin.com/in/Kecbm)
+- 🐙 [GitHub](https://github.com/Kecbm)
+- 🐦 [Twitter](https://twitter.com/Kecbm)
+- 📝 [Dev.to](https://dev.to/Kecbm)
+
+---
+
+<div align="center">
+
+### 🚀 Ready to Transform Your Language Learning?
+
+[![Try Vocab Master Now](https://img.shields.io/badge/🎯_Try_Vocab_Master-Start_Learning_Today-success?style=for-the-badge&logo=rocket)](https://vocab-master.vercel.app)
+
+**Don't let unknown words slow down your reading. Start building your vocabulary today!**
+
+</div>
+
