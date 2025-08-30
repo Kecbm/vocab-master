@@ -39,7 +39,7 @@ const AuthHeader = () => {
         variant="outline"
         size="sm"
         onClick={handleLogout}
-        className="gap-2"
+        className="gap-2 border-[#b91c1c] text-[#b91c1c] hover:border-[#dc2626] hover:text-[#dc2626] hover:bg-[#dc2626]/10"
       >
         <LogOut className="h-4 w-4" />
         Logout
