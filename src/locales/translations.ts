@@ -2,7 +2,7 @@ export const translations = {
   english: {
     // Header
     appTitle: "Vocab Master",
-    appSubtitle: "Learning English by Reading Books",
+    appSubtitle: "Your companion for learning languages",
     
     // Search
     searchPlaceholder: "Type an English word...",
@@ -99,7 +99,7 @@ export const translations = {
   french: {
     // Header
     appTitle: "Vocab Master",
-    appSubtitle: "Apprendre le français en lisant des livres",
+    appSubtitle: "Votre compagnon pour l'apprentissage des langues",
     
     // Search
     searchPlaceholder: "Tapez un mot français...",
