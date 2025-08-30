@@ -200,7 +200,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
           {/* Mastered Status */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Word Status</Label>
-            <div className="flex items-center justify-between p-4 border rounded-xl bg-card">
+            <div className="flex items-center justify-between p-4 border rounded-xl">
               <div className="flex items-center gap-3">
                 <div className={cn(
                   "p-2 rounded-lg",

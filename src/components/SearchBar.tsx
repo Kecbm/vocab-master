@@ -63,7 +63,7 @@ const SearchBar = ({
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               className={cn(
-                "pl-12 pr-16 h-14 text-lg bg-card border-2 rounded-2xl",
+                "pl-12 pr-16 h-14 text-lgs border-2 rounded-2xl",
                 "focus:border-primary/50 focus:ring-4 focus:ring-primary/10",
                 "transition-all duration-300"
               )}

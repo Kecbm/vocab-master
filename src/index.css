@@ -94,7 +94,7 @@
 @layer components {
   /* Card variants */
   .card-vocabulary {
-    @apply bg-card border border-card-border rounded-xl p-6;
+    @apply border border-card-border rounded-xl p-6;
     box-shadow: var(--shadow-card);
     transition: var(--transition-smooth);
   }

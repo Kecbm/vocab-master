@@ -398,7 +398,7 @@ const Index = () => {
 
             {/* Middle Columns: Statistics Cards */}
             <div className="lg:col-span-3 grid grid-cols-3 gap-2 h-full">
-              <div className="bg-card border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
+              <div className="border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
                 <div className="p-1.5 bg-primary/10 rounded-lg w-fit mx-auto mb-1.5">
                   <Brain className="h-7 w-7 text-primary" />
                 </div>
@@ -406,7 +406,7 @@ const Index = () => {
                 <div className="text-xs text-muted-foreground">{t('total')}</div>
               </div>
 
-              <div className="bg-card border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
+              <div className="border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
                 <div className="p-1.5 bg-learning/10 rounded-lg w-fit mx-auto mb-1.5">
                   <Plus className="h-7 w-7 text-learning" />
                 </div>
@@ -414,7 +414,7 @@ const Index = () => {
                 <div className="text-xs text-muted-foreground">{t('learning')}</div>
               </div>
 
-              <div className="bg-card border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
+              <div className="border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
                 <div className="p-1.5 bg-mastered/10 rounded-lg w-fit mx-auto mb-1.5">
                   <Target className="h-7 w-7 text-mastered" />
                 </div>
