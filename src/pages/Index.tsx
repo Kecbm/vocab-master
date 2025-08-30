@@ -6,6 +6,7 @@ import EditWordModal from "@/components/EditWordModal";
 import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { Plus, Brain, Target, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import LanguageToggle from "@/components/LanguageToggle";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -356,26 +357,38 @@ const Index = () => {
                     {t('filterAll')}
                   </Button>
                   <Button
-                    variant={statusFilter === "new" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("new")}
-                    className="h-8 text-xs px-2 bg-learning/10 text-learning border-learning/20 hover:bg-learning/20"
+                    className={cn(
+                      "h-8 text-xs px-2",
+                      statusFilter === "new"
+                        ? "bg-learning text-white border-learning hover:text-white"
+                        : "bg-learning/10 !text-learning border-learning/20 hover:bg-learning/20 hover:!text-learning"
+                    )}
                   >
                     {t('filterNew')}
                   </Button>
                   <Button
-                    variant={statusFilter === "learning" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("learning")}
-                    className="h-8 text-xs px-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                    className={cn(
+                      "h-8 text-xs px-2",
+                      statusFilter === "learning"
+                        ? "bg-primary text-white border-primary hover:text-white"
+                        : "bg-primary/10 !text-primary border-primary/20 hover:bg-primary/20 hover:!text-primary"
+                    )}
                   >
                     {t('filterLearning')}
                   </Button>
                   <Button
-                    variant={statusFilter === "mastered" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("mastered")}
-                    className="h-8 text-xs px-2 bg-mastered/10 text-mastered border-mastered/20 hover:bg-mastered/20"
+                    className={cn(
+                      "h-8 text-xs px-2",
+                      statusFilter === "mastered"
+                        ? "bg-mastered text-white border-mastered hover:text-white"
+                        : "bg-mastered/10 !text-mastered border-mastered/20 hover:bg-mastered/20 hover:!text-mastered"
+                    )}
                   >
                     {t('filterMastered')}
                   </Button>
