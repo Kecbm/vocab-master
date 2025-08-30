@@ -195,10 +195,10 @@ const VocabularyCard = ({
             variant="ghost"
             onClick={handlePlayPronunciation}
             className={cn(
-              "h-8 w-8 p-0 rounded-full transition-all",
-              isPlaying 
-                ? "bg-primary text-primary-foreground" 
-                : "hover:bg-primary/70 text-primary"
+              "h-8 w-8 p-0 rounded-full",
+              isPlaying
+                ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/30 scale-105 ring-2 ring-primary/20 ring-offset-2 ring-offset-background"
+                : "text-primary hover:bg-gradient-to-r hover:from-primary hover:to-primary/90 hover:text-primary-foreground hover:shadow-lg hover:shadow-primary/25 hover:scale-105 active:scale-95 transition-all duration-300 ease-out group-hover:translate-y-[-1px]"
             )}
           >
             <Volume2 className="h-4 w-4" />
