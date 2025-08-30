@@ -2,7 +2,7 @@
 
 > **Transform your reading into a powerful language learning experience**
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-blue?style=for-the-badge)](https://vocab-master.vercel.app)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-blue?style=for-the-badge)](https://mastervocab.vercel.app)
 [![GitHub](https://img.shields.io/badge/⭐_Star_on-GitHub-black?style=for-the-badge)](https://github.com/Kecbm/vocab-master)
 
 **Vocab Master** is the ultimate companion for language learners who want to expand their vocabulary while reading books, articles, or any content. Stop interrupting your reading flow to look up words - capture, learn, and master new vocabulary seamlessly.
@@ -101,7 +101,7 @@
 ## 🚀 Quick Start
 
 ### 1. **Try the Live Demo**
-Experience Vocab Master instantly: [vocab-master.vercel.app](https://vocab-master.vercel.app)
+Experience Vocab Master instantly: [mastervocab.vercel.app](https://mastervocab.vercel.app)
 
 ### 3. **Start Learning**
 1. 🔍 Search for any English or French word
@@ -169,7 +169,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 🚀 Ready to Transform Your Language Learning?
 
-[![Try Vocab Master Now](https://img.shields.io/badge/🎯_Try_Vocab_Master-Start_Learning_Today-success?style=for-the-badge&logo=rocket)](https://vocab-master.vercel.app)
+[![Try Vocab Master Now](https://img.shields.io/badge/🎯_Try_Vocab_Master-Start_Learning_Today-success?style=for-the-badge&logo=rocket)](https://mastervocab.vercel.app)
 
 **Don't let unknown words slow down your reading. Start building your vocabulary today!**
 
