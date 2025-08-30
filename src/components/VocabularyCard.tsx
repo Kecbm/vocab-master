@@ -120,6 +120,7 @@ const VocabularyCard = ({
         "card-vocabulary group",
         isNew && "card-learning float-in",
         word.mastered && "card-mastered",
+        !isNew && !word.mastered && "bg-primary/10 border-primary/20",
         className
       )}
     >
