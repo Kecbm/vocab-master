@@ -1,6 +1,8 @@
 import { Heart, ExternalLink } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const socialLinks = [
     {
       name: 'LinkedIn',
@@ -71,9 +73,9 @@ const Footer = () => {
 
           {/* Made with love */}
           <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
-            <span>Made with</span>
+            <span>{t('madeWith')}</span>
             <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 fill-current animate-pulse" />
-            <span>by</span>
+            <span>{t('by')}</span>
             <a
               href="https://linkedin.com/in/Kecbm"
               target="_blank"
@@ -86,7 +88,7 @@ const Footer = () => {
 
           {/* App info */}
           <div className="text-xs text-muted-foreground/70 text-center px-4">
-            <p className="leading-relaxed">Vocab Master - Your companion for learning languages</p>
+            <p className="leading-relaxed">Vocab Master - {t('footerDescription')}</p>
           </div>
         </div>
       </div>

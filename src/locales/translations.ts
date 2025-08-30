@@ -94,6 +94,11 @@ export const translations = {
     
     // Loading
     loadingWords: "Loading words...",
+
+    // Footer
+    madeWith: "Made with",
+    by: "by",
+    footerDescription: "Your companion for learning languages",
   },
   
   french: {
@@ -191,6 +196,11 @@ export const translations = {
     
     // Loading
     loadingWords: "Chargement des mots...",
+
+    // Footer
+    madeWith: "Fait avec",
+    by: "par",
+    footerDescription: "Votre compagnon pour l'apprentissage des langues",
   }
 };
 
