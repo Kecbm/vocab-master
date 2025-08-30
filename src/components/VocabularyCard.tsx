@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Volume2, Edit, Trash2, CheckCircle } from "lucide-react";
+import { Volume2, Edit, Trash2, CheckCircle, Hourglass, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isToday } from "@/utils/dateUtils";
@@ -53,7 +53,6 @@ const VocabularyCard = ({
     setIsPlaying(true);
 
     if (!('speechSynthesis' in window)) {
-      console.error('❌ Speech Synthesis not supported');
       setIsPlaying(false);
       return;
     }
@@ -61,8 +60,6 @@ const VocabularyCard = ({
     try {
       const currentWord = getCurrentWord();
       const languageCode = getLanguageCode();
-
-      console.log('🔊 Playing pronunciation:', { word: currentWord, language: languageCode });
 
       // Parar qualquer fala anterior
       speechSynthesis.cancel();
@@ -77,35 +74,25 @@ const VocabularyCard = ({
 
       // Tentar encontrar uma voz específica para o idioma
       const voices = speechSynthesis.getVoices();
-      console.log('🎤 Available voices:', voices.length);
 
       const voice = voices.find(v => v.lang.startsWith(languageCode.split('-')[0]));
-      if (voice) {
-        utterance.voice = voice;
-        console.log('🎤 Using voice:', voice.name, voice.lang);
-      } else {
-        console.log('🎤 Using default voice for:', languageCode);
-      }
+      utterance.voice = voice;
 
       // Eventos para controlar o estado
       utterance.onstart = () => {
-        console.log('🎵 Speech started');
         setIsPlaying(true);
       };
 
       utterance.onend = () => {
-        console.log('🎵 Speech ended');
         setIsPlaying(false);
       };
 
       utterance.onerror = (event) => {
-        console.error('❌ Speech error:', event.error);
         setIsPlaying(false);
       };
 
       // Verificar se o speechSynthesis está pronto
       if (speechSynthesis.speaking) {
-        console.log('⚠️ Speech synthesis is already speaking');
         setIsPlaying(false);
         return;
       }
@@ -115,13 +102,11 @@ const VocabularyCard = ({
       // Fallback: se não começar em 2 segundos, resetar estado
       setTimeout(() => {
         if (isPlaying && !speechSynthesis.speaking) {
-          console.log('⚠️ Speech timeout, resetting state');
           setIsPlaying(false);
         }
       }, 2000);
 
     } catch (error) {
-      console.error('❌ Speech error:', error);
       setIsPlaying(false);
     }
   };
@@ -143,11 +128,10 @@ const VocabularyCard = ({
         <div className="flex items-center gap-2">
           {word.mastered ? (
             <CheckCircle className="h-5 w-5 text-mastered" />
+          ) : isNew ? (
+            <Sparkles className="h-5 w-5 text-learning" />
           ) : (
-            <div className={cn(
-              "w-3 h-3 rounded-full border-2",
-              isNew ? "border-learning" : "border-primary"
-            )} />
+            <Hourglass className="h-5 w-5 text-primary" />
           )}
           <span className={cn(
             "text-xs font-medium px-2 py-1 rounded-full border",
@@ -168,12 +152,12 @@ const VocabularyCard = ({
               size="sm"
               variant="ghost"
               onClick={() => onToggleMastered(word.id)}
-              className="h-8 w-8 p-0 hover:text-mastered"
-            >
-              <CheckCircle className={cn(
-                "h-4 w-4",
+              className={cn(
+                "h-8 w-8 p-0 hover:text-mastered",
                 word.mastered ? "text-mastered" : "text-muted-foreground"
-              )} />
+              )}
+            >
+              <CheckCircle className="h-4 w-4" />
             </Button>
           )}
           {onEdit && (
@@ -181,9 +165,9 @@ const VocabularyCard = ({
               size="sm"
               variant="ghost"
               onClick={() => onEdit(word)}
-              className="h-8 w-8 p-0 hover:text-primary"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-primary"
             >
-              <Edit className="h-4 w-4 text-muted-foreground" />
+              <Edit className="h-4 w-4" />
             </Button>
           )}
           {onDelete && (
@@ -191,9 +175,9 @@ const VocabularyCard = ({
               size="sm"
               variant="ghost"
               onClick={() => onDelete(word.id)}
-              className="h-8 w-8 p-0 hover:text-destructive"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
             >
-              <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+              <Trash2 className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -213,7 +197,7 @@ const VocabularyCard = ({
               "h-8 w-8 p-0 rounded-full transition-all",
               isPlaying 
                 ? "bg-primary text-primary-foreground" 
-                : "hover:bg-primary/10 text-primary"
+                : "hover:bg-primary/70 text-primary"
             )}
           >
             <Volume2 className="h-4 w-4" />
@@ -223,7 +207,7 @@ const VocabularyCard = ({
 
       {/* Portuguese Translation */}
       <div className="mb-4">
-        <p className="text-lg text-muted-foreground font-medium">
+        <p className="text-md text-muted-foreground font-medium">
           {capitalizeFirstLetter(word.portuguese)}
         </p>
       </div>
