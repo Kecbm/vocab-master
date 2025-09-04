@@ -78,7 +78,7 @@ const LandingPage = () => {
                 <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
                   Transforme sua
                   <span className="text-primary block">leitura em</span>
-                  <span className="bg-gradient-to-r from-primary to-learning bg-clip-text text-transparent">
+                  <span className="text-primary">
                     aprendizado
                   </span>
                 </h1>
