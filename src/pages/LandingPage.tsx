@@ -199,7 +199,7 @@ const LandingPage = () => {
               </div>
               
               {/* Background decoration */}
-              <div className="absolute -top-4 -right-4 w-72 h-72 bg-gradient-to-br from-primary/20 to-learning/20 rounded-full blur-3xl -z-10"></div>
+              <div className="absolute -top-4 -right-4 w-72 h-72 bg-gradient-to-br from-primary/20 to-primary/20 rounded-full blur-3xl -z-10"></div>
               <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-gradient-to-tr from-mastered/20 to-primary/20 rounded-full blur-3xl -z-10"></div>
             </div>
           </div>
@@ -257,7 +257,7 @@ const LandingPage = () => {
             </div>
             
             <div className="relative">
-              <div className="bg-gradient-to-br from-primary/10 to-learning/10 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-primary/10 to-primary/10 rounded-2xl p-8">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
@@ -270,7 +270,7 @@ const LandingPage = () => {
                   </div>
                   
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-learning rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
                       <Globe className="h-6 w-6 text-white" />
                     </div>
                     <div>
