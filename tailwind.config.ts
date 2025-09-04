@@ -45,6 +45,10 @@ export default {
 					foreground: 'hsl(var(--mastered-foreground))',
 					soft: 'hsl(var(--mastered-soft))'
 				},
+				new: {
+					DEFAULT: '#ea670c',
+					foreground: '#FFFFFF'
+				},
 				
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
