@@ -111,43 +111,67 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-xl">
-            <div className="p-2 bg-primary/10 rounded-xl">
+      <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl bg-background/95 backdrop-blur-sm">
+        <DialogHeader className="pb-6">
+          <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-foreground">
+            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl border border-primary/20">
               <Edit className="h-5 w-5 text-primary" />
             </div>
-            {t('editWord')}
+            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+              {t('editWord')}
+            </span>
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* English Word */}
-          <div className="space-y-2">
-            <Label htmlFor="foreignWord" className="text-sm font-medium">
-              {t('englishWord')} *
+          <div className="space-y-3">
+            <Label
+              htmlFor="foreignWord"
+              className="text-sm font-medium text-foreground/90 flex items-center gap-2"
+            >
+              <span className="w-2 h-2 bg-primary rounded-full"></span>
+              {t('englishWord')}
+              <span className="text-destructive text-xs">*</span>
             </Label>
-            <Input
-              id="foreignWord"
-              type="text"
-              value={formData.foreignWord}
-              onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
-              placeholder="Ex: serendipity"
-              className={cn(
-                "h-12 text-lg",
-                errors.foreignWord && "border-destructive focus:border-destructive"
-              )}
-              autoFocus
-            />
+            <div className="relative">
+              <Input
+                id="foreignWord"
+                type="text"
+                value={formData.foreignWord}
+                onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
+                placeholder="Ex: serendipity"
+                className={cn(
+                  "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
+                  "bg-background/50 backdrop-blur-sm",
+                  "focus:ring-2 focus:ring-primary/20 focus:border-primary",
+                  "placeholder:text-muted-foreground/60",
+                  errors.foreignWord
+                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    : "border-input hover:border-input"
+                )}
+                autoFocus
+              />
+            </div>
             {errors.foreignWord && (
-              <p className="text-sm text-destructive">{errors.foreignWord}</p>
+              <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg border border-destructive/20">
+                <div className="w-1 h-1 bg-destructive rounded-full"></div>
+                <p className="text-sm text-destructive font-medium">{errors.foreignWord}</p>
+              </div>
             )}
           </div>
 
           {/* Portuguese Translation */}
-          <div className="space-y-2">
-            <Label htmlFor="portuguese" className="text-sm font-medium flex items-center justify-between">
-              <span>{t('portugueseTranslation')} *</span>
+          <div className="space-y-3">
+            <Label
+              htmlFor="portuguese"
+              className="text-sm font-medium text-foreground/90 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-primary rounded-full"></span>
+                {t('portugueseTranslation')}
+                <span className="text-destructive text-xs">*</span>
+              </div>
               {formData.foreignWord && (
                 <Button
                   type="button"
@@ -155,17 +179,22 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                   size="sm"
                   onClick={handleRetranslate}
                   disabled={isTranslating}
-                  className="h-6 px-2 text-xs text-primary hover:text-primary/80"
+                  className={cn(
+                    "h-7 px-3 text-xs rounded-lg transition-all duration-200",
+                    "text-primary hover:text-primary/80 hover:bg-primary/10",
+                    "border border-transparent hover:border-primary/20",
+                    isTranslating && "opacity-70 cursor-not-allowed"
+                  )}
                 >
                   {isTranslating ? (
                     <>
-                      <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                      Translating...
+                      <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
+                      <span className="font-medium">Translating...</span>
                     </>
                   ) : (
                     <>
-                      <Languages className="h-3 w-3 mr-1" />
-                      Retranslate
+                      <Languages className="h-3 w-3 mr-1.5" />
+                      <span className="font-medium">Retranslate</span>
                     </>
                   )}
                 </Button>
@@ -179,44 +208,65 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 onChange={(e) => setFormData(prev => ({ ...prev, portuguese: e.target.value }))}
                 placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
                 className={cn(
-                  "h-12 text-lg",
-                  errors.portuguese && "border-destructive focus:border-destructive",
-                  isTranslating && "bg-muted/50"
+                  "h-12 text-lg px-4 pr-12 rounded-xl border-2 transition-all duration-200",
+                  "bg-background/50 backdrop-blur-sm",
+                  "focus:ring-2 focus:ring-primary/20 focus:border-primary",
+                  "placeholder:text-muted-foreground/60",
+                  errors.portuguese
+                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    : "border-input hover:border-input",
+                  isTranslating && "bg-muted/30 cursor-wait"
                 )}
                 disabled={isTranslating}
               />
               {isTranslating && (
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  </div>
                 </div>
               )}
             </div>
             {errors.portuguese && (
-              <p className="text-sm text-destructive">{errors.portuguese}</p>
+              <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg border border-destructive/20">
+                <div className="w-1 h-1 bg-destructive rounded-full"></div>
+                <p className="text-sm text-destructive font-medium">{errors.portuguese}</p>
+              </div>
             )}
           </div>
 
 
           {/* Mastered Status */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Word Status</Label>
-            <div className="flex items-center justify-between p-4 border rounded-xl">
-              <div className="flex items-center gap-3">
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-foreground/90 flex items-center gap-2">
+              <span className="w-2 h-2 bg-accent rounded-full"></span>
+              Word Status
+            </Label>
+            <div className={cn(
+              "flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200",
+              "bg-background/50 backdrop-blur-sm",
+              formData.mastered
+                ? "border-mastered/30 bg-mastered/5"
+                : "border-learning/30 bg-learning/5"
+            )}>
+              <div className="flex items-center gap-4">
                 <div className={cn(
-                  "p-2 rounded-lg",
-                  formData.mastered ? "bg-mastered/10" : "bg-learning/10"
+                  "flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-200",
+                  formData.mastered
+                    ? "bg-gradient-to-br from-mastered/20 to-mastered/10 border border-mastered/20"
+                    : "bg-gradient-to-br from-learning/20 to-learning/10 border border-learning/20"
                 )}>
                   {formData.mastered ? (
-                    <BookOpen className="h-5 w-5 text-mastered" />
+                    <BookOpen className="h-6 w-6 text-mastered" />
                   ) : (
-                    <Edit className="h-5 w-5 text-learning" />
+                    <Edit className="h-6 w-6 text-learning" />
                   )}
                 </div>
-                <div>
-                  <p className="font-medium">
+                <div className="space-y-1">
+                  <p className="font-semibold text-foreground">
                     {formData.mastered ? "Mastered" : "Learning"}
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground/80">
                     {formData.mastered
                       ? "You have mastered this word"
                       : "Still practicing this word"
@@ -224,21 +274,37 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                   </p>
                 </div>
               </div>
-              <Switch
-                checked={formData.mastered}
-                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, mastered: checked }))}
-              />
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                    {formData.mastered ? "Mastered" : "Learning"}
+                  </p>
+                </div>
+                <Switch
+                  checked={formData.mastered}
+                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, mastered: checked }))}
+                  className="data-[state=checked]:bg-mastered data-[state=unchecked]:bg-learning/30"
+                />
+              </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-6">
             <Button
               type="submit"
-              className="flex-1 h-12 bg-primary hover:bg-primary/90 text-primary-foreground"
+              className={cn(
+                "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
+                "bg-gradient-to-r from-primary to-primary/90",
+                "hover:from-primary/90 hover:to-primary/80",
+                "text-primary-foreground shadow-lg shadow-primary/25",
+                "focus:ring-2 focus:ring-primary/30 focus:ring-offset-2",
+                "disabled:opacity-50 disabled:cursor-not-allowed"
+              )}
+              disabled={isTranslating}
             >
               <Edit className="h-4 w-4 mr-2" />
-              {t('saveChanges')}
+              <span className="font-semibold">{t('saveChanges')}</span>
             </Button>
           </div>
         </form>
