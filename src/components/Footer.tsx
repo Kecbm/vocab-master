@@ -61,34 +61,10 @@ const Footer = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300"
                   aria-label={`Visit ${link.name} profile`}
-                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="relative overflow-hidden rounded-2xl border-2 border-muted/30 bg-background/80 backdrop-blur-sm p-3 transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 hover:scale-105">
-                    {/* Glow effect on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-
-                    {/* Icon container */}
-                    <div className="relative flex items-center justify-center w-8 h-8 text-muted-foreground group-hover:text-primary transition-colors duration-300">
-                      {link.icon}
-                    </div>
-
-                    {/* Tooltip */}
-                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                      <div className="bg-foreground/90 text-background text-xs font-semibold px-3 py-1.5 rounded-lg backdrop-blur-sm">
-                        {link.name}
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-foreground/90"></div>
-                      </div>
-                    </div>
-
-                    {/* External link indicator */}
-                    <div className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <div className="flex items-center justify-center w-4 h-4 bg-primary text-primary-foreground rounded-full">
-                        <ExternalLink className="h-2 w-2" />
-                      </div>
-                    </div>
-                  </div>
+                  {link.icon}
                 </a>
               ))}
             </div>
