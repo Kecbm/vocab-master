@@ -295,7 +295,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 relative overflow-hidden">
       {/* Search Header */}
       <SearchBar
         onSearch={handleSearch}
@@ -305,31 +305,43 @@ const Index = () => {
         isNewWord={isNewWord}
       />
 
-      <main className="max-w-7xl mx-auto px-6 pb-12">
+      <main className="max-w-7xl mx-auto px-6 pb-12 relative">
         {/* Loading State */}
         {isLoading ? (
-          <div className="flex items-center justify-center py-16">
-            <div className="text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-              <p className="text-muted-foreground">{t('loadingWords')}</p>
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-learning/20 rounded-full blur-xl"></div>
+                <div className="relative flex items-center justify-center w-16 h-16 bg-background/80 backdrop-blur-sm rounded-full border border-primary/20">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+              </div>
+              <p className="text-muted-foreground font-medium">{t('loadingWords')}</p>
             </div>
           </div>
         ) : (
           <>
         {/* Controls and Statistics */}
-        <section className="mb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 items-stretch min-h-[120px]">
+        <section className="mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 items-stretch min-h-[140px]">
             {/* Left Column: Sort and Filter Controls */}
-            <div className="lg:col-span-2 flex flex-col justify-between h-full py-2">
-              {/* Sort Controls - Top Left */}
-              <div className="space-y-2">
-                <span className="text-sm font-medium text-muted-foreground">{t('sort')}</span>
+            <div className="lg:col-span-2 space-y-6">
+              {/* Sort Controls */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-foreground/90 uppercase tracking-wide">{t('sort')}</span>
+                </div>
                 <div className="flex gap-2">
                   <Button
                     variant={sortOrder === "alphabetical" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setSortOrder("alphabetical")}
-                    className="h-8 text-xs"
+                    className={cn(
+                      "h-9 text-xs font-semibold rounded-xl transition-all duration-200",
+                      sortOrder === "alphabetical"
+                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
+                        : "border-2 hover:border-primary/30 hover:bg-primary/5"
+                    )}
                   >
                     {t('sortAZ')}
                   </Button>
@@ -337,22 +349,34 @@ const Index = () => {
                     variant={sortOrder === "recent" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setSortOrder("recent")}
-                    className="h-8 text-xs"
+                    className={cn(
+                      "h-9 text-xs font-semibold rounded-xl transition-all duration-200",
+                      sortOrder === "recent"
+                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
+                        : "border-2 hover:border-primary/30 hover:bg-primary/5"
+                    )}
                   >
                     {t('sortRecent')}
                   </Button>
                 </div>
               </div>
 
-              {/* Filter Controls - Below Sort */}
-              <div className="space-y-2">
-                <span className="text-sm font-medium text-muted-foreground">{t('filter')}</span>
-                <div className="flex gap-1">
+              {/* Filter Controls */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-foreground/90 uppercase tracking-wide">{t('filter')}</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
                   <Button
                     variant={statusFilter === "all" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setStatusFilter("all")}
-                    className="h-8 text-xs px-2"
+                    className={cn(
+                      "h-9 text-xs px-3 font-semibold rounded-xl transition-all duration-200",
+                      statusFilter === "all"
+                        ? "bg-gradient-to-r from-foreground to-foreground/90 text-background shadow-lg shadow-foreground/25"
+                        : "border-2 hover:border-foreground/30 hover:bg-foreground/5"
+                    )}
                   >
                     {t('filterAll')}
                   </Button>
@@ -360,10 +384,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("new")}
                     className={cn(
-                      "h-8 text-xs px-2",
+                      "h-9 text-xs px-3 font-semibold rounded-xl border-2 transition-all duration-200",
                       statusFilter === "new"
-                        ? "bg-learning text-white border-learning hover:text-white"
-                        : "bg-learning/10 !text-learning border-learning/20 hover:bg-learning/20 hover:!text-learning"
+                        ? "bg-gradient-to-r from-learning to-learning/90 text-learning-foreground border-learning shadow-lg shadow-learning/25"
+                        : "bg-learning/10 text-learning border-learning/30 hover:bg-learning/20 hover:border-learning/50"
                     )}
                   >
                     {t('filterNew')}
@@ -372,10 +396,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("learning")}
                     className={cn(
-                      "h-8 text-xs px-2",
+                      "h-9 text-xs px-3 font-semibold rounded-xl border-2 transition-all duration-200",
                       statusFilter === "learning"
-                        ? "bg-primary text-white border-primary hover:text-white"
-                        : "bg-primary/10 !text-primary border-primary/20 hover:bg-primary/20 hover:!text-primary"
+                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground border-primary shadow-lg shadow-primary/25"
+                        : "bg-primary/10 text-primary border-primary/30 hover:bg-primary/20 hover:border-primary/50"
                     )}
                   >
                     {t('filterLearning')}
@@ -384,10 +408,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("mastered")}
                     className={cn(
-                      "h-8 text-xs px-2",
+                      "h-9 text-xs px-3 font-semibold rounded-xl border-2 transition-all duration-200",
                       statusFilter === "mastered"
-                        ? "bg-mastered text-white border-mastered hover:text-white"
-                        : "bg-mastered/10 !text-mastered border-mastered/20 hover:bg-mastered/20 hover:!text-mastered"
+                        ? "bg-gradient-to-r from-mastered to-mastered/90 text-mastered-foreground border-mastered shadow-lg shadow-mastered/25"
+                        : "bg-mastered/10 text-mastered border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50"
                     )}
                   >
                     {t('filterMastered')}
@@ -397,47 +421,69 @@ const Index = () => {
             </div>
 
             {/* Middle Columns: Statistics Cards */}
-            <div className="lg:col-span-3 grid grid-cols-3 gap-2 h-full">
-              <div className="border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
-                <div className="p-1.5 bg-primary/10 rounded-lg w-fit mx-auto mb-1.5">
-                  <Brain className="h-7 w-7 text-primary" />
+            <div className="lg:col-span-3 grid grid-cols-3 gap-3 h-full">
+              {/* Total Words Card */}
+              <div className="relative group border-2 border-primary/20 rounded-2xl p-4 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-transparent rounded-full -translate-y-8 translate-x-8"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl mx-auto mb-3 border border-primary/30">
+                    <Brain className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="text-2xl font-bold text-foreground mb-1">{stats.total}</div>
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wider">{t('total')}</div>
                 </div>
-                <div className="text-lg font-bold text-foreground">{stats.total}</div>
-                <div className="text-xs text-muted-foreground">{t('total')}</div>
               </div>
 
-              <div className="border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
-                <div className="p-1.5 bg-learning/10 rounded-lg w-fit mx-auto mb-1.5">
-                  <Plus className="h-7 w-7 text-learning" />
+              {/* Learning Words Card */}
+              <div className="relative group border-2 border-learning/20 rounded-2xl p-4 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-learning/20 hover:-translate-y-1">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-learning/5 to-transparent rounded-full -translate-y-8 translate-x-8"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-learning/20 to-learning/10 rounded-xl mx-auto mb-3 border border-learning/30">
+                    <Plus className="h-6 w-6 text-learning" />
+                  </div>
+                  <div className="text-2xl font-bold text-foreground mb-1">{stats.learning}</div>
+                  <div className="text-xs font-semibold text-learning uppercase tracking-wider">{t('learning')}</div>
                 </div>
-                <div className="text-lg font-bold text-foreground">{stats.learning}</div>
-                <div className="text-xs text-muted-foreground">{t('learning')}</div>
               </div>
 
-              <div className="border border-card-border rounded-xl p-3 text-center flex flex-col justify-center">
-                <div className="p-1.5 bg-mastered/10 rounded-lg w-fit mx-auto mb-1.5">
-                  <Target className="h-7 w-7 text-mastered" />
+              {/* Mastered Words Card */}
+              <div className="relative group border-2 border-mastered/20 rounded-2xl p-4 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-mastered/20 hover:-translate-y-1">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-mastered/5 to-transparent rounded-full -translate-y-8 translate-x-8"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-xl mx-auto mb-3 border border-mastered/30">
+                    <Target className="h-6 w-6 text-mastered" />
+                  </div>
+                  <div className="text-2xl font-bold text-foreground mb-1">{stats.mastered}</div>
+                  <div className="text-xs font-semibold text-mastered uppercase tracking-wider">{t('mastered')}</div>
                 </div>
-                <div className="text-lg font-bold text-foreground">{stats.mastered}</div>
-                <div className="text-xs text-muted-foreground">{t('mastered')}</div>
               </div>
             </div>
 
             {/* Right Column: Word Count and Pagination Info */}
-            <div className="flex flex-col justify-center h-full py-2">
-              <div className="text-sm text-muted-foreground text-right">
-                {filteredWords.length > 0 ? (
-                  <>
-                    {filteredWords.length} {t('wordsCount')}
-                    {totalPages > 1 && (
-                      <span className="ml-2">
-                        • {t('page')} {currentPage} {t('of')} {totalPages}
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  t('noWordsFound')
-                )}
+            <div className="flex flex-col justify-center h-full">
+              <div className="bg-gradient-to-br from-muted/30 to-muted/10 border border-muted/30 rounded-2xl p-4 backdrop-blur-sm">
+                <div className="text-center space-y-2">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="w-1.5 h-1.5 bg-muted-foreground/60 rounded-full"></span>
+                    <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wider">Results</span>
+                  </div>
+                  {filteredWords.length > 0 ? (
+                    <div className="space-y-1">
+                      <div className="text-lg font-bold text-foreground">
+                        {filteredWords.length} {t('wordsCount')}
+                      </div>
+                      {totalPages > 1 && (
+                        <div className="text-xs text-muted-foreground font-medium">
+                          {t('page')} {currentPage} {t('of')} {totalPages}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-sm font-medium text-muted-foreground">
+                      {t('noWordsFound')}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -445,33 +491,41 @@ const Index = () => {
 
         {/* Vocabulary Grid */}
         <section>
-
           {/* Words Grid */}
           {filteredWords.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {paginatedWords.map((word) => (
-                  <VocabularyCard
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                {paginatedWords.map((word, index) => (
+                  <div
                     key={word.id}
-                    word={word}
-                    onEdit={handleEditWord}
-                    onDelete={handleDeleteWord}
-                    onToggleMastered={handleToggleMastered}
-                  />
+                    className="animate-in fade-in-0 slide-in-from-bottom-4"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <VocabularyCard
+                      word={word}
+                      onEdit={handleEditWord}
+                      onDelete={handleDeleteWord}
+                      onToggleMastered={handleToggleMastered}
+                    />
+                  </div>
                 ))}
               </div>
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="mt-8 flex justify-center">
-                  <div className="flex items-center gap-2">
+                <div className="flex justify-center">
+                  <div className="inline-flex items-center gap-2 bg-background/80 backdrop-blur-sm border-2 border-muted/30 rounded-2xl p-2 shadow-lg">
                     {/* Previous Button */}
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
-                      className="h-9 px-3"
+                      className={cn(
+                        "h-10 px-4 rounded-xl font-semibold transition-all duration-200",
+                        "border-2 hover:border-primary/30 hover:bg-primary/5",
+                        "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-muted/30 disabled:hover:bg-transparent"
+                      )}
                     >
                       {t('previous')}
                     </Button>
@@ -488,10 +542,18 @@ const Index = () => {
                         if (!showPage) {
                           // Show ellipsis
                           if (page === 2 && currentPage > 4) {
-                            return <span key={page} className="px-2 text-muted-foreground">...</span>;
+                            return (
+                              <span key={page} className="flex items-center justify-center w-10 h-10 text-muted-foreground font-bold">
+                                ...
+                              </span>
+                            );
                           }
                           if (page === totalPages - 1 && currentPage < totalPages - 3) {
-                            return <span key={page} className="px-2 text-muted-foreground">...</span>;
+                            return (
+                              <span key={page} className="flex items-center justify-center w-10 h-10 text-muted-foreground font-bold">
+                                ...
+                              </span>
+                            );
                           }
                           return null;
                         }
@@ -502,7 +564,12 @@ const Index = () => {
                             variant={currentPage === page ? "default" : "outline"}
                             size="sm"
                             onClick={() => setCurrentPage(page)}
-                            className="h-9 w-9 p-0"
+                            className={cn(
+                              "h-10 w-10 p-0 rounded-xl font-bold transition-all duration-200",
+                              currentPage === page
+                                ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25 border-primary"
+                                : "border-2 hover:border-primary/30 hover:bg-primary/5 hover:scale-105"
+                            )}
                           >
                             {page}
                           </Button>
@@ -516,7 +583,11 @@ const Index = () => {
                       size="sm"
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                       disabled={currentPage === totalPages}
-                      className="h-9 px-3"
+                      className={cn(
+                        "h-10 px-4 rounded-xl font-semibold transition-all duration-200",
+                        "border-2 hover:border-primary/30 hover:bg-primary/5",
+                        "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-muted/30 disabled:hover:bg-transparent"
+                      )}
                     >
                       {t('next')}
                     </Button>
@@ -526,42 +597,67 @@ const Index = () => {
             </>
           ) : searchQuery.length === 0 ? (
             // Empty state - no search
-            <div className="text-center py-16">
-              <div className="p-4 bg-primary/10 rounded-3xl w-fit mx-auto mb-6">
-                <Brain className="h-12 w-12 text-primary" />
+            <div className="text-center py-20">
+              <div className="relative inline-block mb-8">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-learning/20 rounded-full blur-2xl"></div>
+                <div className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-br from-primary/15 to-primary/5 rounded-3xl border-2 border-primary/20 backdrop-blur-sm">
+                  <Brain className="h-12 w-12 text-primary" />
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">
-                Start your learning journey
-              </h3>
-              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Use the search bar above to look for words or add new discoveries from your book.
-              </p>
-              <Button 
+              <div className="space-y-4 mb-8">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                  Start your learning journey
+                </h3>
+                <p className="text-muted-foreground/80 font-medium max-w-md mx-auto leading-relaxed">
+                  Use the search bar above to look for words or add new discoveries from your book.
+                </p>
+              </div>
+              <Button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-xl"
+                className={cn(
+                  "h-12 px-8 rounded-2xl font-semibold transition-all duration-300",
+                  "bg-gradient-to-r from-primary to-primary/90",
+                  "hover:from-primary/90 hover:to-primary/80",
+                  "text-primary-foreground shadow-lg shadow-primary/25",
+                  "hover:shadow-xl hover:shadow-primary/30 hover:scale-105",
+                  "focus:ring-2 focus:ring-primary/30 focus:ring-offset-2"
+                )}
               >
                 <Plus className="h-5 w-5 mr-2" />
-                Add First Word
+                <span className="font-bold">Add First Word</span>
               </Button>
             </div>
           ) : (
             // New word discovery state
-            <div className="text-center py-16">
-              <div className="p-4 bg-learning/10 rounded-3xl w-fit mx-auto mb-6">
-                <Plus className="h-12 w-12 text-learning" />
+            <div className="text-center py-20">
+              <div className="relative inline-block mb-8">
+                <div className="absolute inset-0 bg-gradient-to-r from-learning/20 to-learning/10 rounded-full blur-2xl"></div>
+                <div className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-br from-learning/15 to-learning/5 rounded-3xl border-2 border-learning/20 backdrop-blur-sm animate-pulse">
+                  <Plus className="h-12 w-12 text-learning" />
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">
-                New word discovered!
-              </h3>
-              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                "{searchQuery}" is not in your vocabulary yet. How about adding it?
-              </p>
-              <Button 
+              <div className="space-y-4 mb-8">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-learning to-learning/80 bg-clip-text text-transparent">
+                  New word discovered!
+                </h3>
+                <p className="text-muted-foreground/80 font-medium max-w-md mx-auto leading-relaxed">
+                  "<span className="font-bold text-learning">{searchQuery}</span>" is not in your vocabulary yet. How about adding it?
+                </p>
+              </div>
+              <Button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-learning hover:bg-learning/90 text-learning-foreground px-6 py-3 rounded-xl"
+                className={cn(
+                  "h-12 px-8 rounded-2xl font-semibold transition-all duration-300",
+                  "bg-gradient-to-r from-learning to-learning/90",
+                  "hover:from-learning/90 hover:to-learning/80",
+                  "text-learning-foreground shadow-lg shadow-learning/25",
+                  "hover:shadow-xl hover:shadow-learning/30 hover:scale-105",
+                  "focus:ring-2 focus:ring-learning/30 focus:ring-offset-2",
+                  "animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+                )}
               >
                 <Plus className="h-5 w-5 mr-2" />
-                Add "{searchQuery}"
+                <span className="font-bold">Add "{searchQuery}"</span>
               </Button>
             </div>
           )}
