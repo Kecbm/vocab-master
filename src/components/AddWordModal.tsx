@@ -127,8 +127,8 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
       <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl bg-background/95 backdrop-blur-sm">
         <DialogHeader className="pb-6">
           <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-foreground">
-            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-learning/20 to-learning/10 rounded-xl border border-learning/20">
-              <Plus className="h-5 w-5 text-learning" />
+            <div className="flex items-center justify-center w-10 h-10 bg-orange-500/10 rounded-xl border border-orange-500/20">
+              <Plus className="h-5 w-5 text-orange-600" />
             </div>
             <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
               {t('addNewWord')}
@@ -143,7 +143,6 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
               htmlFor="foreignWord"
               className="text-sm font-medium text-foreground/90 flex items-center gap-2"
             >
-              <span className="w-2 h-2 bg-learning rounded-full"></span>
               {t('englishWord')}
               <span className="text-destructive text-xs">*</span>
             </Label>
@@ -157,7 +156,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 className={cn(
                   "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
                   "bg-background/50 backdrop-blur-sm",
-                  "focus:ring-2 focus:ring-learning/20 focus:border-learning",
+                  "focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500",
                   "placeholder:text-muted-foreground/60",
                   errors.foreignWord
                     ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
@@ -181,7 +180,6 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
               className="text-sm font-medium text-foreground/90 flex items-center justify-between"
             >
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
                 {t('portugueseTranslation')}
                 <span className="text-destructive text-xs">*</span>
               </div>
@@ -259,31 +257,18 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
           {/* Action Buttons */}
           <div className="flex gap-3 pt-6">
             <Button
-              type="button"
-              variant="outline"
-              onClick={handleClose}
-              className={cn(
-                "flex-1 h-12 rounded-xl border-2 font-medium transition-all duration-200",
-                "hover:bg-muted/50 hover:border-muted-foreground/30",
-                "focus:ring-2 focus:ring-muted-foreground/20"
-              )}
-            >
-              {t('cancel')}
-            </Button>
-            <Button
               type="submit"
               className={cn(
-                "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
-                "bg-gradient-to-r from-learning to-learning/90",
-                "hover:from-learning/90 hover:to-learning/80",
-                "text-learning-foreground shadow-lg shadow-learning/25",
-                "focus:ring-2 focus:ring-learning/30 focus:ring-offset-2",
+                "flex-1 h-14 px-3 rounded-lg font-medium transition-all duration-300",
+                "bg-orange-500/10 border border-orange-500/20",
+                "hover:bg-orange-500/20 hover:border-orange-500/30",
+                "text-orange-600",
                 "disabled:opacity-50 disabled:cursor-not-allowed"
               )}
               disabled={isTranslating}
             >
-              <Plus className="h-4 w-4 mr-2" />
-              <span className="font-semibold">{t('addWord')}</span>
+              <Plus className="h-4 w-4 mr-2 text-orange-600" />
+              <span className="font-medium text-orange-600">{t('addWord')}</span>
             </Button>
           </div>
         </form>
