@@ -88,17 +88,14 @@ const SearchBar = ({
                 onClick={onAddNew}
                 className={cn(
                   "absolute right-2 top-1/2 -translate-y-1/2 z-10",
-                  "h-12 px-4 rounded-xl font-semibold transition-all duration-300",
-                  "bg-gradient-to-r from-learning to-learning/90",
-                  "hover:from-learning/90 hover:to-learning/80",
-                  "text-learning-foreground shadow-lg shadow-learning/25",
-                  "hover:shadow-xl hover:shadow-learning/30 hover:scale-105",
-                  "focus:ring-2 focus:ring-learning/30 focus:ring-offset-2",
-                  "animate-in fade-in-0 slide-in-from-right-4 duration-500"
+                  "h-9 px-3 rounded-lg font-medium transition-all duration-300",
+                  "bg-orange-500/10 border border-orange-500/20",
+                  "hover:bg-orange-500/20 hover:border-orange-500/30",
+                  "text-orange-600"
                 )}
               >
-                <Plus className="h-4 w-4 mr-2" />
-                <span className="font-bold">{t('addButton')}</span>
+                <Plus className="h-4 w-4 mr-2 text-orange-600" />
+                <span className="font-medium text-orange-600">{t('addButton')}</span>
               </Button>
             )}
 
