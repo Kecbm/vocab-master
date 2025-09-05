@@ -421,11 +421,10 @@ const Index = () => {
 
             {/* Middle Columns: Statistics Cards */}
             <div className="lg:col-span-3 grid grid-cols-3 gap-3 h-full">
-              {/* Total Words Card */}
-              <div className="relative group border-2 border-primary/20 rounded-2xl p-4 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-transparent rounded-full -translate-y-8 translate-x-8"></div>
+              <div className="relative group border-2 border-primary/20 rounded-2xl p-4 text-center flex flex-col justify-center">
+                <div className="absolute top-0 right-0 w-16 h-16"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl mx-auto mb-3 border border-primary/30">
+                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mx-auto mb-3 border">
                     <Brain className="h-6 w-6 text-primary" />
                   </div>
                   <div className="text-2xl font-bold text-foreground mb-1">{stats.total}</div>
@@ -454,34 +453,6 @@ const Index = () => {
                   </div>
                   <div className="text-2xl font-bold text-foreground mb-1">{stats.mastered}</div>
                   <div className="text-xs font-semibold text-mastered uppercase tracking-wider">{t('mastered')}</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Word Count and Pagination Info */}
-            <div className="flex flex-col justify-center h-full">
-              <div className="bg-gradient-to-br from-muted/30 to-muted/10 border border-muted/30 rounded-2xl p-4 backdrop-blur-sm">
-                <div className="text-center space-y-2">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="w-1.5 h-1.5 bg-muted-foreground/60 rounded-full"></span>
-                    <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wider">Results</span>
-                  </div>
-                  {filteredWords.length > 0 ? (
-                    <div className="space-y-1">
-                      <div className="text-lg font-bold text-foreground">
-                        {filteredWords.length} {t('wordsCount')}
-                      </div>
-                      {totalPages > 1 && (
-                        <div className="text-xs text-muted-foreground font-medium">
-                          {t('page')} {currentPage} {t('of')} {totalPages}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="text-sm font-medium text-muted-foreground">
-                      {t('noWordsFound')}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
