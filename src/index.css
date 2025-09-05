@@ -12,24 +12,19 @@
     --foreground: 213 20% 14%;
 
     /* Cards */
-    --card: 255 255 255; 
+    --card: 255 255 255;
     --card-foreground: 213 20% 14%;
-    --card-border: 220 15% 90%;
-    --card-shadow: 220 20% 85%;
 
     /* Learning theme colors */
     --primary: 217 91% 60%; /* Bright learning blue */
     --primary-foreground: 255 255 255;
-    --primary-glow: 217 91% 70%;
 
     /* Learning states */
     --learning: 39 100% 65%; /* Warm orange for new discoveries */
     --learning-foreground: 255 255 255;
-    --learning-soft: 39 100% 95%;
 
     --mastered: 142 76% 45%; /* Success green for known words */
     --mastered-foreground: 255 255 255;
-    --mastered-soft: 142 76% 95%;
 
     --secondary: 220 14% 96%;
     --secondary-foreground: 213 20% 14%;
@@ -46,26 +41,9 @@
     /* Inputs and borders */
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --input-focus: 217 91% 60%;
     --ring: 217 91% 60%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 70%));
-    --gradient-learning: linear-gradient(135deg, hsl(39 100% 65%), hsl(39 100% 75%));
-    --gradient-mastered: linear-gradient(135deg, hsl(142 76% 45%), hsl(142 76% 55%));
-    --gradient-background: linear-gradient(135deg, hsl(248 250 255), hsl(241 100% 98%));
-
-    /* Shadows */
-    --shadow-card: 0 4px 16px -4px hsl(220 20% 85% / 0.3);
-    --shadow-card-hover: 0 8px 24px -4px hsl(220 20% 80% / 0.4);
-    --shadow-learning: 0 4px 16px -4px hsl(39 100% 65% / 0.3);
-    --shadow-mastered: 0 4px 16px -4px hsl(142 76% 45% / 0.3);
-
     --radius: 0.75rem;
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .dark {
@@ -91,97 +69,3 @@
   }
 }
 
-@layer components {
-  /* Card variants */
-  .card-vocabulary {
-    @apply border border-card-border rounded-xl p-6;
-    box-shadow: var(--shadow-card);
-    transition: var(--transition-smooth);
-  }
-  
-  .card-vocabulary:hover {
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
-  }
-
-  .card-learning {
-    @apply border-learning/20 bg-learning-soft;
-    box-shadow: var(--shadow-learning);
-  }
-
-  .card-mastered {
-    @apply border-mastered/20 bg-mastered-soft;
-    box-shadow: var(--shadow-mastered);
-  }
-
-  /* Search animations */
-  .search-appear {
-    animation: search-appear 0.4s ease-out;
-  }
-
-  @keyframes search-appear {
-    from {
-      opacity: 0;
-      transform: translateY(10px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Float animation for new word discovery */
-  .float-in {
-    animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-
-  @keyframes float-in {
-    0% {
-      opacity: 0;
-      transform: translateY(20px) scale(0.9);
-    }
-    60% {
-      transform: translateY(-5px) scale(1.02);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Landing page animations */
-  .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--learning)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-float {
-    animation: hero-float 6s ease-in-out infinite;
-  }
-
-  @keyframes hero-float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  .fade-in-up {
-    animation: fade-in-up 0.8s ease-out;
-  }
-
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
