@@ -422,7 +422,6 @@ const Index = () => {
             {/* Middle Columns: Statistics Cards */}
             <div className="lg:col-span-3 grid grid-cols-3 gap-3 h-full">
               <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
-                <div className="absolute top-0 right-0 w-12 h-12"></div>
                 <div className="relative">
                   <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg mx-auto mb-2">
                     <Brain className="h-7 w-7 text-primary" />
@@ -434,19 +433,17 @@ const Index = () => {
 
               {/* Learning Words Card */}
               <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
-                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-learning/5 to-transparent rounded-full -translate-y-6 translate-x-6"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-learning/20 to-learning/10 rounded-lg mx-auto mb-2">
-                    <Plus className="h-7 w-7 text-learning" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-orange-500/10 rounded-lg mx-auto mb-2">
+                    <Plus className="h-7 w-7 text-orange-600" />
                   </div>
                   <div className="text-lg font-bold text-foreground mb-1">{stats.learning}</div>
-                  <div className="text-xs font-medium text-learning capitalize tracking-wider">{t('learning')}</div>
+                  <div className="text-xs font-medium text-orange-600 capitalize tracking-wider">{t('learning')}</div>
                 </div>
               </div>
 
               {/* Mastered Words Card */}
               <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
-                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-mastered/5 to-transparent rounded-full -translate-y-6 translate-x-6"></div>
                 <div className="relative">
                   <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-lg mx-auto mb-2">
                     <Target className="h-7 w-7 text-mastered" />
