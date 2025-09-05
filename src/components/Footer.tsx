@@ -43,52 +43,84 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <div className="flex flex-col items-center space-y-4 sm:space-y-6">
+    <footer className="relative mt-16 border-t-2 border-muted/30 backdrop-blur-sm">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-32 h-32 bg-gradient-to-br from-primary/3 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/3 w-24 h-24 bg-gradient-to-br from-learning/3 to-transparent rounded-full blur-2xl"></div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 py-12">
+        <div className="flex flex-col items-center space-y-8">
           {/* Social Links */}
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-primary transition-colors duration-200"
-                aria-label={`Visit ${link.name} profile`}
-              >
-                <div className="p-1.5 sm:p-2 rounded-lg border group-hover:border-primary transition-colors duration-200">
-                  {link.icon}
-                </div>
-                <span className="hidden sm:block text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  {link.name}
-                </span>
-                <ExternalLink className="hidden sm:block h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-              </a>
-            ))}
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              {socialLinks.map((link, index) => (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative"
+                  aria-label={`Visit ${link.name} profile`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="relative overflow-hidden rounded-2xl border-2 border-muted/30 bg-background/80 backdrop-blur-sm p-3 transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1 hover:scale-105">
+                    {/* Glow effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+
+                    {/* Icon container */}
+                    <div className="relative flex items-center justify-center w-8 h-8 text-muted-foreground group-hover:text-primary transition-colors duration-300">
+                      {link.icon}
+                    </div>
+
+                    {/* Tooltip */}
+                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                      <div className="bg-foreground/90 text-background text-xs font-semibold px-3 py-1.5 rounded-lg backdrop-blur-sm">
+                        {link.name}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-foreground/90"></div>
+                      </div>
+                    </div>
+
+                    {/* External link indicator */}
+                    <div className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="flex items-center justify-center w-4 h-4 bg-primary text-primary-foreground rounded-full">
+                        <ExternalLink className="h-2 w-2" />
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Divider */}
-          <div className="w-full max-w-xs sm:max-w-md h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
           {/* Made with love */}
-          <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
-            <span>{t('madeWith')}</span>
-            <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 fill-current animate-pulse" />
-            <span>{t('by')}</span>
-            <a
-              href="https://linkedin.com/in/Kecbm"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-primary hover:text-primary/80 transition-colors duration-200"
-            >
-              Klecianny Melo
-            </a>
+          <div className="text-center space-y-3">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground/90">
+              <span className="font-medium">{t('madeWith')}</span>
+              <div className="flex items-center justify-center w-6 h-6 bg-red-50 dark:bg-red-950/20 rounded-full">
+                <Heart className="h-3 w-3 text-red-500 fill-current animate-pulse" />
+              </div>
+              <span className="font-medium">{t('by')}</span>
+              <a
+                href="https://linkedin.com/in/Kecbm"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative group font-bold text-primary hover:text-primary/80 transition-all duration-300"
+              >
+                <span className="relative z-10">Klecianny Melo</span>
+                <div className="absolute inset-0 bg-primary/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-10"></div>
+              </a>
+            </div>
           </div>
 
           {/* App info */}
-          <div className="text-xs text-muted-foreground/70 text-center px-4">
-            <p className="leading-relaxed">Vocab Master - {t('footerDescription')}</p>
+          <div className="text-center max-w-md">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/20 border border-muted/30 rounded-xl backdrop-blur-sm">
+              <p className="text-xs text-muted-foreground/80 font-medium leading-relaxed">
+                Vocab Master - {t('footerDescription')}
+              </p>
+            </div>
           </div>
         </div>
       </div>
