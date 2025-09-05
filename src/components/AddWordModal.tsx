@@ -124,43 +124,67 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-xl">
-            <div className="p-2 bg-learning/10 rounded-xl">
+      <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl bg-background/95 backdrop-blur-sm">
+        <DialogHeader className="pb-6">
+          <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-foreground">
+            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-learning/20 to-learning/10 rounded-xl border border-learning/20">
               <Plus className="h-5 w-5 text-learning" />
             </div>
-            {t('addNewWord')}
+            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+              {t('addNewWord')}
+            </span>
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Target Language Word */}
-          <div className="space-y-2">
-            <Label htmlFor="foreignWord" className="text-sm font-medium">
-              {t('englishWord')} *
+          <div className="space-y-3">
+            <Label
+              htmlFor="foreignWord"
+              className="text-sm font-medium text-foreground/90 flex items-center gap-2"
+            >
+              <span className="w-2 h-2 bg-learning rounded-full"></span>
+              {t('englishWord')}
+              <span className="text-destructive text-xs">*</span>
             </Label>
-            <Input
-              id="foreignWord"
-              type="text"
-              value={formData.foreignWord}
-              onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
-              placeholder={currentLanguage === 'english' ? "Ex: serendipity" : "Ex: sérendipité"}
-              className={cn(
-                "h-12 text-lg",
-                errors.foreignWord && "border-destructive focus:border-destructive"
-              )}
-              autoFocus
-            />
+            <div className="relative">
+              <Input
+                id="foreignWord"
+                type="text"
+                value={formData.foreignWord}
+                onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
+                placeholder={currentLanguage === 'english' ? "Ex: serendipity" : "Ex: sérendipité"}
+                className={cn(
+                  "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
+                  "bg-background/50 backdrop-blur-sm",
+                  "focus:ring-2 focus:ring-learning/20 focus:border-learning",
+                  "placeholder:text-muted-foreground/60",
+                  errors.foreignWord
+                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    : "border-input hover:border-input"
+                )}
+                autoFocus
+              />
+            </div>
             {errors.foreignWord && (
-              <p className="text-sm text-destructive">{errors.foreignWord}</p>
+              <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg border border-destructive/20">
+                <div className="w-1 h-1 bg-destructive rounded-full"></div>
+                <p className="text-sm text-destructive font-medium">{errors.foreignWord}</p>
+              </div>
             )}
           </div>
 
           {/* Portuguese Translation */}
-          <div className="space-y-2">
-            <Label htmlFor="portuguese" className="text-sm font-medium flex items-center justify-between">
-              <span>{t('portugueseTranslation')} *</span>
+          <div className="space-y-3">
+            <Label
+              htmlFor="portuguese"
+              className="text-sm font-medium text-foreground/90 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-primary rounded-full"></span>
+                {t('portugueseTranslation')}
+                <span className="text-destructive text-xs">*</span>
+              </div>
               {formData.foreignWord && (
                 <Button
                   type="button"
@@ -168,17 +192,22 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                   size="sm"
                   onClick={handleRetranslate}
                   disabled={isTranslating}
-                  className="h-6 px-2 text-xs text-primary hover:text-primary/80"
+                  className={cn(
+                    "h-7 px-3 text-xs rounded-lg transition-all duration-200",
+                    "text-primary hover:text-primary/80 hover:bg-primary/10",
+                    "border border-transparent hover:border-primary/20",
+                    isTranslating && "opacity-70 cursor-not-allowed"
+                  )}
                 >
                   {isTranslating ? (
                     <>
-                      <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                      {t('translating')}
+                      <Loader2 className="h-3 w-3 mr-1.5 animate-spin" />
+                      <span className="font-medium">{t('translating')}</span>
                     </>
                   ) : (
                     <>
-                      <Languages className="h-3 w-3 mr-1" />
-                      {t('retranslate')}
+                      <Languages className="h-3 w-3 mr-1.5" />
+                      <span className="font-medium">{t('retranslate')}</span>
                     </>
                   )}
                 </Button>
@@ -192,45 +221,69 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 onChange={(e) => setFormData(prev => ({ ...prev, portuguese: e.target.value }))}
                 placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
                 className={cn(
-                  "h-12 text-lg",
-                  errors.portuguese && "border-destructive focus:border-destructive",
-                  isTranslating && "bg-muted/50"
+                  "h-12 text-lg px-4 pr-12 rounded-xl border-2 transition-all duration-200",
+                  "bg-background/50 backdrop-blur-sm",
+                  "focus:ring-2 focus:ring-primary/20 focus:border-primary",
+                  "placeholder:text-muted-foreground/60",
+                  errors.portuguese
+                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    : "border-input hover:border-input",
+                  isTranslating && "bg-muted/30 cursor-wait"
                 )}
                 disabled={isTranslating}
               />
               {isTranslating && (
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <div className="flex items-center justify-center w-6 h-6 bg-primary/10 rounded-full">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  </div>
                 </div>
               )}
             </div>
             {errors.portuguese && (
-              <p className="text-sm text-destructive">{errors.portuguese}</p>
+              <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg border border-destructive/20">
+                <div className="w-1 h-1 bg-destructive rounded-full"></div>
+                <p className="text-sm text-destructive font-medium">{errors.portuguese}</p>
+              </div>
             )}
             {formData.portuguese && !isTranslating && (
-              <p className="text-xs text-muted-foreground">
-                💡 Automatic translation. You can edit it if needed.
-              </p>
+              <div className="flex items-center gap-2 p-3 bg-blue-50/50 dark:bg-blue-950/20 rounded-lg border border-blue-200/50 dark:border-blue-800/30">
+                <span className="text-blue-600 dark:text-blue-400">💡</span>
+                <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                  Automatic translation. You can edit it if needed.
+                </p>
+              </div>
             )}
           </div>
 
-
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-6">
             <Button
               type="button"
               variant="outline"
               onClick={handleClose}
-              className="flex-1 h-12"
+              className={cn(
+                "flex-1 h-12 rounded-xl border-2 font-medium transition-all duration-200",
+                "hover:bg-muted/50 hover:border-muted-foreground/30",
+                "focus:ring-2 focus:ring-muted-foreground/20"
+              )}
             >
               {t('cancel')}
             </Button>
             <Button
               type="submit"
-              className="flex-1 h-12 bg-learning hover:bg-learning/90 text-learning-foreground"
+              className={cn(
+                "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
+                "bg-gradient-to-r from-learning to-learning/90",
+                "hover:from-learning/90 hover:to-learning/80",
+                "text-learning-foreground shadow-lg shadow-learning/25",
+                "focus:ring-2 focus:ring-learning/30 focus:ring-offset-2",
+                "disabled:opacity-50 disabled:cursor-not-allowed"
+              )}
+              disabled={isTranslating}
             >
               <Plus className="h-4 w-4 mr-2" />
-              {t('addWord')}
+              <span className="font-semibold">{t('addWord')}</span>
             </Button>
           </div>
         </form>
