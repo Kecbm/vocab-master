@@ -328,7 +328,7 @@ const Index = () => {
               {/* Sort Controls */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-foreground/90 uppercase tracking-wide">{t('sort')}</span>
+                  <span className="text-xs text-muted-foreground/95">{t('sort')}</span>
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -336,10 +336,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setSortOrder("alphabetical")}
                     className={cn(
-                      "h-9 text-xs font-semibold rounded-xl transition-all duration-200",
+                      "h-8 text-xs font-medium rounded-lg transition-all duration-200",
                       sortOrder === "alphabetical"
-                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
-                        : "border-2 hover:border-primary/30 hover:bg-primary/5"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10"
+                        : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
                     {t('sortAZ')}
@@ -349,10 +349,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setSortOrder("recent")}
                     className={cn(
-                      "h-9 text-xs font-semibold rounded-xl transition-all duration-200",
+                      "h-8 text-xs font-medium rounded-lg transition-all duration-200",
                       sortOrder === "recent"
-                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
-                        : "border-2 hover:border-primary/30 hover:bg-primary/5"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10"
+                        : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
                     {t('sortRecent')}
@@ -363,7 +363,7 @@ const Index = () => {
               {/* Filter Controls */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-foreground/90 uppercase tracking-wide">{t('filter')}</span>
+                  <span className="text-xs text-muted-foreground/95">{t('filter')}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -371,10 +371,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("all")}
                     className={cn(
-                      "h-9 text-xs px-3 font-semibold rounded-xl transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg transition-all duration-200",
                       statusFilter === "all"
-                        ? "bg-gradient-to-r from-foreground to-foreground/90 text-background shadow-lg shadow-foreground/25"
-                        : "border-2 hover:border-foreground/30 hover:bg-foreground/5"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10"
+                        : "border-2 text-foreground/70 hover:border-foreground/30 hover:bg-foreground/5"
                     )}
                   >
                     {t('filterAll')}
@@ -383,10 +383,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("new")}
                     className={cn(
-                      "h-9 text-xs px-3 font-semibold rounded-xl border-2 transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
                       statusFilter === "new"
-                        ? "bg-gradient-to-r from-learning to-learning/90 text-learning-foreground border-learning shadow-lg shadow-learning/25"
-                        : "bg-learning/10 text-learning border-learning/30 hover:bg-learning/20 hover:border-learning/50"
+                        ? "border-orange-500 text-orange-600 bg-orange-500/10"
+                        : "bg-learning/10 text-learning/70 border-learning/30 hover:bg-learning/20 hover:border-learning/50"
                     )}
                   >
                     {t('filterNew')}
@@ -395,10 +395,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("learning")}
                     className={cn(
-                      "h-9 text-xs px-3 font-semibold rounded-xl border-2 transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
                       statusFilter === "learning"
-                        ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground border-primary shadow-lg shadow-primary/25"
-                        : "bg-primary/10 text-primary border-primary/30 hover:bg-primary/20 hover:border-primary/50"
+                        ? "border-blue-500 text-blue-600 bg-blue-500/10"
+                        : "bg-primary/10 text-primary/70 border-primary/30 hover:bg-primary/20 hover:border-primary/50"
                     )}
                   >
                     {t('filterLearning')}
@@ -407,10 +407,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("mastered")}
                     className={cn(
-                      "h-9 text-xs px-3 font-semibold rounded-xl border-2 transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
                       statusFilter === "mastered"
-                        ? "bg-gradient-to-r from-mastered to-mastered/90 text-mastered-foreground border-mastered shadow-lg shadow-mastered/25"
-                        : "bg-mastered/10 text-mastered border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50"
+                        ? "border-green-500 text-green-600 bg-green-500/10"
+                        : "bg-mastered/10 text-mastered/70 border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50"
                     )}
                   >
                     {t('filterMastered')}
@@ -421,38 +421,38 @@ const Index = () => {
 
             {/* Middle Columns: Statistics Cards */}
             <div className="lg:col-span-3 grid grid-cols-3 gap-3 h-full">
-              <div className="relative group border-2 border-primary/20 rounded-2xl p-4 text-center flex flex-col justify-center">
-                <div className="absolute top-0 right-0 w-16 h-16"></div>
+              <div className="relative group border-2 border-primary/20 rounded-xl p-3 text-center flex flex-col justify-center">
+                <div className="absolute top-0 right-0 w-12 h-12"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mx-auto mb-3 border">
-                    <Brain className="h-6 w-6 text-primary" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg mx-auto mb-2 border">
+                    <Brain className="h-5 w-5 text-primary" />
                   </div>
-                  <div className="text-2xl font-bold text-foreground mb-1">{stats.total}</div>
-                  <div className="text-xs font-semibold text-primary uppercase tracking-wider">{t('total')}</div>
+                  <div className="text-xl font-bold text-foreground mb-1">{stats.total}</div>
+                  <div className="text-xs font-medium text-primary uppercase tracking-wider">{t('total')}</div>
                 </div>
               </div>
 
               {/* Learning Words Card */}
-              <div className="relative group border-2 border-learning/20 rounded-2xl p-4 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-learning/20 hover:-translate-y-1">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-learning/5 to-transparent rounded-full -translate-y-8 translate-x-8"></div>
+              <div className="relative group border-2 border-learning/20 rounded-xl p-3 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-learning/20 hover:-translate-y-1">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-learning/5 to-transparent rounded-full -translate-y-6 translate-x-6"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-learning/20 to-learning/10 rounded-xl mx-auto mb-3 border border-learning/30">
-                    <Plus className="h-6 w-6 text-learning" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-learning/20 to-learning/10 rounded-lg mx-auto mb-2 border border-learning/30">
+                    <Plus className="h-5 w-5 text-learning" />
                   </div>
-                  <div className="text-2xl font-bold text-foreground mb-1">{stats.learning}</div>
-                  <div className="text-xs font-semibold text-learning uppercase tracking-wider">{t('learning')}</div>
+                  <div className="text-xl font-bold text-foreground mb-1">{stats.learning}</div>
+                  <div className="text-xs font-medium text-learning uppercase tracking-wider">{t('learning')}</div>
                 </div>
               </div>
 
               {/* Mastered Words Card */}
-              <div className="relative group border-2 border-mastered/20 rounded-2xl p-4 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-mastered/20 hover:-translate-y-1">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-mastered/5 to-transparent rounded-full -translate-y-8 translate-x-8"></div>
+              <div className="relative group border-2 border-mastered/20 rounded-xl p-3 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-mastered/20 hover:-translate-y-1">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-mastered/5 to-transparent rounded-full -translate-y-6 translate-x-6"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-xl mx-auto mb-3 border border-mastered/30">
-                    <Target className="h-6 w-6 text-mastered" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-lg mx-auto mb-2 border border-mastered/30">
+                    <Target className="h-5 w-5 text-mastered" />
                   </div>
-                  <div className="text-2xl font-bold text-foreground mb-1">{stats.mastered}</div>
-                  <div className="text-xs font-semibold text-mastered uppercase tracking-wider">{t('mastered')}</div>
+                  <div className="text-xl font-bold text-foreground mb-1">{stats.mastered}</div>
+                  <div className="text-xs font-medium text-mastered uppercase tracking-wider">{t('mastered')}</div>
                 </div>
               </div>
             </div>
