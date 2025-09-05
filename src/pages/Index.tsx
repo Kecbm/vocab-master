@@ -295,7 +295,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Search Header */}
       <SearchBar
         onSearch={handleSearch}
