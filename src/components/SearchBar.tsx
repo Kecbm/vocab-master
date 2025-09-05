@@ -49,7 +49,7 @@ const SearchBar = ({
               <h1 className="text-3xl font-bold text-foreground tracking-tight">
                 {t('appTitle')}
               </h1>
-              <p className="text-muted-foreground/90 font-small">
+              <p className="text-muted-foreground/95 font-small">
                 {t('appSubtitle')}
               </p>
             </div>
@@ -66,7 +66,7 @@ const SearchBar = ({
           <div className="relative group">
             {/* Search icon */}
             <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-              <Search className="h-5 w-5" />
+              <Search className="h-5 w-5 text-muted-foreground/95" />
             </div>
 
             {/* Search input */}
@@ -76,10 +76,10 @@ const SearchBar = ({
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               className={cn(
-                "pl-14 pr-20 h-16 text-lg rounded-2xl border-2 transition-all duration-300",
+                "pl-12 pr-20 h-14 text-lg rounded-2xl border-2 transition-all duration-300",
                 "border-input hover:border-primary/30",
                 "focus:border-primary/50 focus:ring-4 focus:ring-primary/10 focus:shadow-xl",
-                "placeholder:text-muted-foreground/60 placeholder:font-small",
+                "placeholder:text-muted-foreground/95 placeholder:font-small",
                 query.length > 0 && "border-primary/40 shadow-primary/10"
               )}
             />
