@@ -301,7 +301,6 @@ const Index = () => {
         onSearch={handleSearch}
         onAddNew={() => setIsModalOpen(true)}
         searchQuery={searchQuery}
-        hasResults={hasResults}
         isNewWord={isNewWord}
       />
 
