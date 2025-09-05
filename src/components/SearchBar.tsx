@@ -10,7 +10,6 @@ interface SearchBarProps {
   onSearch: (query: string) => void;
   onAddNew: () => void;
   searchQuery: string;
-  hasResults: boolean;
   isNewWord: boolean;
 }
 
@@ -18,7 +17,6 @@ const SearchBar = ({
   onSearch,
   onAddNew,
   searchQuery,
-  hasResults,
   isNewWord
 }: SearchBarProps) => {
   const [query, setQuery] = useState("");
@@ -108,38 +106,7 @@ const SearchBar = ({
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-learning/5 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none -z-10 blur-xl"></div>
           </div>
 
-          {/* Search Status */}
-          {query.length > 0 && (
-            <div className="flex items-center justify-center">
-              <div className={cn(
-                "inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border-2 backdrop-blur-sm transition-all duration-300",
-                "animate-in fade-in-0 slide-in-from-bottom-2 duration-500",
-                hasResults
-                  ? [
-                      "bg-gradient-to-r from-mastered/10 to-mastered/5",
-                      "border-mastered/30 text-mastered shadow-lg shadow-mastered/20"
-                    ]
-                  : [
-                      "bg-gradient-to-r from-learning/10 to-learning/5",
-                      "border-learning/30 text-learning shadow-lg shadow-learning/20"
-                    ]
-              )}>
-                <div className={cn(
-                  "flex items-center justify-center w-6 h-6 rounded-full",
-                  hasResults
-                    ? "bg-mastered/20 text-mastered"
-                    : "bg-learning/20 text-learning"
-                )}>
-                  <span className="text-sm font-bold">
-                    {hasResults ? "✓" : "⚡"}
-                  </span>
-                </div>
-                <span className="text-sm font-semibold">
-                  {hasResults ? t('wordFound') : t('newDiscovery')}
-                </span>
-              </div>
-            </div>
-          )}
+
         </div>
       </div>
     </header>
