@@ -328,7 +328,7 @@ const Index = () => {
               {/* Sort Controls */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground/95">{t('sort')}</span>
+                  <span className="text-sm text-muted-foreground/95">{t('sort')}</span>
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -338,7 +338,7 @@ const Index = () => {
                     className={cn(
                       "h-8 text-xs font-medium rounded-lg transition-all duration-200",
                       sortOrder === "alphabetical"
-                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
                         : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
@@ -351,7 +351,7 @@ const Index = () => {
                     className={cn(
                       "h-8 text-xs font-medium rounded-lg transition-all duration-200",
                       sortOrder === "recent"
-                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
                         : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
@@ -363,7 +363,7 @@ const Index = () => {
               {/* Filter Controls */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground/95">{t('filter')}</span>
+                  <span className="text-sm text-muted-foreground/95">{t('filter')}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -373,8 +373,8 @@ const Index = () => {
                     className={cn(
                       "h-8 text-xs px-3 font-medium rounded-lg transition-all duration-200",
                       statusFilter === "all"
-                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10"
-                        : "border-2 text-foreground/70 hover:border-foreground/30 hover:bg-foreground/5"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
+                        : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
                     {t('filterAll')}
@@ -385,8 +385,8 @@ const Index = () => {
                     className={cn(
                       "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
                       statusFilter === "new"
-                        ? "border-orange-500 text-orange-600 bg-orange-500/10"
-                        : "bg-learning/10 text-learning/70 border-learning/30 hover:bg-learning/20 hover:border-learning/50"
+                        ? "border-orange-500 text-orange-600 bg-orange-500/10 hover:text-orange-600"
+                        : "bg-orange-500/10 text-orange-600/70 border-orange-500/20 hover:bg-orange-500/20 hover:border-orange-500/30 hover:text-orange-600"
                     )}
                   >
                     {t('filterNew')}
@@ -397,8 +397,8 @@ const Index = () => {
                     className={cn(
                       "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
                       statusFilter === "learning"
-                        ? "border-blue-500 text-blue-600 bg-blue-500/10"
-                        : "bg-primary/10 text-primary/70 border-primary/30 hover:bg-primary/20 hover:border-primary/50"
+                        ? "border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
+                        : "bg-primary/10 text-primary/70 border-primary/30 hover:bg-primary/20 hover:border-primary/50 hover:text-blue-600"
                     )}
                   >
                     {t('filterLearning')}
@@ -409,8 +409,8 @@ const Index = () => {
                     className={cn(
                       "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
                       statusFilter === "mastered"
-                        ? "border-green-500 text-green-600 bg-green-500/10"
-                        : "bg-mastered/10 text-mastered/70 border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50"
+                        ? "border-green-500 text-green-600 bg-green-500/10 hover:text-green-600"
+                        : "bg-mastered/10 text-mastered/70 border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50 hover:text-green-600"
                     )}
                   >
                     {t('filterMastered')}
