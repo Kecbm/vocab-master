@@ -41,16 +41,15 @@ const SearchBar = ({
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl blur-lg"></div>
-              <div className="relative flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary/15 to-primary/5 rounded-2xl border border-primary/20 backdrop-blur-sm">
-                <BookOpen className="h-8 w-8 text-primary" />
+              <div className="relative flex items-center justify-center w-14 h-14 bg-blue-500/10 rounded-2xl">
+                <BookOpen className="h-8 w-8 text-blue-500" />
               </div>
             </div>
-            <div className="space-y-1">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent tracking-tight">
+            <div className="space-y-0.5">
+              <h1 className="text-3xl font-bold text-foreground tracking-tight">
                 {t('appTitle')}
               </h1>
-              <p className="text-muted-foreground/80 font-small">
+              <p className="text-muted-foreground/90 font-small">
                 {t('appSubtitle')}
               </p>
             </div>
