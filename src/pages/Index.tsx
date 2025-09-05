@@ -339,7 +339,7 @@ const Index = () => {
                       "h-8 text-xs font-medium rounded-lg transition-all duration-200",
                       sortOrder === "alphabetical"
                         ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
-                        : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
+                        : "border text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
                     {t('sortAZ')}
@@ -352,7 +352,7 @@ const Index = () => {
                       "h-8 text-xs font-medium rounded-lg transition-all duration-200",
                       sortOrder === "recent"
                         ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
-                        : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
+                        : "border text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
                     {t('sortRecent')}
@@ -374,7 +374,7 @@ const Index = () => {
                       "h-8 text-xs px-3 font-medium rounded-lg transition-all duration-200",
                       statusFilter === "all"
                         ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
-                        : "border-2 text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
+                        : "border text-foreground/70 hover:border-primary/30 hover:bg-primary/5"
                     )}
                   >
                     {t('filterAll')}
@@ -383,10 +383,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("new")}
                     className={cn(
-                      "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg transition-all duration-200",
                       statusFilter === "new"
-                        ? "border-orange-500 text-orange-600 bg-orange-500/10 hover:text-orange-600"
-                        : "bg-orange-500/10 text-orange-600/70 border-orange-500/20 hover:bg-orange-500/20 hover:border-orange-500/30 hover:text-orange-600"
+                        ? "border-2 border-orange-500 text-orange-600 bg-orange-500/10 hover:text-orange-600"
+                        : "border bg-orange-500/10 text-orange-600/70 border-orange-500/20 hover:bg-orange-500/20 hover:border-orange-500/30 hover:text-orange-600"
                     )}
                   >
                     {t('filterNew')}
@@ -395,10 +395,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("learning")}
                     className={cn(
-                      "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg transition-all duration-200",
                       statusFilter === "learning"
-                        ? "border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
-                        : "bg-primary/10 text-primary/70 border-primary/30 hover:bg-primary/20 hover:border-primary/50 hover:text-blue-600"
+                        ? "border-2 border-blue-500 text-blue-600 bg-blue-500/10 hover:text-blue-600"
+                        : "border bg-primary/10 text-primary/70 border-primary/30 hover:bg-primary/20 hover:border-primary/50 hover:text-blue-600"
                     )}
                   >
                     {t('filterLearning')}
@@ -407,10 +407,10 @@ const Index = () => {
                     size="sm"
                     onClick={() => setStatusFilter("mastered")}
                     className={cn(
-                      "h-8 text-xs px-3 font-medium rounded-lg border-2 transition-all duration-200",
+                      "h-8 text-xs px-3 font-medium rounded-lg transition-all duration-200",
                       statusFilter === "mastered"
-                        ? "border-green-500 text-green-600 bg-green-500/10 hover:text-green-600"
-                        : "bg-mastered/10 text-mastered/70 border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50 hover:text-green-600"
+                        ? "border-2 border-green-500 text-green-600 bg-green-500/10 hover:text-green-600"
+                        : "border bg-mastered/10 text-mastered/70 border-mastered/30 hover:bg-mastered/20 hover:border-mastered/50 hover:text-green-600"
                     )}
                   >
                     {t('filterMastered')}
@@ -421,38 +421,38 @@ const Index = () => {
 
             {/* Middle Columns: Statistics Cards */}
             <div className="lg:col-span-3 grid grid-cols-3 gap-3 h-full">
-              <div className="relative group border-2 border-primary/20 rounded-xl p-3 text-center flex flex-col justify-center">
+              <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
                 <div className="absolute top-0 right-0 w-12 h-12"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg mx-auto mb-2 border">
-                    <Brain className="h-5 w-5 text-primary" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg mx-auto mb-2">
+                    <Brain className="h-7 w-7 text-primary" />
                   </div>
-                  <div className="text-xl font-bold text-foreground mb-1">{stats.total}</div>
-                  <div className="text-xs font-medium text-primary uppercase tracking-wider">{t('total')}</div>
+                  <div className="text-lg font-bold text-foreground mb-1">{stats.total}</div>
+                  <div className="text-xs font-medium text-primary capitalize tracking-wider">{t('total')}</div>
                 </div>
               </div>
 
               {/* Learning Words Card */}
-              <div className="relative group border-2 border-learning/20 rounded-xl p-3 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-learning/20 hover:-translate-y-1">
+              <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-learning/5 to-transparent rounded-full -translate-y-6 translate-x-6"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-learning/20 to-learning/10 rounded-lg mx-auto mb-2 border border-learning/30">
-                    <Plus className="h-5 w-5 text-learning" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-learning/20 to-learning/10 rounded-lg mx-auto mb-2">
+                    <Plus className="h-7 w-7 text-learning" />
                   </div>
-                  <div className="text-xl font-bold text-foreground mb-1">{stats.learning}</div>
-                  <div className="text-xs font-medium text-learning uppercase tracking-wider">{t('learning')}</div>
+                  <div className="text-lg font-bold text-foreground mb-1">{stats.learning}</div>
+                  <div className="text-xs font-medium text-learning capitalize tracking-wider">{t('learning')}</div>
                 </div>
               </div>
 
               {/* Mastered Words Card */}
-              <div className="relative group border-2 border-mastered/20 rounded-xl p-3 text-center flex flex-col justify-center transition-all duration-300 hover:shadow-lg hover:shadow-mastered/20 hover:-translate-y-1">
+              <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-mastered/5 to-transparent rounded-full -translate-y-6 translate-x-6"></div>
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-lg mx-auto mb-2 border border-mastered/30">
-                    <Target className="h-5 w-5 text-mastered" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-lg mx-auto mb-2">
+                    <Target className="h-7 w-7 text-mastered" />
                   </div>
-                  <div className="text-xl font-bold text-foreground mb-1">{stats.mastered}</div>
-                  <div className="text-xs font-medium text-mastered uppercase tracking-wider">{t('mastered')}</div>
+                  <div className="text-lg font-bold text-foreground mb-1">{stats.mastered}</div>
+                  <div className="text-xs font-medium text-mastered capitalize tracking-wider">{t('mastered')}</div>
                 </div>
               </div>
             </div>
