@@ -30,24 +30,17 @@ export default {
 				
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))',
-					glow: 'hsl(var(--primary-glow))'
+					foreground: 'hsl(var(--primary-foreground))'
 				},
-				
+
 				// Learning states
 				learning: {
 					DEFAULT: 'hsl(var(--learning))',
-					foreground: 'hsl(var(--learning-foreground))',
-					soft: 'hsl(var(--learning-soft))'
+					foreground: 'hsl(var(--learning-foreground))'
 				},
 				mastered: {
 					DEFAULT: 'hsl(var(--mastered))',
-					foreground: 'hsl(var(--mastered-foreground))',
-					soft: 'hsl(var(--mastered-soft))'
-				},
-				new: {
-					DEFAULT: '#ea670c',
-					foreground: '#FFFFFF'
+					foreground: 'hsl(var(--mastered-foreground))'
 				},
 				
 				secondary: {
@@ -68,9 +61,7 @@ export default {
 				},
 				card: {
 					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))',
-					border: 'hsl(var(--card-border))',
-					shadow: 'hsl(var(--card-shadow))'
+					foreground: 'hsl(var(--card-foreground))'
 				}
 			},
 			borderRadius: {
