@@ -247,19 +247,19 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
               "bg-background/50 backdrop-blur-sm",
               formData.mastered
                 ? "border-mastered/30 bg-mastered/5"
-                : "border-learning/30 bg-learning/5"
+                : "border-orange-500/30 bg-orange-500/5"
             )}>
               <div className="flex items-center gap-4">
                 <div className={cn(
                   "flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-200",
                   formData.mastered
                     ? "bg-gradient-to-br from-mastered/20 to-mastered/10 border border-mastered/20"
-                    : "bg-gradient-to-br from-learning/20 to-learning/10 border border-learning/20"
+                    : "bg-gradient-to-br from-orange-500/20 to-orange-500/10 border border-orange-500/20"
                 )}>
                   {formData.mastered ? (
                     <BookOpen className="h-6 w-6 text-mastered" />
                   ) : (
-                    <Edit className="h-6 w-6 text-learning" />
+                    <Edit className="h-6 w-6 text-orange-600" />
                   )}
                 </div>
                 <div className="space-y-1">
