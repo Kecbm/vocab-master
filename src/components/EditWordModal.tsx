@@ -114,10 +114,10 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
       <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl bg-background/95 backdrop-blur-sm">
         <DialogHeader className="pb-6">
           <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-foreground">
-            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl border border-primary/20">
+            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-xl border border-primary/20">
               <Edit className="h-5 w-5 text-primary" />
             </div>
-            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            <span className="text-foreground">
               {t('editWord')}
             </span>
           </DialogTitle>
@@ -130,7 +130,6 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
               htmlFor="foreignWord"
               className="text-sm font-medium text-foreground/90 flex items-center gap-2"
             >
-              <span className="w-2 h-2 bg-primary rounded-full"></span>
               {t('englishWord')}
               <span className="text-destructive text-xs">*</span>
             </Label>
@@ -168,7 +167,6 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
               className="text-sm font-medium text-foreground/90 flex items-center justify-between"
             >
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
                 {t('portugueseTranslation')}
                 <span className="text-destructive text-xs">*</span>
               </div>
@@ -239,7 +237,6 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
           {/* Mastered Status */}
           <div className="space-y-3">
             <Label className="text-sm font-medium text-foreground/90 flex items-center gap-2">
-              <span className="w-2 h-2 bg-accent rounded-full"></span>
               Word Status
             </Label>
             <div className={cn(
@@ -295,8 +292,8 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
               type="submit"
               className={cn(
                 "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
-                "bg-gradient-to-r from-primary to-primary/90",
-                "hover:from-primary/90 hover:to-primary/80",
+                "bg-primary",
+                "hover:bg-primary/90",
                 "text-primary-foreground shadow-lg shadow-primary/25",
                 "focus:ring-2 focus:ring-primary/30 focus:ring-offset-2",
                 "disabled:opacity-50 disabled:cursor-not-allowed"
