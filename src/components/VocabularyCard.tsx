@@ -237,13 +237,13 @@ const VocabularyCard = ({
               "border-2 border-transparent",
               isPlaying
                 ? [
-                    "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground",
+                    "bg-primary text-primary-foreground",
                     "shadow-lg shadow-primary/30 scale-110 border-primary/20",
                     "ring-2 ring-primary/20 ring-offset-2 ring-offset-background"
                   ]
                 : [
                     "text-primary hover:text-primary-foreground",
-                    "hover:bg-gradient-to-r hover:from-primary hover:to-primary/90",
+                    "hover:bg-primary/90",
                     "hover:shadow-lg hover:shadow-primary/25 hover:scale-110",
                     "hover:border-primary/30 active:scale-95",
                     "group-hover:-translate-y-0.5"
