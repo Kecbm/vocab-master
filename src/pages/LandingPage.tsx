@@ -260,8 +260,8 @@ const LandingPage = () => {
               <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/10 rounded-2xl p-8">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                      <Target className="h-6 w-6 text-white" />
+                    <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                      <Target className="h-6 w-6 text-orange-600" />
                     </div>
                     <div>
                       <div className="font-semibold text-slate-800">Foco no que importa</div>
@@ -270,8 +270,8 @@ const LandingPage = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                      <Globe className="h-6 w-6 text-white" />
+                    <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                      <Globe className="h-6 w-6 text-blue-600" />
                     </div>
                     <div>
                       <div className="font-semibold text-slate-800">Multilíngue</div>
@@ -280,8 +280,8 @@ const LandingPage = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-                      <BarChart3 className="h-6 w-6 text-white" />
+                    <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
+                      <BarChart3 className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
                       <div className="font-semibold text-slate-800">Progresso visível</div>
