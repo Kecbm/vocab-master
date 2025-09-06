@@ -292,9 +292,9 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
               type="submit"
               className={cn(
                 "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
-                "bg-primary",
-                "hover:bg-primary/90",
-                "text-primary-foreground shadow-lg shadow-primary/25",
+                "bg-primary/10 border border-primary/20",
+                "hover:bg-primary/20",
+                "text-primary",
                 "focus:ring-2 focus:ring-primary/30 focus:ring-offset-2",
                 "disabled:opacity-50 disabled:cursor-not-allowed"
               )}
