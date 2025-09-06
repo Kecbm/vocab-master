@@ -114,15 +114,6 @@ const LandingPage = () => {
                     </div>
                   )}
                 </Button>
-
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="h-14 px-8 text-lg font-semibold border-2 border-slate-300 text-slate-700 hover:bg-blue-500/5 hover:border-blue-300 transition-all duration-300"
-                >
-                  <Play className="h-5 w-5 mr-2" />
-                  Ver Demo
-                </Button>
               </div>
 
               <div className="flex items-center gap-6 text-sm text-slate-600">
