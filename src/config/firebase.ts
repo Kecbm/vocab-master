@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import { initAppCheck } from './appCheck';
 
 // Configuração do Firebase usando variáveis de ambiente
@@ -24,26 +24,17 @@ export const auth = getAuth(app);
 
 // Configurações de segurança adicionais
 if (process.env.NODE_ENV === 'production') {
-  // Inicializar App Check em produção
-  initAppCheck();
-} else {
-  // Conectar aos emuladores em desenvolvimento (se disponível)
-  if (!auth.emulatorConfig) {
-    try {
-      connectAuthEmulator(auth, 'http://localhost:9099');
-    } catch (error) {
-      // Emulator não está rodando, continuar normalmente
+  // Inicializar App Check em produção (apenas se as chaves estiverem disponíveis)
+  try {
+    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
+      initAppCheck();
     }
-  }
-
-  if (!(db as any)._delegate._databaseId.projectId.includes('demo-')) {
-    try {
-      connectFirestoreEmulator(db, 'localhost', 8080);
-    } catch (error) {
-      // Emulator não está rodando, continuar normalmente
-    }
+  } catch (error) {
+    console.warn('App Check initialization failed:', error);
   }
 }
+// Remover configuração de emuladores para desenvolvimento
+// A aplicação usará o Firebase real em todos os ambientes
 
 export { app };
 export default app;

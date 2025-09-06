@@ -12,10 +12,8 @@ class VocabularyAPI {
   private getCurrentUserId(): string {
     const user = auth.currentUser;
     if (!user) {
-      console.error('❌ Usuário não autenticado');
       throw new Error('User not authenticated');
     }
-    console.log('✅ Usuário autenticado:', user.uid);
     return user.uid;
   }
 
@@ -25,7 +23,6 @@ class VocabularyAPI {
       const userId = this.getCurrentUserId();
       return await firebaseApi.getAllWordsFromFirebase(userId);
     } catch (error) {
-      console.error('❌ Erro ao buscar palavras:', error);
       throw error;
     }
   }
@@ -39,10 +36,8 @@ class VocabularyAPI {
     try {
       const userId = this.getCurrentUserId();
       const newWord = await firebaseApi.addWordToFirebase(word, userId);
-      console.log('✅ Palavra adicionada:', newWord.foreignWord, 'ID:', newWord.id);
       return newWord;
     } catch (error) {
-      console.error('❌ Erro ao adicionar palavra:', error);
       throw error;
     }
   }
@@ -52,10 +47,8 @@ class VocabularyAPI {
     try {
       const userId = this.getCurrentUserId();
       const updatedWord = await firebaseApi.updateWordInFirebase(word, userId);
-      console.log('✅ Palavra atualizada:', updatedWord.foreignWord);
       return updatedWord;
     } catch (error) {
-      console.error('❌ Erro ao atualizar palavra:', error);
       throw error;
     }
   }
@@ -65,9 +58,7 @@ class VocabularyAPI {
     try {
       const userId = this.getCurrentUserId();
       await firebaseApi.deleteWordFromFirebase(wordId, userId);
-      console.log('✅ Palavra deletada');
     } catch (error) {
-      console.error('❌ Erro ao deletar palavra:', error);
       throw error;
     }
   }
@@ -92,7 +83,6 @@ class VocabularyAPI {
       // Salva a atualização
       return await this.updateWord(updatedWord);
     } catch (error) {
-      console.error('❌ Erro ao alternar status:', error);
       throw error;
     }
   }
@@ -116,10 +106,9 @@ export const getWordsStats = async () => {
       total: words.length,
       mastered: words.filter(w => w.mastered).length,
       learning: words.filter(w => !w.mastered).length,
-      books: new Set(words.map(w => w.book)).size,
+      books: 0, // Removido temporariamente até implementar campo book
     };
   } catch (error) {
-    console.error('❌ Erro ao calcular estatísticas:', error);
     return {
       total: 0,
       mastered: 0,
@@ -128,10 +117,6 @@ export const getWordsStats = async () => {
     };
   }
 };
-
-
-
-
 
 // Array inicial vazio (será carregado da API)
 export const initialWords: VocabularyWord[] = [];

@@ -4,10 +4,11 @@ import { app } from './firebase';
 
 // Configuração do App Check
 export const initAppCheck = () => {
-  if (process.env.NODE_ENV === 'production') {
+  // Apenas inicializar App Check se estivermos em produção E temos a chave reCAPTCHA
+  if (process.env.NODE_ENV === 'production' && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
     try {
       const appCheck = initializeAppCheck(app, {
-        provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''),
+        provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
         isTokenAutoRefreshEnabled: true
       });
 
@@ -25,10 +26,8 @@ export const initAppCheck = () => {
       console.error('Failed to initialize App Check:', error);
     }
   } else {
-    // Em desenvolvimento, usar debug token
-    if (typeof window !== 'undefined') {
-      (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    }
+    // Em desenvolvimento, não inicializar App Check
+    console.log('App Check disabled in development mode');
   }
 };
 

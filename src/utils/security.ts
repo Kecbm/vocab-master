@@ -84,41 +84,48 @@ class SecurityManager {
 
   // Handle when DevTools is detected
   private handleDevToolsDetected() {
-    // Redirect to a warning page or show alert
-    document.body.innerHTML = `
-      <div style="
+    // Only show warning, don't completely block the app
+    console.warn('Developer tools detected');
+
+    // Show a less intrusive warning
+    if (!document.getElementById('dev-tools-warning')) {
+      const warning = document.createElement('div');
+      warning.id = 'dev-tools-warning';
+      warning.style.cssText = `
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #1a1a1a;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial, sans-serif;
+        top: 20px;
+        right: 20px;
+        background: #ff4444;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
         z-index: 999999;
-      ">
-        <h1 style="font-size: 2rem; margin-bottom: 1rem;">⚠️ Access Restricted</h1>
-        <p style="font-size: 1.2rem; text-align: center; max-width: 600px;">
-          Developer tools have been detected. Please close them to continue using the application.
-        </p>
-        <button onclick="window.location.reload()" style="
-          margin-top: 2rem;
-          padding: 1rem 2rem;
-          background: #007bff;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 1rem;
-        ">
-          Reload Page
-        </button>
-      </div>
-    `;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        max-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      `;
+      warning.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>⚠️ Developer tools detected</span>
+          <button onclick="this.parentElement.parentElement.remove()" style="
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+          ">×</button>
+        </div>
+      `;
+      document.body.appendChild(warning);
+
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        const warningEl = document.getElementById('dev-tools-warning');
+        if (warningEl) warningEl.remove();
+      }, 5000);
+    }
   }
 
   // Prevent right-click context menu

@@ -114,73 +114,78 @@ const obfuscateCriticalFunctions = () => {
 // Handle security violations
 const handleSecurityViolation = (reason: string) => {
   console.warn('Security violation detected:', reason);
-  
-  // In production, you might want to:
-  // 1. Log to your analytics/monitoring service
-  // 2. Redirect user away from the app
-  // 3. Show a warning message
-  // 4. Disable certain features
-  
+
+  // In production, just log the violation without blocking the app
   if (process.env.NODE_ENV === 'production') {
-    // Example: Redirect to a security warning page
-    // window.location.href = '/security-warning';
-    
-    // Or show an overlay
+    // Log to analytics/monitoring service if available
+    try {
+      // Example: Send to your monitoring service
+      // analytics.track('security_violation', { reason });
+    } catch (error) {
+      // Fail silently
+    }
+
+    // Show a subtle warning instead of blocking
     showSecurityWarning(reason);
   }
 };
 
-// Show security warning overlay
+// Show security warning (non-blocking)
 const showSecurityWarning = (reason: string) => {
-  const overlay = document.createElement('div');
-  overlay.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    z-index: 999999;
-    backdrop-filter: blur(10px);
-  `;
+  // Only show a console warning in production to avoid blocking the app
+  console.warn(`Security Alert: ${reason}`);
 
-  overlay.innerHTML = `
-    <div style="text-align: center; max-width: 500px; padding: 2rem;">
-      <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: #ff4444;">🔒</h1>
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Security Alert</h2>
-      <p style="font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.5;">
-        Unauthorized access attempt detected. This incident has been logged.
-      </p>
-      <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 2rem;">
-        Reason: ${reason}
-      </p>
-      <button onclick="window.location.reload()" style="
-        padding: 1rem 2rem;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background 0.3s;
-      " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
-        Reload Application
-      </button>
-    </div>
-  `;
+  // Optionally show a subtle notification
+  if (!document.getElementById('security-notification')) {
+    const notification = document.createElement('div');
+    notification.id = 'security-notification';
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff4444;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      z-index: 999999;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      max-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
 
-  document.body.appendChild(overlay);
+    notification.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span>🔒 Security monitoring active</span>
+        <button onclick="this.parentElement.parentElement.remove()" style="
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          font-size: 18px;
+          margin-left: 10px;
+        ">×</button>
+      </div>
+    `;
 
-  // Auto-reload after 10 seconds
-  setTimeout(() => {
-    window.location.reload();
-  }, 10000);
+    document.body.appendChild(notification);
+
+    // Fade in
+    setTimeout(() => {
+      notification.style.opacity = '1';
+    }, 100);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+      const notificationEl = document.getElementById('security-notification');
+      if (notificationEl) {
+        notificationEl.style.opacity = '0';
+        setTimeout(() => notificationEl.remove(), 300);
+      }
+    }, 3000);
+  }
 };
 
 // Additional protection: Detect if running in iframe
@@ -215,9 +220,9 @@ export const detectAutomation = () => {
     handleSecurityViolation('Suspicious navigator properties');
   }
 
-  // Check for missing plugins (common in headless browsers)
-  if (navigator.plugins.length === 0) {
-    handleSecurityViolation('No browser plugins detected');
+  // Check for headless browser indicators (without using deprecated plugins API)
+  if (!navigator.userAgent || navigator.userAgent.includes('HeadlessChrome')) {
+    handleSecurityViolation('Headless browser detected');
   }
 };
 
