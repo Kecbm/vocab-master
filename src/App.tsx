@@ -14,10 +14,14 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const { currentUser } = useAuth();
 
+  console.log('AppContent rendering, currentUser:', currentUser ? 'authenticated' : 'not authenticated');
+
   if (!currentUser) {
+    console.log('Rendering LandingPage');
     return <LandingPage />;
   }
 
+  console.log('Rendering authenticated app');
   return (
     <BrowserRouter>
       <AuthHeader />

@@ -24,17 +24,18 @@ export const auth = getAuth(app);
 
 // Configurações de segurança adicionais
 if (process.env.NODE_ENV === 'production') {
-  // Inicializar App Check em produção (apenas se as chaves estiverem disponíveis)
-  try {
-    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
-      initAppCheck();
-    }
-  } catch (error) {
-    console.warn('App Check initialization failed:', error);
-  }
+  console.log('Initializing Firebase for production...');
+  // Temporariamente desabilitar App Check para debug
+  // try {
+  //   if (import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
+  //     initAppCheck();
+  //   }
+  // } catch (error) {
+  //   console.warn('App Check initialization failed:', error);
+  // }
+} else {
+  console.log('Firebase initialized for development');
 }
-// Remover configuração de emuladores para desenvolvimento
-// A aplicação usará o Firebase real em todos os ambientes
 
 export { app };
 export default app;
