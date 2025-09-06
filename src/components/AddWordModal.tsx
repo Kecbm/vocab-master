@@ -130,7 +130,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
             <div className="flex items-center justify-center w-10 h-10 bg-orange-500/10 rounded-xl border border-orange-500/20">
               <Plus className="h-5 w-5 text-orange-600" />
             </div>
-            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            <span className="text-foreground">
               {t('addNewWord')}
             </span>
           </DialogTitle>
