@@ -88,6 +88,8 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
 
     if (!formData.foreignWord.trim()) {
       newErrors.foreignWord = t('englishWordRequired');
+    } else if (formData.foreignWord.trim().includes(' ')) {
+      newErrors.foreignWord = 'Please enter only one word (no spaces allowed)';
     }
     if (!formData.portuguese.trim()) newErrors.portuguese = t('translationRequired');
 
@@ -151,7 +153,15 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 id="foreignWord"
                 type="text"
                 value={formData.foreignWord}
-                onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
+                onChange={(e) => {
+                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
+                  const value = e.target.value.replace(/\s+/g, '');
+                  setFormData(prev => ({ ...prev, foreignWord: value }));
+                  // Limpa erro se existir
+                  if (errors.foreignWord) {
+                    setErrors(prev => ({ ...prev, foreignWord: '' }));
+                  }
+                }}
                 placeholder={currentLanguage === 'english' ? "Ex: serendipity" : "Ex: sérendipité"}
                 className={cn(
                   "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
