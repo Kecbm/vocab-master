@@ -38,7 +38,7 @@ const DeleteConfirmationModal = ({
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-destructive/20 to-destructive/10 rounded-xl border border-destructive/30 shadow-lg shadow-destructive/10">
               <AlertTriangle className="h-6 w-6 text-destructive" />
             </div>
-            <span className="bg-gradient-to-r from-destructive to-destructive/80 bg-clip-text text-transparent">
+            <span className="text-destructive">
               {t('deleteWord')}
             </span>
           </DialogTitle>
@@ -87,8 +87,8 @@ const DeleteConfirmationModal = ({
               disabled={isDeleting}
               className={cn(
                 "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
-                "bg-gradient-to-r from-destructive to-destructive/90",
-                "hover:from-destructive/90 hover:to-destructive/80",
+                "bg-destructive",
+                "hover:bg-destructive/90",
                 "text-destructive-foreground shadow-lg shadow-destructive/25",
                 "focus:ring-2 focus:ring-destructive/30 focus:ring-offset-2",
                 "disabled:opacity-50 disabled:cursor-not-allowed",
