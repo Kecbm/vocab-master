@@ -5,12 +5,16 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { initSecurity } from './utils/security'
 import { initAntiDebug, detectIframeEmbedding, detectAutomation } from './utils/antiDebug'
+import { securityMonitor } from './utils/securityMonitoring'
 
 // Initialize security measures
 initSecurity();
 initAntiDebug();
 detectIframeEmbedding();
 detectAutomation();
+
+// Initialize security monitoring
+securityMonitor;
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
