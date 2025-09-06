@@ -534,7 +534,7 @@ const Index = () => {
                             className={cn(
                               "h-10 w-10 p-0 rounded-xl font-bold transition-all duration-200",
                               currentPage === page
-                                ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25 border-primary"
+                                ? "text-primary-foreground shadow-lg shadow-primary/25 border-primary"
                                 : "border-2 hover:border-primary/30 hover:bg-primary/5 hover:scale-105"
                             )}
                           >
@@ -567,65 +567,36 @@ const Index = () => {
             <div className="text-center py-20">
               <div className="relative inline-block mb-8">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-learning/20 rounded-full blur-2xl"></div>
-                <div className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-br from-primary/15 to-primary/5 rounded-3xl border-2 border-primary/20 backdrop-blur-sm">
+                <div className="relative flex items-center justify-center w-24 h-24 bg-primary/10 rounded-lg backdrop-blur-sm animate-pulse">
                   <Brain className="h-12 w-12 text-primary" />
                 </div>
               </div>
               <div className="space-y-4 mb-8">
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold text-foreground">
                   Start your learning journey
                 </h3>
                 <p className="text-muted-foreground/80 font-medium max-w-md mx-auto leading-relaxed">
                   Use the search bar above to look for words or add new discoveries from your book.
                 </p>
               </div>
-              <Button
-                onClick={() => setIsModalOpen(true)}
-                className={cn(
-                  "h-12 px-8 rounded-2xl font-semibold transition-all duration-300",
-                  "bg-gradient-to-r from-primary to-primary/90",
-                  "hover:from-primary/90 hover:to-primary/80",
-                  "text-primary-foreground shadow-lg shadow-primary/25",
-                  "hover:shadow-xl hover:shadow-primary/30 hover:scale-105",
-                  "focus:ring-2 focus:ring-primary/30 focus:ring-offset-2"
-                )}
-              >
-                <Plus className="h-5 w-5 mr-2" />
-                <span className="font-bold">Add First Word</span>
-              </Button>
             </div>
           ) : (
             // New word discovery state
             <div className="text-center py-20">
               <div className="relative inline-block mb-8">
-                <div className="absolute inset-0 bg-gradient-to-r from-learning/20 to-learning/10 rounded-full blur-2xl"></div>
-                <div className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-br from-learning/15 to-learning/5 rounded-3xl border-2 border-learning/20 backdrop-blur-sm animate-pulse">
-                  <Plus className="h-12 w-12 text-learning" />
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-orange-500/10 rounded-full blur-2xl"></div>
+                <div className="relative flex items-center justify-center w-24 h-24 bg-orange-500/10 rounded-lg backdrop-blur-sm animate-pulse">
+                  <Plus className="h-12 w-12 text-orange-600" />
                 </div>
               </div>
               <div className="space-y-4 mb-8">
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-learning to-learning/80 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold text-orange-600">
                   New word discovered!
                 </h3>
                 <p className="text-muted-foreground/80 font-medium max-w-md mx-auto leading-relaxed">
-                  "<span className="font-bold text-learning">{searchQuery}</span>" is not in your vocabulary yet. How about adding it?
+                  "<span className="font-bold text-orange-600">{searchQuery}</span>" is not in your vocabulary yet. How about adding it?
                 </p>
               </div>
-              <Button
-                onClick={() => setIsModalOpen(true)}
-                className={cn(
-                  "h-12 px-8 rounded-2xl font-semibold transition-all duration-300",
-                  "bg-gradient-to-r from-learning to-learning/90",
-                  "hover:from-learning/90 hover:to-learning/80",
-                  "text-learning-foreground shadow-lg shadow-learning/25",
-                  "hover:shadow-xl hover:shadow-learning/30 hover:scale-105",
-                  "focus:ring-2 focus:ring-learning/30 focus:ring-offset-2",
-                  "animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
-                )}
-              >
-                <Plus className="h-5 w-5 mr-2" />
-                <span className="font-bold">Add "{searchQuery}"</span>
-              </Button>
             </div>
           )}
         </section>
