@@ -72,10 +72,6 @@ const DeleteConfirmationModal = ({
                 <p className="text-sm text-destructive/80 leading-relaxed">
                   {t('deleteConfirmation')}
                 </p>
-                <div className="flex items-center gap-2 pt-1">
-                  <span className="w-1 h-1 bg-destructive/60 rounded-full"></span>
-                  <span className="text-xs text-destructive/70 font-medium">This action cannot be undone</span>
-                </div>
               </div>
             </div>
           </div>
@@ -87,9 +83,9 @@ const DeleteConfirmationModal = ({
               disabled={isDeleting}
               className={cn(
                 "flex-1 h-12 rounded-xl font-medium transition-all duration-200",
-                "bg-destructive",
-                "hover:bg-destructive/90",
-                "text-destructive-foreground shadow-lg shadow-destructive/25",
+                "bg-destructive/10 border border-destructive/30",
+                "hover:bg-destructive/20 hover:text-destructive",
+                "text-destructive",
                 "focus:ring-2 focus:ring-destructive/30 focus:ring-offset-2",
                 "disabled:opacity-50 disabled:cursor-not-allowed",
                 isDeleting && "cursor-wait"
