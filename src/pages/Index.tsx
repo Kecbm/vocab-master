@@ -534,7 +534,7 @@ const Index = () => {
                             className={cn(
                               "h-10 w-10 p-0 rounded-xl font-bold transition-all duration-200",
                               currentPage === page
-                                ? "text-primary-foreground shadow-lg shadow-primary/25 border-primary"
+                                ? "text-primary shadow-lg shadow-primary/25 border-primary"
                                 : "border-2 hover:border-primary/30 hover:bg-primary/5 hover:scale-105"
                             )}
                           >
