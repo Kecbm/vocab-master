@@ -322,14 +322,12 @@ const Index = () => {
           <>
         {/* Controls and Statistics */}
         <section className="mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 items-stretch min-h-[140px]">
-            {/* Left Column: Sort and Filter Controls */}
-            <div className="lg:col-span-2 space-y-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 min-h-[120px]">
+            {/* Left Side: Sort and Filter Controls */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
               {/* Sort Controls */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground/95">{t('sort')}</span>
-                </div>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground/95 font-medium whitespace-nowrap">{t('sort')}</span>
                 <div className="flex gap-2">
                   <Button
                     variant={sortOrder === "alphabetical" ? "default" : "outline"}
@@ -361,10 +359,8 @@ const Index = () => {
               </div>
 
               {/* Filter Controls */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground/95">{t('filter')}</span>
-                </div>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground/95 font-medium whitespace-nowrap">{t('filter')}</span>
                 <div className="flex flex-wrap gap-2">
                   <Button
                     variant={statusFilter === "all" ? "default" : "outline"}
@@ -419,12 +415,13 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Middle Columns: Statistics Cards */}
-            <div className="lg:col-span-3 grid grid-cols-3 gap-3 h-full">
-              <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
+            {/* Right Side: Statistics Cards */}
+            <div className="flex gap-3 justify-center lg:justify-end">
+              {/* Total Words Card */}
+              <div className="relative group border border rounded-xl p-3 text-center flex flex-col justify-center min-w-[90px]">
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg mx-auto mb-2">
-                    <Brain className="h-7 w-7 text-primary" />
+                  <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg mx-auto mb-2">
+                    <Brain className="h-5 w-5 text-primary" />
                   </div>
                   <div className="text-lg font-bold text-foreground mb-1">{stats.total}</div>
                   <div className="text-xs font-medium text-primary capitalize tracking-wider">{t('total')}</div>
@@ -432,10 +429,10 @@ const Index = () => {
               </div>
 
               {/* Learning Words Card */}
-              <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
+              <div className="relative group border border rounded-xl p-3 text-center flex flex-col justify-center min-w-[90px]">
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-orange-500/10 rounded-lg mx-auto mb-2">
-                    <Plus className="h-7 w-7 text-orange-600" />
+                  <div className="flex items-center justify-center w-8 h-8 bg-orange-500/10 rounded-lg mx-auto mb-2">
+                    <Plus className="h-5 w-5 text-orange-600" />
                   </div>
                   <div className="text-lg font-bold text-foreground mb-1">{stats.learning}</div>
                   <div className="text-xs font-medium text-orange-600 capitalize tracking-wider">{t('learning')}</div>
@@ -443,10 +440,10 @@ const Index = () => {
               </div>
 
               {/* Mastered Words Card */}
-              <div className="relative group border border rounded-xl p-2 text-center flex flex-col justify-center">
+              <div className="relative group border border rounded-xl p-3 text-center flex flex-col justify-center min-w-[90px]">
                 <div className="relative">
-                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-lg mx-auto mb-2">
-                    <Target className="h-7 w-7 text-mastered" />
+                  <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-mastered/20 to-mastered/10 rounded-lg mx-auto mb-2">
+                    <Target className="h-5 w-5 text-mastered" />
                   </div>
                   <div className="text-lg font-bold text-foreground mb-1">{stats.mastered}</div>
                   <div className="text-xs font-medium text-mastered capitalize tracking-wider">{t('mastered')}</div>
