@@ -30,13 +30,17 @@ export default defineConfig(({ mode }) => ({
       compress: {
         drop_console: true, // Remove console.log statements
         drop_debugger: true, // Remove debugger statements
+        pure_funcs: ['console.log', 'console.info', 'console.debug'], // Remove specific console methods
+        passes: 2, // Multiple passes for better compression
       },
       mangle: {
         toplevel: true, // Obfuscate top-level variable names
+        safari10: true, // Fix Safari 10 issues
       },
       format: {
         comments: false, // Remove comments
       },
+      safari10: true, // Ensure Safari 10 compatibility
     } : undefined,
     rollupOptions: {
       output: {
@@ -44,7 +48,18 @@ export default defineConfig(({ mode }) => ({
         chunkFileNames: mode === 'production' ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
         entryFileNames: mode === 'production' ? 'assets/[hash].js' : 'assets/[name]-[hash].js',
         assetFileNames: mode === 'production' ? 'assets/[hash].[ext]' : 'assets/[name]-[hash].[ext]',
+        // Optimize chunk splitting for better caching
+        manualChunks: mode === 'production' ? {
+          vendor: ['react', 'react-dom'],
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          ui: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-tooltip'],
+        } : undefined,
       },
     },
+    // Additional build optimizations
+    target: 'es2015', // Support older browsers while maintaining security
+    sourcemap: mode !== 'production', // Source maps only in development
+    reportCompressedSize: false, // Faster builds
+    chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
   },
 }));
