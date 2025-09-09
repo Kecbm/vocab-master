@@ -76,8 +76,16 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
     
     // Validation
     const newErrors: Record<string, string> = {};
-    if (!formData.foreignWord.trim()) newErrors.foreignWord = "Foreign word is required";
-    if (!formData.portuguese.trim()) newErrors.portuguese = "Translation is required";
+    if (!formData.foreignWord.trim()) {
+      newErrors.foreignWord = "Foreign word is required";
+    } else if (formData.foreignWord.trim().includes(' ')) {
+      newErrors.foreignWord = 'Please enter only one word (no spaces allowed)';
+    }
+    if (!formData.portuguese.trim()) {
+      newErrors.portuguese = "Translation is required";
+    } else if (formData.portuguese.trim().includes(' ')) {
+      newErrors.portuguese = 'Please enter only one word (no spaces allowed)';
+    }
     
     setErrors(newErrors);
     
@@ -138,7 +146,15 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 id="foreignWord"
                 type="text"
                 value={formData.foreignWord}
-                onChange={(e) => setFormData(prev => ({ ...prev, foreignWord: e.target.value }))}
+                onChange={(e) => {
+                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
+                  const value = e.target.value.replace(/\s+/g, '');
+                  setFormData(prev => ({ ...prev, foreignWord: value }));
+                  // Limpa erro se existir
+                  if (errors.foreignWord) {
+                    setErrors(prev => ({ ...prev, foreignWord: '' }));
+                  }
+                }}
                 placeholder="Ex: serendipity"
                 className={cn(
                   "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
@@ -203,7 +219,15 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 id="portuguese"
                 type="text"
                 value={formData.portuguese}
-                onChange={(e) => setFormData(prev => ({ ...prev, portuguese: e.target.value }))}
+                onChange={(e) => {
+                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
+                  const value = e.target.value.replace(/\s+/g, '');
+                  setFormData(prev => ({ ...prev, portuguese: value }));
+                  // Limpa erro se existir
+                  if (errors.portuguese) {
+                    setErrors(prev => ({ ...prev, portuguese: '' }));
+                  }
+                }}
                 placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
                 className={cn(
                   "h-12 text-lg px-4 pr-12 rounded-xl border-2 transition-all duration-200",
