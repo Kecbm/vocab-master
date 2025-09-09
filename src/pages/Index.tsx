@@ -310,7 +310,7 @@ const Index = () => {
           <div className="flex items-center justify-center py-20">
             <div className="text-center space-y-4">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-learning/20 rounded-full blur-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full blur-xl"></div>
                 <div className="relative flex items-center justify-center w-16 h-16 bg-background/80 backdrop-blur-sm rounded-full border border-primary/20">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
@@ -563,7 +563,7 @@ const Index = () => {
             // Empty state - no search
             <div className="text-center py-20">
               <div className="relative inline-block mb-8">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-learning/20 rounded-full blur-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full blur-2xl"></div>
                 <div className="relative flex items-center justify-center w-24 h-24 bg-primary/10 rounded-lg backdrop-blur-sm animate-pulse">
                   <Brain className="h-12 w-12 text-primary" />
                 </div>

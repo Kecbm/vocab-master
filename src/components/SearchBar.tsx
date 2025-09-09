@@ -100,7 +100,7 @@ const SearchBar = ({
             )}
 
             {/* Input glow effect when focused */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-learning/5 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none -z-10 blur-xl"></div>
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-primary/3 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none -z-10 blur-xl"></div>
           </div>
 
 

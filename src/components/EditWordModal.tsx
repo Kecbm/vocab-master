@@ -304,7 +304,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 <Switch
                   checked={formData.mastered}
                   onCheckedChange={(checked) => setFormData(prev => ({ ...prev, mastered: checked }))}
-                  className="data-[state=checked]:bg-mastered data-[state=unchecked]:bg-learning/30"
+                  className="data-[state=checked]:bg-mastered data-[state=unchecked]:bg-orange-500/30"
                 />
               </div>
             </div>

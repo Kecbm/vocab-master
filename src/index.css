@@ -20,8 +20,6 @@
     --primary-foreground: 255 255 255;
 
     /* Learning states */
-    --learning: 39 100% 65%; /* Warm orange for new discoveries */
-    --learning-foreground: 255 255 255;
 
     --mastered: 142 76% 45%; /* Success green for known words */
     --mastered-foreground: 255 255 255;

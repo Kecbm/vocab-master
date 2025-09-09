@@ -47,7 +47,7 @@ const Footer = () => {
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-32 h-32 bg-gradient-to-br from-primary/3 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/3 w-24 h-24 bg-gradient-to-br from-learning/3 to-transparent rounded-full blur-2xl"></div>
+        <div className="absolute bottom-0 right-1/3 w-24 h-24 bg-gradient-to-br from-primary/3 to-transparent rounded-full blur-2xl"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 py-12">

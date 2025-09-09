@@ -34,10 +34,6 @@ export default {
 				},
 
 				// Learning states
-				learning: {
-					DEFAULT: 'hsl(var(--learning))',
-					foreground: 'hsl(var(--learning-foreground))'
-				},
 				mastered: {
 					DEFAULT: 'hsl(var(--mastered))',
 					foreground: 'hsl(var(--mastered-foreground))'
