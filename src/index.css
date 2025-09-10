@@ -65,5 +65,13 @@
     @apply text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+
+  /* Remove default browser focus outline that might appear yellow */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
 
