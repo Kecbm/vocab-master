@@ -12,18 +12,9 @@ export const initAppCheck = () => {
         isTokenAutoRefreshEnabled: true
       });
 
-      // Verificar se o token é válido
-      getToken(appCheck)
-        .then((result) => {
-          console.log('App Check token obtained successfully');
-        })
-        .catch((error) => {
-          console.error('App Check token verification failed:', error);
-        });
-
       return appCheck;
-    } catch (error) {
-      console.error('Failed to initialize App Check:', error);
+    } catch (_error) {
+      console.error('Failed to initialize App Check');
     }
   } else {
     // Em desenvolvimento, não inicializar App Check

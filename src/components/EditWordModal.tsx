@@ -71,24 +71,38 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!word) return;
-    
+
+    if (!word) {
+      return;
+    }
+
     // Validation
     const newErrors: Record<string, string> = {};
+
+    // Validação da palavra em inglês
     if (!formData.foreignWord.trim()) {
       newErrors.foreignWord = "Foreign word is required";
-    } else if (formData.foreignWord.trim().includes(' ')) {
-      newErrors.foreignWord = 'Please enter only one word (no spaces allowed)';
+    } else {
+      const trimmedWord = formData.foreignWord.trim();
+      const words = trimmedWord.split(/\s+/).filter(word => word.length > 0);
+      if (words.length > 1) {
+        newErrors.foreignWord = `Please enter only one word. You entered ${words.length} words.`;
+      }
     }
+
+    // Validação da palavra em português
     if (!formData.portuguese.trim()) {
       newErrors.portuguese = "Translation is required";
-    } else if (formData.portuguese.trim().includes(' ')) {
-      newErrors.portuguese = 'Please enter only one word (no spaces allowed)';
+    } else {
+      const trimmedWord = formData.portuguese.trim();
+      const words = trimmedWord.split(/\s+/).filter(word => word.length > 0);
+      if (words.length > 1) {
+        newErrors.portuguese = `Please enter only one word. You entered ${words.length} words.`;
+      }
     }
-    
+
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length === 0) {
       const updatedWord: VocabularyWord = {
         ...word,
@@ -96,7 +110,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
         portuguese: formData.portuguese.trim(),
         mastered: formData.mastered,
       };
-      
+
       onUpdate(updatedWord);
       setErrors({});
       onClose();
@@ -147,9 +161,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 type="text"
                 value={formData.foreignWord}
                 onChange={(e) => {
-                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
-                  const value = e.target.value.replace(/\s+/g, '');
-                  setFormData(prev => ({ ...prev, foreignWord: value }));
+                  setFormData(prev => ({ ...prev, foreignWord: e.target.value }));
                   // Limpa erro se existir
                   if (errors.foreignWord) {
                     setErrors(prev => ({ ...prev, foreignWord: '' }));
@@ -220,9 +232,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 type="text"
                 value={formData.portuguese}
                 onChange={(e) => {
-                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
-                  const value = e.target.value.replace(/\s+/g, '');
-                  setFormData(prev => ({ ...prev, portuguese: value }));
+                  setFormData(prev => ({ ...prev, portuguese: e.target.value }));
                   // Limpa erro se existir
                   if (errors.portuguese) {
                     setErrors(prev => ({ ...prev, portuguese: '' }));

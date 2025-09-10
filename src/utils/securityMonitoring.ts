@@ -164,7 +164,7 @@ class SecurityMonitor {
       //   body: JSON.stringify(event)
       // });
       
-      console.log('Security event logged:', event);
+      console.log('Security event logged');
     } catch (error) {
       console.error('Failed to send security event:', error);
     }

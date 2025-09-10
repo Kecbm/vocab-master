@@ -86,15 +86,24 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
     // Validation
     const newErrors: Record<string, string> = {};
 
+    // Validação da palavra em inglês
     if (!formData.foreignWord.trim()) {
       newErrors.foreignWord = t('englishWordRequired');
-    } else if (formData.foreignWord.trim().includes(' ')) {
-      newErrors.foreignWord = 'Please enter only one word (no spaces allowed)';
+    } else {
+      const wordCount = formData.foreignWord.trim().split(/\s+/).length;
+      if (wordCount > 1) {
+        newErrors.foreignWord = `Please enter only one word. You entered ${wordCount} words.`;
+      }
     }
+
+    // Validação da palavra em português
     if (!formData.portuguese.trim()) {
       newErrors.portuguese = t('translationRequired');
-    } else if (formData.portuguese.trim().includes(' ')) {
-      newErrors.portuguese = 'Please enter only one word (no spaces allowed)';
+    } else {
+      const wordCount = formData.portuguese.trim().split(/\s+/).length;
+      if (wordCount > 1) {
+        newErrors.portuguese = `Please enter only one word. You entered ${wordCount} words.`;
+      }
     }
 
     setErrors(newErrors);
@@ -158,9 +167,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 type="text"
                 value={formData.foreignWord}
                 onChange={(e) => {
-                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
-                  const value = e.target.value.replace(/\s+/g, '');
-                  setFormData(prev => ({ ...prev, foreignWord: value }));
+                  setFormData(prev => ({ ...prev, foreignWord: e.target.value }));
                   // Limpa erro se existir
                   if (errors.foreignWord) {
                     setErrors(prev => ({ ...prev, foreignWord: '' }));
@@ -231,9 +238,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 type="text"
                 value={formData.portuguese}
                 onChange={(e) => {
-                  // Remove espaços e caracteres especiais, permitindo apenas letras, números e alguns caracteres especiais comuns
-                  const value = e.target.value.replace(/\s+/g, '');
-                  setFormData(prev => ({ ...prev, portuguese: value }));
+                  setFormData(prev => ({ ...prev, portuguese: e.target.value }));
                   // Limpa erro se existir
                   if (errors.portuguese) {
                     setErrors(prev => ({ ...prev, portuguese: '' }));

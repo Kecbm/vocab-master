@@ -195,21 +195,25 @@ const Index = () => {
   };
 
   const handleUpdateWord = async (updatedWord: VocabularyWord) => {
+
     try {
       // Atualiza via API
       await updateWordInData(updatedWord);
 
       // Atualiza o estado local
-      setWords(prev => prev.map(word =>
-        word.id === updatedWord.id ? updatedWord : word
-      ));
+      setWords(prev => {
+        const newWords = prev.map(word =>
+          word.id === updatedWord.id ? updatedWord : word
+        );
+        return newWords;
+      });
 
       toast({
         title: "Word updated!",
         description: `"${updatedWord.foreignWord}" was updated successfully.`,
       });
     } catch (error) {
-      console.error('Erro ao atualizar palavra:', error);
+      console.error('Index: Erro ao atualizar palavra:', error);
       toast({
         title: "Error updating word",
         description: "Check if the server is running",
@@ -461,7 +465,7 @@ const Index = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 {paginatedWords.map((word, index) => (
                   <div
-                    key={word.id}
+                    key={`${word.id}-${word.foreignWord}-${word.portuguese}-${word.mastered}`}
                     className="animate-in fade-in-0 slide-in-from-bottom-4"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
