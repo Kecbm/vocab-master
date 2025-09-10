@@ -311,7 +311,7 @@ const Index = () => {
             <div className="text-center space-y-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full blur-xl"></div>
-                <div className="relative flex items-center justify-center w-16 h-16 bg-background/80 backdrop-blur-sm rounded-full border border-primary/20">
+                <div className="relative flex items-center justify-center w-16 h-16 backdrop-blur-sm rounded-full border border-primary/20">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               </div>
@@ -478,7 +478,7 @@ const Index = () => {
               {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex justify-center">
-                  <div className="inline-flex items-center gap-2 bg-background/80 backdrop-blur-sm border-2 border-muted/30 rounded-2xl p-2 shadow-lg">
+                  <div className="inline-flex items-center gap-2 backdrop-blur-sm border-2 border-muted/30 rounded-2xl p-2 shadow-lg">
                     {/* Previous Button */}
                     <Button
                       variant="outline"

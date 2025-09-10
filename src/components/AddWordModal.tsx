@@ -130,7 +130,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl bg-background/95 backdrop-blur-sm">
+      <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl backdrop-blur-sm">
         <DialogHeader className="pb-6">
           <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-foreground">
             <div className="flex items-center justify-center w-10 h-10 bg-orange-500/10 rounded-xl border border-orange-500/20">
@@ -169,7 +169,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 placeholder={currentLanguage === 'english' ? "Ex: serendipity" : "Ex: sérendipité"}
                 className={cn(
                   "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
-                  "bg-background/50 backdrop-blur-sm",
+                  "backdrop-blur-sm",
                   "focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500",
                   "placeholder:text-muted-foreground/60",
                   errors.foreignWord
@@ -242,7 +242,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
                 className={cn(
                   "h-12 text-lg px-4 pr-12 rounded-xl border-2 transition-all duration-200",
-                  "bg-background/50 backdrop-blur-sm",
+                  "backdrop-blur-sm",
                   "focus:ring-2 focus:ring-primary/20 focus:border-primary",
                   "placeholder:text-muted-foreground/60",
                   errors.portuguese

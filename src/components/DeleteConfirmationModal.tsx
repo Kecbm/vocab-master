@@ -32,7 +32,7 @@ const DeleteConfirmationModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl bg-background/95 backdrop-blur-sm">
+      <DialogContent className="sm:max-w-md w-full mx-4 rounded-2xl border-0 shadow-2xl backdrop-blur-sm">
         <DialogHeader className="pb-6">
           <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-foreground">
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-destructive/20 to-destructive/10 rounded-xl border border-destructive/30 shadow-lg shadow-destructive/10">

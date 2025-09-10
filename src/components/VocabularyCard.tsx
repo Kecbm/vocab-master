@@ -119,7 +119,7 @@ const VocabularyCard = ({
       className={cn(
         // Base card styling
         "relative group overflow-hidden rounded-2xl border-2 p-6 transition-all duration-300 ease-out",
-        "bg-background/80 backdrop-blur-sm shadow-lg",
+        "backdrop-blur-sm shadow-lg",
         "hover:-translate-y-1 hover:scale-[1.02]",
 
         // Conditional styling based on word status
