@@ -76,7 +76,7 @@ const SearchBar = ({
               className={cn(
                 "pl-12 pr-20 h-14 text-lg rounded-2xl border-2 transition-all duration-300",
                 "border-input hover:border-primary/30",
-                "focus:border-primary/50 focus:ring-4 focus:ring-primary/10 focus:shadow-xl",
+                "focus:border-primary/50 focus:ring-2 focus:ring-blue-500/20 focus:shadow-xl",
                 "placeholder:text-muted-foreground/95 placeholder:font-small",
                 query.length > 0 && "border-primary/40 shadow-primary/10"
               )}
@@ -99,8 +99,7 @@ const SearchBar = ({
               </Button>
             )}
 
-            {/* Input glow effect when focused */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/5 to-primary/3 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none -z-10 blur-xl"></div>
+
           </div>
 
 

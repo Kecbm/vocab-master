@@ -170,10 +170,10 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 className={cn(
                   "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
                   "backdrop-blur-sm",
-                  "focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500",
+                  "focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
                   "placeholder:text-muted-foreground/60",
                   errors.foreignWord
-                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    ? "border-destructive/50 focus:border-destructive focus:ring-red-500/20"
                     : "border-input hover:border-input"
                 )}
                 autoFocus
@@ -243,10 +243,10 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
                 className={cn(
                   "h-12 text-lg px-4 pr-12 rounded-xl border-2 transition-all duration-200",
                   "backdrop-blur-sm",
-                  "focus:ring-2 focus:ring-primary/20 focus:border-primary",
+                  "focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
                   "placeholder:text-muted-foreground/60",
                   errors.portuguese
-                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    ? "border-destructive/50 focus:border-destructive focus:ring-red-500/20"
                     : "border-input hover:border-input",
                   isTranslating && "bg-muted/30 cursor-wait"
                 )}

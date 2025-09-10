@@ -159,10 +159,10 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 className={cn(
                   "h-12 text-lg px-4 rounded-xl border-2 transition-all duration-200",
                   "backdrop-blur-sm",
-                  "focus:ring-2 focus:ring-primary/20 focus:border-primary",
+                  "focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
                   "placeholder:text-muted-foreground/60",
                   errors.foreignWord
-                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    ? "border-destructive/50 focus:border-destructive focus:ring-red-500/20"
                     : "border-input hover:border-input"
                 )}
                 autoFocus
@@ -232,10 +232,10 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 className={cn(
                   "h-12 text-lg px-4 pr-12 rounded-xl border-2 transition-all duration-200",
                   "backdrop-blur-sm",
-                  "focus:ring-2 focus:ring-primary/20 focus:border-primary",
+                  "focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
                   "placeholder:text-muted-foreground/60",
                   errors.portuguese
-                    ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20"
+                    ? "border-destructive/50 focus:border-destructive focus:ring-red-500/20"
                     : "border-input hover:border-input",
                   isTranslating && "bg-muted/30 cursor-wait"
                 )}
@@ -319,7 +319,7 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 "bg-primary/10 border border-primary/20",
                 "hover:bg-primary/20",
                 "text-primary",
-                "focus:ring-2 focus:ring-primary/30 focus:ring-offset-2",
+                "focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2",
                 "disabled:opacity-50 disabled:cursor-not-allowed"
               )}
               disabled={isTranslating}
