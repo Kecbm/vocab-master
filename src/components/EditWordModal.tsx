@@ -295,6 +295,14 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 <p className="text-sm text-destructive font-medium">{errors.portuguese}</p>
               </div>
             )}
+            {formData.portuguese && !isTranslating && (
+              <div className="flex items-center gap-2 p-3 bg-blue-50/50 dark:bg-blue-950/20 rounded-lg border border-blue-200/50 dark:border-blue-800/30">
+                <span className="text-blue-600 dark:text-blue-400">💡</span>
+                <p className="text-xs text-blue-700 dark:text-blue-300 font-medium">
+                  Automatic translation. You can edit it if needed.
+                </p>
+              </div>
+            )}
           </div>
 
 
