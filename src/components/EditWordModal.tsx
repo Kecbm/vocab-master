@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BookOpen, Edit, X, Languages, Loader2 } from "lucide-react";
+import { BookOpen, Edit, Languages, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,11 @@ import {
 import { VocabularyWord } from "./VocabularyCard";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
+
+// Função utilitária para contar palavras
+const countWords = (text: string): number => {
+  return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+};
 
 interface EditWordModalProps {
   isOpen: boolean;
@@ -94,10 +99,9 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
     if (!formData.portuguese.trim()) {
       newErrors.portuguese = "Translation is required";
     } else {
-      const trimmedWord = formData.portuguese.trim();
-      const words = trimmedWord.split(/\s+/).filter(word => word.length > 0);
-      if (words.length > 1) {
-        newErrors.portuguese = `Please enter only one word. You entered ${words.length} words.`;
+      const wordCount = countWords(formData.portuguese);
+      if (wordCount > 5) {
+        newErrors.portuguese = `Please enter up to 5 words. You entered ${wordCount} words.`;
       }
     }
 
@@ -232,10 +236,16 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 type="text"
                 value={formData.portuguese}
                 onChange={(e) => {
-                  setFormData(prev => ({ ...prev, portuguese: e.target.value }));
-                  // Limpa erro se existir
-                  if (errors.portuguese) {
-                    setErrors(prev => ({ ...prev, portuguese: '' }));
+                  const value = e.target.value;
+                  const wordCount = countWords(value);
+
+                  // Permite a digitação apenas se for 5 palavras ou menos
+                  if (wordCount <= 5) {
+                    setFormData(prev => ({ ...prev, portuguese: value }));
+                    // Limpa erro se existir
+                    if (errors.portuguese) {
+                      setErrors(prev => ({ ...prev, portuguese: '' }));
+                    }
                   }
                 }}
                 placeholder={isTranslating ? "Translating automatically..." : "Ex: serendipity, pleasant surprise"}
@@ -259,6 +269,26 @@ const EditWordModal = ({ isOpen, onClose, onUpdate, word }: EditWordModalProps) 
                 </div>
               )}
             </div>
+
+            {/* Word Counter */}
+            {formData.portuguese && (
+              <div className="flex items-center justify-between text-xs">
+                <div className={cn(
+                  "flex items-center gap-1.5 px-2 py-1 rounded-md transition-colors",
+                  countWords(formData.portuguese) <= 5
+                    ? "text-muted-foreground bg-muted/30"
+                    : "text-destructive bg-destructive/10"
+                )}>
+                  <span className="font-medium">
+                    {countWords(formData.portuguese)}/5 words
+                  </span>
+                  {countWords(formData.portuguese) > 5 && (
+                    <span className="text-destructive">⚠️</span>
+                  )}
+                </div>
+              </div>
+            )}
+
             {errors.portuguese && (
               <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg border border-destructive/20">
                 <div className="w-1 h-1 bg-destructive rounded-full"></div>
