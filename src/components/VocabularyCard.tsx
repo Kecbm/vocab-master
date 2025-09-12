@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Volume2, Edit, Trash2, CheckCircle, Hourglass, Sparkles } from "lucide-react";
+import { Volume2, Edit, Trash2, CheckCircle, Hourglass, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isToday } from "@/utils/dateUtils";
@@ -27,14 +27,16 @@ interface VocabularyCardProps {
   onDelete?: (id: string) => void;
   onToggleMastered?: (id: string) => void;
   onMarkAsLearning?: (id: string) => void;
+  isUpdating?: boolean;
   className?: string;
 }
 
-const VocabularyCard = ({ 
-  word, 
-  onEdit, 
-  onDelete, 
+const VocabularyCard = ({
+  word,
+  onEdit,
+  onDelete,
   onToggleMastered,
+  isUpdating = false,
   className
 }: VocabularyCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -152,23 +154,40 @@ const VocabularyCard = ({
 
       {/* Word Status Badge */}
       <div className="relative flex items-center justify-between mb-6">
-        <div className={cn(
-          "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200",
-          "backdrop-blur-sm",
-          isNew && "border-orange-600/60 text-orange-600/60",
-          word.mastered && "border-green-600/60 text-green-600/60",
-          !isNew && !word.mastered && "border-blue-600/60 text-blue-600/60"
-        )}>
-          {word.mastered ? (
-            <CheckCircle className="h-4 w-4" />
-          ) : isNew ? (
-            <Sparkles className="h-4 w-4" />
-          ) : (
-            <Hourglass className="h-4 w-4" />
+        <div className="flex items-center gap-2">
+          {/* Main Status Badge */}
+          <div className={cn(
+            "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200",
+            "backdrop-blur-sm",
+            isNew && "border-orange-600/60 text-orange-600/60",
+            word.mastered && "border-green-600/60 text-green-600/60",
+            !isNew && !word.mastered && "border-blue-600/60 text-blue-600/60"
+          )}>
+            {word.mastered ? (
+              <CheckCircle className="h-4 w-4" />
+            ) : isNew ? (
+              <Sparkles className="h-4 w-4" />
+            ) : (
+              <Hourglass className="h-4 w-4" />
+            )}
+            <span className="text-xs font-semibold">
+              {isNew ? "New" : word.mastered ? "Mastered" : "Learning"}
+            </span>
+          </div>
+
+          {/* Updating Badge */}
+          {isUpdating && (
+            <div className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200",
+              "backdrop-blur-sm animate-in fade-in-0 slide-in-from-left-2",
+              isNew && "border-orange-600/60 text-orange-600/60 bg-orange-500/10",
+              word.mastered && "border-green-600/60 text-green-600/60 bg-green-500/10",
+              !isNew && !word.mastered && "border-blue-600/60 text-blue-600/60 bg-blue-500/10"
+            )}>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-xs font-semibold">Updating</span>
+            </div>
           )}
-          <span className="text-xs font-semibold">
-            {isNew ? "New" : word.mastered ? "Mastered" : "Learning"}
-          </span>
         </div>
 
         {/* Action Buttons */}
