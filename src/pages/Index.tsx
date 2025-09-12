@@ -43,6 +43,7 @@ const Index = () => {
   const [deletingWord, setDeletingWord] = useState<VocabularyWord | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [updatingWords, setUpdatingWords] = useState<Set<string>>(new Set());
   const { toast } = useToast();
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
@@ -195,8 +196,10 @@ const Index = () => {
   };
 
   const handleUpdateWord = async (updatedWord: VocabularyWord) => {
-
     try {
+      // Adiciona a palavra ao conjunto de palavras sendo atualizadas
+      setUpdatingWords(prev => new Set(prev).add(updatedWord.id));
+
       // Atualiza via API
       await updateWordInData(updatedWord);
 
@@ -218,6 +221,13 @@ const Index = () => {
         title: "Error updating word",
         description: "Check if the server is running",
         variant: "destructive",
+      });
+    } finally {
+      // Remove a palavra do conjunto de palavras sendo atualizadas
+      setUpdatingWords(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(updatedWord.id);
+        return newSet;
       });
     }
   };
@@ -276,6 +286,9 @@ const Index = () => {
 
   const handleToggleMastered = async (id: string) => {
     try {
+      // Adiciona a palavra ao conjunto de palavras sendo atualizadas
+      setUpdatingWords(prev => new Set(prev).add(id));
+
       // Atualiza via API e obtém a palavra atualizada
       const updatedWord = await toggleWordMastered(id);
 
@@ -294,6 +307,13 @@ const Index = () => {
         title: "Error changing status",
         description: "Check if the server is running",
         variant: "destructive",
+      });
+    } finally {
+      // Remove a palavra do conjunto de palavras sendo atualizadas
+      setUpdatingWords(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
       });
     }
   };
@@ -474,6 +494,7 @@ const Index = () => {
                       onEdit={handleEditWord}
                       onDelete={handleDeleteWord}
                       onToggleMastered={handleToggleMastered}
+                      isUpdating={updatingWords.has(word.id)}
                     />
                   </div>
                 ))}
