@@ -113,6 +113,7 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
         foreignWord: formData.foreignWord.trim(),
         language: currentLanguage,
         portuguese: formData.portuguese.trim(),
+        pronunciation: '', // Campo pronunciation vazio por padrão
         createdAt: getCurrentDate(),
         mastered: false,
       });

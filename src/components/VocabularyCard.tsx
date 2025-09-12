@@ -16,6 +16,7 @@ export interface VocabularyWord {
   foreignWord: string;
   language: 'english' | 'french';
   portuguese: string;
+  pronunciation?: string;
   createdAt?: string;
   mastered?: boolean;
 }

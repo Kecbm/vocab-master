@@ -101,13 +101,15 @@ export const updateWordInFirebase = async (word: VocabularyWord, userId: string)
       throw new Error('Unauthorized: You can only update your own words');
     }
 
+    // ✅ INCLUIR TODOS OS CAMPOS OBRIGATÓRIOS PARA AS REGRAS DE SEGURANÇA
     const firebaseWord: Partial<FirebaseWord> = {
       foreignWord: word.foreignWord,
-      portuguese: word.portuguese, // ✅ Corrigido: usar 'portuguese' não 'nativeWord'
+      portuguese: word.portuguese,
       pronunciation: word.pronunciation,
       language: word.language,
       mastered: word.mastered,
-      // Não atualizar userId e createdAt
+      userId: userId, // ✅ INCLUIR userId para satisfazer as regras de segurança
+      createdAt: wordData.createdAt, // ✅ MANTER createdAt original
     };
 
     await updateDoc(wordRef, firebaseWord);

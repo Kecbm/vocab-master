@@ -5,66 +5,72 @@ service cloud.firestore {
     function isAuthenticated() {
       return request.auth != null;
     }
-    
+
     // Função para validar se o usuário é o dono do documento
     function isOwner(userId) {
       return request.auth.uid == userId;
     }
-    
-    // Função para validar estrutura de dados de vocabulário
+
+    // Função para validar estrutura de dados de vocabulário (para coleção direta)
     function isValidVocabularyData() {
-      return request.resource.data.keys().hasAll(['foreignWord', 'portuguese', 'language', 'createdAt', 'mastered']) &&
+      return request.resource.data.keys().hasAll(['foreignWord', 'portuguese', 'language', 'createdAt', 'mastered', 'userId']) &&
              request.resource.data.foreignWord is string &&
              request.resource.data.portuguese is string &&
              request.resource.data.language in ['english', 'french'] &&
              request.resource.data.createdAt is timestamp &&
              request.resource.data.mastered is bool &&
+             request.resource.data.userId is string &&
              request.resource.data.foreignWord.size() > 0 &&
              request.resource.data.foreignWord.size() <= 50 &&
              request.resource.data.portuguese.size() > 0 &&
-             request.resource.data.portuguese.size() <= 100;
+             request.resource.data.portuguese.size() <= 100 &&
+             request.resource.data.userId == request.auth.uid;
     }
-    
-    // Função para validar rate limiting (máximo 100 operações por minuto)
-    function isWithinRateLimit() {
-      return request.time > resource.data.lastModified + duration.value(600, 'ms');
+
+    // Função para validar atualização (permite campos parciais)
+    function isValidUpdateData() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['foreignWord', 'portuguese', 'language', 'mastered', 'pronunciation']) &&
+             (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['foreignWord']) ||
+              (request.resource.data.foreignWord is string &&
+               request.resource.data.foreignWord.size() > 0 &&
+               request.resource.data.foreignWord.size() <= 50)) &&
+             (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['portuguese']) ||
+              (request.resource.data.portuguese is string &&
+               request.resource.data.portuguese.size() > 0 &&
+               request.resource.data.portuguese.size() <= 100)) &&
+             (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['language']) ||
+              request.resource.data.language in ['english', 'french']) &&
+             (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['mastered']) ||
+              request.resource.data.mastered is bool);
     }
-    
-    // Regras para coleção de vocabulário
-    match /vocabulary/{userId} {
-      // Permite leitura apenas para o usuário autenticado e dono
-      allow read: if isAuthenticated() && isOwner(userId);
-      
-      // Permite criação apenas para usuário autenticado
-      allow create: if isAuthenticated() && isOwner(userId);
-      
-      // Subcoleção de palavras
-      match /words/{wordId} {
-        // Leitura: apenas o dono
-        allow read: if isAuthenticated() && isOwner(userId);
-        
-        // Criação: usuário autenticado + validação de dados + rate limiting
-        allow create: if isAuthenticated() && 
-                         isOwner(userId) && 
-                         isValidVocabularyData();
-        
-        // Atualização: apenas campos específicos
-        allow update: if isAuthenticated() && 
-                         isOwner(userId) && 
-                         isValidVocabularyData() &&
-                         // Não permite alterar campos críticos
-                         request.resource.data.createdAt == resource.data.createdAt;
-        
-        // Exclusão: apenas o dono
-        allow delete: if isAuthenticated() && isOwner(userId);
-      }
+
+    // Regras para coleção direta de palavras (estrutura atual)
+    match /words/{wordId} {
+      // Leitura: apenas palavras do próprio usuário
+      allow read: if isAuthenticated() &&
+                     resource.data.userId == request.auth.uid;
+
+      // Criação: usuário autenticado + validação completa de dados
+      allow create: if isAuthenticated() &&
+                       isValidVocabularyData();
+
+      // Atualização: apenas campos específicos, mantendo userId e createdAt
+      allow update: if isAuthenticated() &&
+                       resource.data.userId == request.auth.uid &&
+                       isValidUpdateData() &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.createdAt == resource.data.createdAt;
+
+      // Exclusão: apenas o dono
+      allow delete: if isAuthenticated() &&
+                       resource.data.userId == request.auth.uid;
     }
-    
+
     // Regras para configurações do usuário
     match /userSettings/{userId} {
       allow read, write: if isAuthenticated() && isOwner(userId);
     }
-    
+
     // Bloqueia acesso a qualquer outra coleção
     match /{document=**} {
       allow read, write: if false;
