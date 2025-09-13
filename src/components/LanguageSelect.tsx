@@ -54,7 +54,7 @@ const LanguageSelect = ({ wordCounts, variant = 'default', showPortuguese = fals
         </div>
       </SelectTrigger>
       <SelectContent
-        className="max-w-[200px] w-auto bg-card border-border"
+        className="max-w-[200px] w-auto bg-white border-slate-200"
         position="popper"
         side="bottom"
         align="end"
@@ -64,11 +64,11 @@ const LanguageSelect = ({ wordCounts, variant = 'default', showPortuguese = fals
           <SelectItem
             key={key}
             value={key}
-            className="bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+            className="bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:bg-slate-50 focus:text-slate-900"
           >
             <div className="flex items-center gap-2">
               <span>{config.flag}</span>
-              <span className="text-card-foreground">{config.name}</span>
+              <span className="text-slate-700">{config.name}</span>
               {wordCounts && wordCounts[key as keyof typeof wordCounts] !== undefined && (
                 <span className="text-xs text-muted-foreground ml-auto">
                   ({wordCounts[key as keyof typeof wordCounts]} palavras)
