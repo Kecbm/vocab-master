@@ -12,12 +12,14 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSelect from "@/components/LanguageSelect";
 import { useState } from "react";
 
 const LandingPage = () => {
   const { loginWithGoogle } = useAuth();
   const { t } = useTranslation();
+  const { currentLanguage } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -62,6 +64,27 @@ const LandingPage = () => {
     t("realTimeSync"),
     t("completelyFree")
   ];
+
+  // Palavras de exemplo baseadas no idioma selecionado
+  const exampleWords = {
+    english: [
+      { word: "Serendipity", translation: "Casualidade feliz", status: "New", color: "orange" },
+      { word: "Eloquent", translation: "Eloquente", status: "Learning", color: "blue" },
+      { word: "Resilient", translation: "Resiliente", status: "Mastered", color: "green" }
+    ],
+    french: [
+      { word: "Sérendipité", translation: "Casualidade feliz", status: "New", color: "orange" },
+      { word: "Éloquent", translation: "Eloquente", status: "Learning", color: "blue" },
+      { word: "Résilient", translation: "Resiliente", status: "Mastered", color: "green" }
+    ],
+    portuguese: [
+      { word: "Serendipity", translation: "Casualidade feliz", status: "New", color: "orange" },
+      { word: "Eloquent", translation: "Eloquente", status: "Learning", color: "blue" },
+      { word: "Resilient", translation: "Resiliente", status: "Mastered", color: "green" }
+    ]
+  };
+
+  const currentExamples = exampleWords[currentLanguage] || exampleWords.english;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-500/5">
@@ -152,38 +175,23 @@ const LandingPage = () => {
                   </div>
 
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3 p-3 bg-orange-500/10 border border-orange-500/20 rounded-lg">
-                      <Sparkles className="h-5 w-5 text-orange-600" />
-                      <div>
-                        <div className="font-medium text-slate-800">Serendipity</div>
-                        <div className="text-sm text-slate-600">Casualidade feliz</div>
-                      </div>
-                      <div className="ml-auto">
-                        <div className="px-2 py-1 bg-orange-500/20 text-orange-600 text-xs rounded-full">New</div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                      <Brain className="h-5 w-5 text-blue-600" />
-                      <div>
-                        <div className="font-medium text-slate-800">Eloquent</div>
-                        <div className="text-sm text-slate-600">Eloquente</div>
-                      </div>
-                      <div className="ml-auto">
-                        <div className="px-2 py-1 bg-blue-500/20 text-blue-600 text-xs rounded-full">Learning</div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      <div>
-                        <div className="font-medium text-slate-800">Resilient</div>
-                        <div className="text-sm text-slate-600">Resiliente</div>
-                      </div>
-                      <div className="ml-auto">
-                        <div className="px-2 py-1 bg-green-500/20 text-green-600 text-xs rounded-full">Mastered</div>
-                      </div>
-                    </div>
+                    {currentExamples.map((example, index) => {
+                      const IconComponent = index === 0 ? Sparkles : index === 1 ? Brain : CheckCircle;
+                      return (
+                        <div key={index} className={`flex items-center gap-3 p-3 bg-${example.color}-500/10 border border-${example.color}-500/20 rounded-lg`}>
+                          <IconComponent className={`h-5 w-5 text-${example.color}-600`} />
+                          <div>
+                            <div className="font-medium text-slate-800">{example.word}</div>
+                            <div className="text-sm text-slate-600">{example.translation}</div>
+                          </div>
+                          <div className="ml-auto">
+                            <div className={`px-2 py-1 bg-${example.color}-500/20 text-${example.color}-600 text-xs rounded-full`}>
+                              {t(`filter${example.status}` as any)}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <div className="pt-4 border-t border-slate-200">
