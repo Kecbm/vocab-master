@@ -7,7 +7,7 @@ import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { Plus, Brain, Target, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import LanguageToggle from "@/components/LanguageToggle";
+import LanguageSelect from "@/components/LanguageSelect";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/hooks/useTranslation";
