@@ -53,7 +53,13 @@ const LanguageSelect = ({ wordCounts, variant = 'default', showPortuguese = fals
           </span>
         </div>
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent
+        className="max-w-[200px] w-auto"
+        position="popper"
+        side="bottom"
+        align="end"
+        sideOffset={4}
+      >
         {availableLanguages.map(([key, config]) => (
           <SelectItem key={key} value={key}>
             <div className="flex items-center gap-2">

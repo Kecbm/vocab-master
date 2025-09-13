@@ -64,6 +64,17 @@
   body {
     @apply text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Prevent horizontal scroll and maintain consistent width */
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  html {
+    /* Prevent horizontal scroll at root level */
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100vw;
   }
 
   /* Remove default browser focus outline that might appear yellow */
@@ -72,6 +83,13 @@
   select:focus {
     outline: none !important;
     box-shadow: none !important;
+  }
+
+  /* Prevent layout shifts from dropdowns and modals */
+  [data-radix-select-content],
+  [data-radix-dropdown-menu-content],
+  [data-radix-popover-content] {
+    max-width: calc(100vw - 32px) !important;
   }
 }
 

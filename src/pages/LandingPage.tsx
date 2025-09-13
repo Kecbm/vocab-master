@@ -87,15 +87,15 @@ const LandingPage = () => {
   const currentExamples = exampleWords[currentLanguage] || exampleWords.english;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-500/5">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-500/5 overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Language Select */}
-        <div className="absolute top-6 right-6 z-10">
+        <div className="absolute top-6 right-6 z-10 max-w-[200px]">
           <LanguageSelect variant="compact" showPortuguese={true} />
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 pt-16 pb-24">
+        <div className="max-w-7xl mx-auto px-6 pt-16 pb-24 w-full box-border">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Content */}
             <div className="space-y-8">
