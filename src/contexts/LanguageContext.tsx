@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Tipos de idiomas suportados
-export type Language = 'english' | 'french';
+export type Language = 'english' | 'french' | 'portuguese';
 
 // Interface do contexto
 interface LanguageContextType {
@@ -20,14 +20,24 @@ const languageConfig = {
     source: 'Portuguese',
     code: 'en-US',
     translationPair: 'en|pt',
-    flag: '🇺🇸'
+    flag: '🇺🇸',
+    name: 'English'
   },
   french: {
     target: 'French',
-    source: 'Portuguese', 
+    source: 'Portuguese',
     code: 'fr-FR',
     translationPair: 'fr|pt',
-    flag: '🇫🇷'
+    flag: '🇫🇷',
+    name: 'Français'
+  },
+  portuguese: {
+    target: 'Portuguese',
+    source: 'Portuguese',
+    code: 'pt-BR',
+    translationPair: 'pt|pt',
+    flag: '🇧🇷',
+    name: 'Português'
   }
 };
 
@@ -36,12 +46,12 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 // Provider do contexto
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentLanguage, setCurrentLanguageState] = useState<Language>('english');
+  const [currentLanguage, setCurrentLanguageState] = useState<Language>('portuguese');
 
   // Carregar idioma salvo na inicialização
   useEffect(() => {
     const savedLanguage = localStorage.getItem('vocab-master-language') as Language;
-    if (savedLanguage && (savedLanguage === 'english' || savedLanguage === 'french')) {
+    if (savedLanguage && (savedLanguage === 'english' || savedLanguage === 'french' || savedLanguage === 'portuguese')) {
       setCurrentLanguageState(savedLanguage);
     }
   }, []);
