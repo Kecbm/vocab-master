@@ -3,7 +3,7 @@ import { Search, Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import LanguageToggle from "./LanguageToggle";
+import LanguageSelect from "./LanguageSelect";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface SearchBarProps {
@@ -53,9 +53,9 @@ const SearchBar = ({
             </div>
           </div>
 
-          {/* Language Toggle */}
+          {/* Language Select */}
           <div className="relative">
-            <LanguageToggle />
+            <LanguageSelect />
           </div>
         </div>
 
