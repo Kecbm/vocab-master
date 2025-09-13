@@ -3,10 +3,10 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { useLanguage, languageConfig, Language } from "@/contexts/LanguageContext";
 import { Globe } from "lucide-react";
+import { useEffect } from "react";
 
 interface LanguageSelectProps {
   wordCounts?: {
@@ -15,9 +15,10 @@ interface LanguageSelectProps {
     portuguese: number;
   };
   variant?: 'default' | 'compact';
+  showPortuguese?: boolean; // Se deve mostrar português como opção
 }
 
-const LanguageSelect = ({ wordCounts, variant = 'default' }: LanguageSelectProps) => {
+const LanguageSelect = ({ wordCounts, variant = 'default', showPortuguese = false }: LanguageSelectProps) => {
   const { currentLanguage, setCurrentLanguage } = useLanguage();
 
   const handleLanguageChange = (value: string) => {
@@ -25,6 +26,18 @@ const LanguageSelect = ({ wordCounts, variant = 'default' }: LanguageSelectProps
   };
 
   const currentConfig = languageConfig[currentLanguage];
+
+  // Filtrar idiomas baseado na prop showPortuguese
+  const availableLanguages = showPortuguese
+    ? Object.entries(languageConfig)
+    : Object.entries(languageConfig).filter(([key]) => key !== 'portuguese');
+
+  // Se o idioma atual não estiver disponível, mudar para inglês
+  useEffect(() => {
+    if (!showPortuguese && currentLanguage === 'portuguese') {
+      setCurrentLanguage('english');
+    }
+  }, [showPortuguese, currentLanguage, setCurrentLanguage]);
 
   const triggerClassName = variant === 'compact'
     ? "w-[150px] h-8 px-2 gap-1 bg-white/95 backdrop-blur-sm border-slate-200/60 hover:bg-white hover:border-slate-300 transition-all duration-200 shadow-sm"
@@ -34,14 +47,14 @@ const LanguageSelect = ({ wordCounts, variant = 'default' }: LanguageSelectProps
     <Select value={currentLanguage} onValueChange={handleLanguageChange}>
       <SelectTrigger className={triggerClassName}>
         <div className="flex items-center gap-2">
-          {variant !== 'compact' && <Globe className="h-4 w-4 text-slate-600" />}
+          {(variant !== 'compact' && showPortuguese) && <Globe className="h-4 w-4 text-slate-600" />}
           <span className={`font-medium text-slate-700 whitespace-nowrap ${variant === 'compact' ? 'text-sm' : 'text-sm'}`}>
             {variant === 'compact' ? `${currentConfig.flag} ${currentConfig.name}` : `${currentConfig.flag} ${currentConfig.name}`}
           </span>
         </div>
       </SelectTrigger>
       <SelectContent>
-        {Object.entries(languageConfig).map(([key, config]) => (
+        {availableLanguages.map(([key, config]) => (
           <SelectItem key={key} value={key}>
             <div className="flex items-center gap-2">
               <span>{config.flag}</span>
