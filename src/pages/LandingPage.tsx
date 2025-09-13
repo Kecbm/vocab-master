@@ -92,7 +92,7 @@ const LandingPage = () => {
       <section className="relative overflow-hidden">
         {/* Language Select */}
         <div className="absolute top-6 right-6 z-10">
-          <LanguageSelect variant="compact" />
+          <LanguageSelect variant="compact" showPortuguese={true} />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 pt-16 pb-24">
