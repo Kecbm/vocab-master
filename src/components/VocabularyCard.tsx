@@ -52,6 +52,85 @@ const VocabularyCard = ({
     return word.foreignWord;
   };
 
+  // Função para obter a melhor voz disponível para o idioma
+  const getBestVoice = (languageCode: string): SpeechSynthesisVoice | null => {
+    const voices = speechSynthesis.getVoices();
+
+    if (voices.length === 0) {
+      return null;
+    }
+
+    // Extrair o código base do idioma (ex: 'en' de 'en-US')
+    const langBase = languageCode.split('-')[0];
+
+    // Filtrar vozes do idioma desejado
+    const languageVoices = voices.filter(v =>
+      v.lang.startsWith(langBase) || v.lang.startsWith(languageCode)
+    );
+
+    if (languageVoices.length === 0) {
+      return null;
+    }
+
+    // Prioridades de seleção de voz (em ordem de preferência):
+    // 1. Vozes que correspondem exatamente ao código do idioma (ex: en-US)
+    // 2. Vozes locais (localService = true) - geralmente de melhor qualidade
+    // 3. Vozes com nomes que indicam qualidade premium
+    // 4. Qualquer voz do idioma
+
+    // Nomes de vozes premium conhecidas por idioma
+    const premiumVoiceNames: { [key: string]: string[] } = {
+      'en': [
+        'Samantha', 'Alex', 'Victoria', 'Karen', 'Daniel', 'Moira', 'Tessa',
+        'Google US English', 'Microsoft David', 'Microsoft Zira',
+        'Google UK English Female', 'Google UK English Male'
+      ],
+      'fr': [
+        'Thomas', 'Amelie', 'Google français', 'Microsoft Hortense',
+        'Google French Female', 'Google French Male'
+      ]
+    };
+
+    const premiumNames = premiumVoiceNames[langBase] || [];
+
+    // 1. Tentar encontrar voz premium que corresponda exatamente ao código
+    let bestVoice = languageVoices.find(v =>
+      v.lang === languageCode &&
+      premiumNames.some(name => v.name.includes(name))
+    );
+
+    // 2. Tentar encontrar voz local que corresponda exatamente ao código
+    if (!bestVoice) {
+      bestVoice = languageVoices.find(v =>
+        v.lang === languageCode && v.localService
+      );
+    }
+
+    // 3. Tentar encontrar qualquer voz premium do idioma base
+    if (!bestVoice) {
+      bestVoice = languageVoices.find(v =>
+        premiumNames.some(name => v.name.includes(name))
+      );
+    }
+
+    // 4. Tentar encontrar voz local do idioma base
+    if (!bestVoice) {
+      bestVoice = languageVoices.find(v => v.localService);
+    }
+
+    // 5. Pegar a primeira voz que corresponda exatamente ao código
+    if (!bestVoice) {
+      bestVoice = languageVoices.find(v => v.lang === languageCode);
+    }
+
+    // 6. Fallback: primeira voz do idioma base
+    if (!bestVoice) {
+      bestVoice = languageVoices[0];
+    }
+
+    return bestVoice || null;
+  };
+
   const handlePlayPronunciation = async () => {
     setIsPlaying(true);
 
@@ -70,17 +149,32 @@ const VocabularyCard = ({
       // Aguardar um pouco para garantir que o cancel foi processado
       await new Promise(resolve => setTimeout(resolve, 50));
 
+      // Garantir que as vozes estejam carregadas
+      let voices = speechSynthesis.getVoices();
+
+      // Se não houver vozes, aguardar o evento de carregamento
+      if (voices.length === 0) {
+        await new Promise<void>((resolve) => {
+          const timeout = setTimeout(() => resolve(), 1000);
+          speechSynthesis.onvoiceschanged = () => {
+            clearTimeout(timeout);
+            resolve();
+          };
+        });
+        voices = speechSynthesis.getVoices();
+      }
+
       const utterance = new SpeechSynthesisUtterance(currentWord);
       utterance.lang = languageCode;
-      utterance.rate = 0.8;
+      utterance.rate = 0.85; // Velocidade ligeiramente mais natural
+      utterance.pitch = 1.0; // Tom natural
       utterance.volume = 1.0;
 
-      // Tentar encontrar uma voz específica para o idioma
-      const voices = speechSynthesis.getVoices();
-
-      const voice = voices.find(v => v.lang.startsWith(languageCode.split('-')[0]));
-      utterance.voice = voice;
-
+      // Selecionar a melhor voz disponível
+      const bestVoice = getBestVoice(languageCode);
+      if (bestVoice) {
+        utterance.voice = bestVoice;
+      }
       // Eventos para controlar o estado
       utterance.onstart = () => {
         setIsPlaying(true);
