@@ -278,25 +278,6 @@ const AddWordModal = ({ isOpen, onClose, onAdd, initialWord = "" }: AddWordModal
               )}
             </div>
 
-            {/* Word Counter */}
-            {formData.portuguese && (
-              <div className="flex items-center justify-between text-xs">
-                <div className={cn(
-                  "flex items-center gap-1.5 px-2 py-1 rounded-md transition-colors",
-                  countWords(formData.portuguese) <= 5
-                    ? "text-muted-foreground bg-muted/30"
-                    : "text-destructive bg-destructive/10"
-                )}>
-                  <span className="font-medium">
-                    {countWords(formData.portuguese)}/5 words
-                  </span>
-                  {countWords(formData.portuguese) > 5 && (
-                    <span className="text-destructive">⚠️</span>
-                  )}
-                </div>
-              </div>
-            )}
-
             {errors.portuguese && (
               <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg border border-destructive/20">
                 <div className="w-1 h-1 bg-destructive rounded-full"></div>
