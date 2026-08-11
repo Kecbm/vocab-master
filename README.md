@@ -70,22 +70,22 @@
 ### 📚 **Add new words and watch the magic happen**
 *Instant word capture with automatic translation*
 
-![Add Word Demo](/videos/1.add.gif)
+![Add Word Demo](./videos/1.add.gif)
 
 ### 🎮 **Turn your learning into a game**
 *Interactive interface for vocabulary editing and management*
 
-![Edit Word Demo](/videos/2.edit.gif)
+![Edit Word Demo](./videos/2.edit.gif)
 
 ### 🔎 **Find any word in seconds**
 *Advanced filtering system to locate words quickly*
 
-![Filters Demo](/videos/3.filters.gif)
+![Filters Demo](./videos/3.filters.gif)
 
 ###  **Listen and learn from a native speaker**
 *Authentic pronunciation with native voices*
 
-![Pronunciation Demo](/videos/4.pronuciation.mp4)
+![Pronunciation Demo](./videos/4.pronuciation.mp4)
 
 ---
 
