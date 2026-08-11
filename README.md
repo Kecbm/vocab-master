@@ -67,14 +67,25 @@
 
 ## 🎬 See It In Action
 
-### 📱 **Quick Word Addition**
-*Add new words in seconds without breaking your reading flow*
+### 📚 **Add new words and watch the magic happen**
+*Instant word capture with automatic translation*
 
-### 🎯 **Smart Filtering**
-*Find exactly what you're looking for with powerful filters*
+![Add Word Demo](/videos/1.add.gif)
 
-### 📈 **Progress Visualization**
-*Watch your vocabulary grow with beautiful statistics*
+### 🎮 **Turn your learning into a game**
+*Interactive interface for vocabulary editing and management*
+
+![Edit Word Demo](/videos/2.edit.gif)
+
+### 🔎 **Find any word in seconds**
+*Advanced filtering system to locate words quickly*
+
+![Filters Demo](/videos/3.filters.gif)
+
+###  **Listen and learn from a native speaker**
+*Authentic pronunciation with native voices*
+
+![Pronunciation Demo](/videos/4.pronuciation.mp4)
 
 ---
 
@@ -127,16 +138,6 @@ Prepare for your next adventure with essential vocabulary
 
 ---
 
-## 🌟 What Users Say
-
-> *"Finally, a tool that doesn't interrupt my reading flow. I've learned 200+ words in just one month!"*
-
-> *"The pronunciation feature is a game-changer. I can actually hear how words should sound."*
-
-> *"Love how it tracks my progress per book. It's like having a personal language tutor."*
-
----
-
 ## 🤝 Contributing
 
 We welcome contributions! Whether it's:
@@ -146,12 +147,6 @@ We welcome contributions! Whether it's:
 - 🌍 Translation additions
 
 Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
