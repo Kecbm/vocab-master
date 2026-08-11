@@ -137,18 +137,6 @@ Prepare for your next adventure with essential vocabulary
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Whether it's:
-- 🐛 Bug fixes
-- ✨ New features
-- 📝 Documentation improvements
-- 🌍 Translation additions
-
-Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
-
----
-
 ## 👨‍💻 Created By
 
 **Klecianny Melo**
