@@ -3,7 +3,6 @@
 > **Transform your reading into a powerful language learning experience**
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-blue?style=for-the-badge)](https://mastervocab.vercel.app)
-[![GitHub](https://img.shields.io/badge/⭐_Star_on-GitHub-black?style=for-the-badge)](https://github.com/Kecbm/vocab-master)
 
 **Vocab Master** is the ultimate companion for language learners who want to expand their vocabulary while reading books, articles, or any content. Stop interrupting your reading flow to look up words - capture, learn, and master new vocabulary seamlessly.
 
@@ -85,7 +84,7 @@
 ### 🗣️ **Listen and learn from a native speaker**
 *Authentic pronunciation with native voices*
 
-<video src="public/videos/4.pronuciation.mp4" controls="controls" width="100%">
+<video src="https://raw.githubusercontent.com/Kecbm/vocab-master/main/public/videos/4.pronuciation.mp4" controls="controls" width="100%">
   Your browser does not support the video tag.
 </video>
 
