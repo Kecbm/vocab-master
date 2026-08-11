@@ -84,10 +84,6 @@
 ### 🗣️ **Listen and learn from a native speaker**
 *Authentic pronunciation with native voices*
 
-<video src="https://github.com/Kecbm/vocab-master/raw/main/public/videos/4.pronuciation.mp4" controls="controls" width="100%">
-  Your browser does not support the video tag.
-</video>
-
 ---
 
 ## 🛠️ Technology Stack
