@@ -84,6 +84,8 @@
 ### 🗣️ **Listen and learn from a native speaker**
 *Authentic pronunciation with native voices*
 
+https://github.com/user-attachments/assets/82aa3c63-c12e-4556-9b64-54c848b7ba0d
+
 ---
 
 ## 🛠️ Technology Stack
